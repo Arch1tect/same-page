@@ -13,7 +13,7 @@ class App extends Component {
   render() {
     return (
       <div className="card-container">
-        <Tabs size="small" defaultActiveKey="1" type="card">
+        <Tabs defaultActiveKey="1" type="card">
           <TabPane tab={<span><Icon type="message" /></span>} key="1">
             <Chat />
           </TabPane>

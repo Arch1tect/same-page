@@ -1,3 +1,7 @@
+.sp-chat-header {
+  border-bottom: 1px solid lightgray;
+  padding: 5px;
+}
 .sp-toggle-online {
   float: left;
   display: none;
