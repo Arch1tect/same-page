@@ -4,17 +4,19 @@ import './App.css';
 import React, { Component } from 'react'
 import { Tabs, Icon } from 'antd'
 
+import Chat from './Chat/Chat'
+
 const TabPane = Tabs.TabPane;
 
 
 class App extends Component {
   render() {
     return (
-      <Tabs defaultActiveKey="2">
+      <Tabs defaultActiveKey="1">
         <TabPane tab={<span><Icon type="message" /></span>} key="1">
-          Tab 1
+          <Chat />
         </TabPane>
-        <TabPane tab={<span><Icon type="edit" /></span>} key="2">
+        <TabPane tab={<span><Icon type="form" /></span>} key="2">
           Tab 2
         </TabPane>
         <TabPane tab={<span><Icon type="mail" /></span>} key="3">
