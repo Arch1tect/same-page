@@ -3,3 +3,12 @@
   bottom: 0;
   width:100%;
 }
+.sp-chat-bottom .ant-input-group-addon {
+  border-radius: unset;
+}
+.ant-input-group-addon:last-child {
+  border-right: 0;
+}
+.ant-input-group-addon:first-child {
+  border-left: 0;
+}

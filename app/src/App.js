@@ -12,20 +12,22 @@ const TabPane = Tabs.TabPane;
 class App extends Component {
   render() {
     return (
-      <Tabs defaultActiveKey="1">
-        <TabPane tab={<span><Icon type="message" /></span>} key="1">
-          <Chat />
-        </TabPane>
-        <TabPane tab={<span><Icon type="form" /></span>} key="2">
-          Tab 2
-        </TabPane>
-        <TabPane tab={<span><Icon type="mail" /></span>} key="3">
-          Tab 3
-        </TabPane>
-        <TabPane tab={<span><Icon type="user" /></span>} key="4">
-          Tab 4
-        </TabPane>
-      </Tabs>
+      <div className="card-container">
+        <Tabs size="small" defaultActiveKey="1" type="card">
+          <TabPane tab={<span><Icon type="message" /></span>} key="1">
+            <Chat />
+          </TabPane>
+          <TabPane tab={<span><Icon type="form" /></span>} key="2">
+            Tab 2
+          </TabPane>
+          <TabPane tab={<span><Icon type="mail" /></span>} key="3">
+            Tab 3
+          </TabPane>
+          <TabPane tab={<Icon type="user" />} key="4">
+            Tab 4
+          </TabPane>
+        </Tabs>
+      </div>
     );
   }
 }

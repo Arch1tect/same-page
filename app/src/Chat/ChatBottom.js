@@ -1,6 +1,6 @@
-import './ChatBottom.css'
 import React, { Component } from 'react'
 import { Input, Icon } from 'antd'
+import './ChatBottom.css'
 
 
 class App extends Component {
