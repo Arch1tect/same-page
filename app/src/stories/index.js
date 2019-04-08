@@ -58,6 +58,13 @@ const messages = [
     text: 'what up?'
   },
   {
+    username: '建筑师',
+    userId: 123,
+    avatarSrc: 'https://dnsofx4sf31ab.cloudfront.net/f2a0b5a6-dc6d-423d-52e3-1f5fe3003101.jpg',
+    text: '穿插一条自己的信息',
+    self: true
+  },
+  {
     userId: 6,
     username: 'I am cr@zy',
     avatarSrc: 'https://dnsofx4sf31ab.cloudfront.net/78e1c368-aa7b-7615-44e6-c198cb10df91.jpg',
