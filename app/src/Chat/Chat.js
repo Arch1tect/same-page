@@ -6,10 +6,11 @@ import ChatBottom from './ChatBottom'
 
 class App extends Component {
   render() {
+    console.log(this.props.liveMessages)
     return (
       <div>
-        <ChatHeader/>
-        <ChatBody/>
+        <ChatHeader addLiveMsg={this.props.addLiveMsg}/>
+        <ChatBody data={this.props.liveMessages}/>
         <ChatBottom/>
       </div>
     );

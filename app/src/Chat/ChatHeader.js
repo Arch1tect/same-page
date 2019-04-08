@@ -16,7 +16,7 @@ class App extends Component {
       <div className='sp-chat-header'>
         <Switch className="sp-toggle-online" checkedChildren="在线" unCheckedChildren="离线" defaultChecked onChange={toggleOnline}/>
         <center>
-        <Radio.Group className="sp-toggle-page-site-chat" size="small" defaultValue="a" buttonStyle="solid" onChange={togglePageOrSiteChat}>
+        <Radio.Group className="sp-toggle-page-site-chat" size="small" defaultValue="a" buttonStyle="solid" onChange={this.props.addLiveMsg}>
             <Radio.Button value="a">网页</Radio.Button>
             <Radio.Button value="b">网站</Radio.Button>
         </Radio.Group>

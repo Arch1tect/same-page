@@ -1,13 +1,10 @@
 import './ChatBody.css'
 
 import React, { Component } from 'react'
-import ChatMessage from './ChatMessage/ChatMessage'
+import ChatMessage from './ChatMessage'
 
 class App extends Component {
   render() {
-    // const messages = (this.props.data||[]).map((msg) =>
-    //   <ChatMessage data={msg}/>
-    // )
     let messages = []
     let lastMsg = null;
     const data = this.props.data || [];
