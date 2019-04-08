@@ -2,3 +2,10 @@
   vertical-align: middle;
   margin-left: 5px;
 }
+.self .sp-chat-username {
+  margin-right: 5px;
+  /* display: none; */
+}
+.self {
+  text-align: right;
+}
