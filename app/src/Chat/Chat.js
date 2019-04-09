@@ -4,6 +4,8 @@ import ChatHeader from "./ChatHeader"
 import ChatBody from "./ChatBody"
 import ChatBottom from "./ChatBottom"
 
+import socket from "./socket"
+
 class App extends Component {
   render() {
     console.log("render chat tab")
