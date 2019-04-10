@@ -1,7 +1,15 @@
-import "./Body.css"
-
 import React from "react"
 import Message from "./Message"
+
+const commentBodyStyle = {
+  height: "calc(100% - 67px)",
+  overflow: "auto",
+  width: "100%",
+  position: "fixed",
+  background: "#eceff1",
+  padding: 10,
+  paddingBottom: 50
+}
 
 function CommentBody(props) {
   const data = props.data || []
@@ -10,7 +18,7 @@ function CommentBody(props) {
     return <Message key={index++} data={comment} />
   })
 
-  return <div className="sp-comment-body">{comments}</div>
+  return <div style={commentBodyStyle}>{comments}</div>
 }
 
 export default CommentBody

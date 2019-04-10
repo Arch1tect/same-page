@@ -7,7 +7,8 @@ const chatBodyStyle = {
   width: "100%",
   position: "fixed",
   background: "#eceff1",
-  padding: 10
+  padding: 10,
+  paddingBottom: 50
 }
 class ChatBody extends React.Component {
   constructor(props) {
