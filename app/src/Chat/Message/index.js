@@ -1,5 +1,3 @@
-import "./index.css"
-
 import React, { Component } from "react"
 import { Avatar, Radio } from "antd"
 
@@ -12,26 +10,38 @@ props includes:
   text
   type: text/emoji/img
   self
-
 */
+const userNameStyle = {
+  fontSize: "smaller",
+  verticalAlign: "middle",
+  marginLeft: 5,
+  marginRight: 5
+}
+
 function ChatMessage(props) {
   console.log("render chat message")
   const data = props.data
-  let avatar = <Avatar size="small" icon="user" />
+  let avatar = null
   if (data.avatarSrc) {
     avatar = <Avatar size="small" src={data.avatarSrc} />
+  } else {
+    avatar = <Avatar size="small" icon="user" />
   }
-  let messageHeader = (
-    <div style={{ marginTop: 10 }}>
-      {avatar}
-      <span className="sp-chat-username">{data.username}</span>
-    </div>
-  )
+  let messageHeader = null
+  let textAlign = "left"
   if (data.self) {
+    textAlign = "right"
     messageHeader = (
       <div style={{ marginTop: 10 }}>
-        <span className="sp-chat-username">{data.username}</span>
+        <span style={userNameStyle}>{data.username}</span>
         {avatar}
+      </div>
+    )
+  } else {
+    messageHeader = (
+      <div style={{ marginTop: 10 }}>
+        {avatar}
+        <span style={userNameStyle}>{data.username}</span>
       </div>
     )
   }
@@ -40,7 +50,10 @@ function ChatMessage(props) {
   }
 
   return (
-    <div className={data.self ? "self" : "other"}>
+    <div
+      className={data.self ? "self" : "other"}
+      style={{ textAlign: textAlign }}
+    >
       {messageHeader}
       <MessageBody type={data.type} text={data.text} />
     </div>

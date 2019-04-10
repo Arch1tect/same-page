@@ -1,23 +1,31 @@
 import React from "react"
 import { Avatar, Icon } from "antd"
 
+const usernameStyle = {
+  fontSize: "smaller",
+  marginBottom: 5,
+  fontWeight: "bold"
+}
+
+const avatarStyle = {
+  verticalAlign: "top",
+  margin: 5
+}
+
 function Comment(props) {
   const data = props.data
-  let avatar = <Avatar size="small" icon="user" />
+  let avatar = <Avatar style={avatarStyle} icon="user" />
   if (data.avatarSrc) {
-    avatar = <Avatar size="small" src={data.avatarSrc} />
+    avatar = <Avatar style={avatarStyle} src={data.avatarSrc} />
   }
-  let messageHeader = (
-    <div style={{ marginTop: 10 }}>
-      {avatar}
-      <span className="sp-chat-username">{data.name}</span>
-    </div>
-  )
 
   return (
-    <div>
-      {messageHeader}
-      <div className="sp-message-body">{data.content}</div>
+    <div style={{ marginTop: 10 }}>
+      {avatar}
+      <div className="sp-message-body">
+        <div style={usernameStyle}>{data.name}</div>
+        {data.content}
+      </div>
     </div>
   )
 }

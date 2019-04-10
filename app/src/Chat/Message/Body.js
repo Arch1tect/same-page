@@ -1,11 +1,9 @@
 import "./Body.css"
 
-import React, { Component } from "react"
+import React from "react"
 
-class App extends Component {
-  render() {
-    return <div className="sp-message-body">{this.props.text}</div>
-  }
+function MessageBody(props) {
+  return <div className="sp-message-body">{props.text}</div>
 }
 
-export default App
+export default MessageBody

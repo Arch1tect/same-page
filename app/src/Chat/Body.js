@@ -1,11 +1,14 @@
-import "./Body.css"
-
 import React from "react"
 import Message from "./Message"
 
-// todo: ensure appending new msg doesn't cause
-// render of existing items in list!!!
-
+const chatBodyStyle = {
+  height: "calc(100% - 100px)",
+  overflow: "auto",
+  width: "100%",
+  position: "fixed",
+  background: "#eceff1",
+  padding: 10
+}
 class ChatBody extends React.Component {
   constructor(props) {
     super(props)
@@ -38,7 +41,7 @@ class ChatBody extends React.Component {
       )
       lastMsg = msg
     })
-    return <div className="sp-chat-body">{messages}</div>
+    return <div style={chatBodyStyle}>{messages}</div>
   }
 }
 

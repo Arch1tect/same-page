@@ -1,0 +1,8 @@
+.sp-comment-body {
+  height: calc(100% - 67px);
+  overflow: auto;
+  width: 100%;
+  position: fixed;
+  background: #eceff1;
+  padding: 10px;
+}
