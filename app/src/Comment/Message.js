@@ -9,7 +9,8 @@ const usernameStyle = {
 
 const avatarStyle = {
   verticalAlign: "top",
-  margin: 5
+  marginTop: 5,
+  marginRight: 5
 }
 
 function Comment(props) {
