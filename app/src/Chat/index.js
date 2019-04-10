@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 
-import ChatHeader from "./ChatHeader"
-import ChatBody from "./ChatBody"
-import ChatBottom from "./ChatBottom"
+import Header from "./Header"
+import Body from "./Body"
+import Footer from "./Footer"
 
 import socket from "./socket"
 
@@ -11,9 +11,9 @@ class App extends Component {
     console.log("render chat tab")
     return (
       <div>
-        <ChatHeader />
-        <ChatBody />
-        <ChatBottom />
+        <Header />
+        <Body />
+        <Footer />
       </div>
     )
   }

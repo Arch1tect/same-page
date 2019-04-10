@@ -1,9 +1,9 @@
-import "./ChatMessage.css"
+import "./index.css"
 
 import React, { Component } from "react"
 import { Avatar, Radio } from "antd"
 
-import MessageBody from "./MessageBody"
+import MessageBody from "./Body"
 
 /*
 props includes:

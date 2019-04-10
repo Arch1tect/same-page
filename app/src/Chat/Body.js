@@ -1,7 +1,7 @@
-import "./ChatBody.css"
+import "./Body.css"
 
 import React from "react"
-import ChatMessage from "./ChatMessage"
+import Message from "./Message"
 
 // todo: ensure appending new msg doesn't cause
 // render of existing items in list!!!
@@ -34,7 +34,7 @@ class ChatBody extends React.Component {
         mergeAbove = true
       }
       messages.push(
-        <ChatMessage key={index++} data={msg} mergeAbove={mergeAbove} />
+        <Message key={index++} data={msg} mergeAbove={mergeAbove} />
       )
       lastMsg = msg
     })

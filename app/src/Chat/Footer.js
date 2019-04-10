@@ -1,6 +1,7 @@
+import "./Footer.css"
+
 import React, { Component } from "react"
 import { Input, Icon } from "antd"
-import "./ChatBottom.css"
 
 const MESSAGE_TIME_GAP = 2 * 1000
 let lastMsgTime = 0

@@ -2,11 +2,12 @@ import "antd/dist/antd.css"
 import "./App.css"
 
 import React, { Component } from "react"
-import { Tabs, Icon } from "antd"
+import { Tabs, Icon, Tooltip } from "antd"
 import { Provider } from "react-redux"
 import { createStore } from "redux"
 
-import Chat from "./Chat/Chat"
+import Chat from "./Chat"
+import Comment from "./Comment"
 import rootReducer from "./reducers"
 
 const TabPane = Tabs.TabPane
@@ -22,9 +23,9 @@ class App extends Component {
           <Tabs defaultActiveKey="1" type="card">
             <TabPane
               tab={
-                <span>
+                <Tooltip title="实时聊天" placement="bottom">
                   <Icon type="message" />
-                </span>
+                </Tooltip>
               }
               key="1"
             >
@@ -32,25 +33,32 @@ class App extends Component {
             </TabPane>
             <TabPane
               tab={
-                <span>
+                <Tooltip title="留言板" placement="bottom">
                   <Icon type="form" />
-                </span>
+                </Tooltip>
               }
               key="2"
             >
-              Tab 2
+              <Comment />
             </TabPane>
             <TabPane
               tab={
-                <span>
+                <Tooltip title="收件箱" placement="bottom">
                   <Icon type="mail" />
-                </span>
+                </Tooltip>
               }
               key="3"
             >
               Tab 3
             </TabPane>
-            <TabPane tab={<Icon type="user" />} key="4">
+            <TabPane
+              tab={
+                <Tooltip title="个人信息" placement="bottom">
+                  <Icon type="user" />
+                </Tooltip>
+              }
+              key="4"
+            >
               Tab 4
             </TabPane>
           </Tabs>
