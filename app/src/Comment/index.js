@@ -1,5 +1,6 @@
 import React from "react"
 import axios from "axios"
+import moment from "moment"
 
 import urls from "../config/urls"
 import Header from "./Header"
@@ -22,6 +23,7 @@ class CommentTab extends React.Component {
           if (comment.has_avatar) {
             comment.avatarSrc = urls.cloudFront + comment.user_id + ".jpg"
           }
+          comment.time = moment.utc(comment.created_time).fromNow()
         })
         this.setState({ loading: false })
         this.setState({ comments: res.data })

@@ -1,6 +1,5 @@
 .sp-comment-username {
   font-size: smaller;
-  margin-bottom: 5px;
   font-weight: bold;
 }
 
@@ -16,13 +15,15 @@
 }
 
 .sp-comment-score {
-  margin-top: -3px;
+  /* margin-top: -3px; */
   margin-left: 3px;
   color: #1890ff;
 }
 
 .sp-comment-footer .anticon {
   cursor: pointer;
+  margin-bottom: -1px;
+  display: table-caption;
 }
 
 .sp-comment-footer .anticon:hover {
@@ -30,11 +31,17 @@
 }
 
 .sp-comment-reply {
-  float: right;
-  margin-top: -1px;
+  /* float: right; */
+  /* margin-top: -1px; */
+  margin-left: 20px;
   cursor: pointer;
 }
 
 .sp-comment-reply:hover {
   color: black;
+}
+
+.sp-comment-time {
+  font-size: smaller;
+  margin-left: 15px;
 }

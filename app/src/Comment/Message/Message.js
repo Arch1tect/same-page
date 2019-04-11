@@ -16,10 +16,13 @@ function Comment(props) {
     <div style={{ marginTop: 10 }}>
       {avatar}
       <div className="sp-message-body">
-        <div className="sp-comment-username">{data.name}</div>
-        {data.content}
+        <div style={{ marginBottom: 5 }}>
+          <span className="sp-comment-username">{data.name}</span>
+          <span className="sp-comment-time">{data.time}</span>
+        </div>
+        <div>{data.content}</div>
         <div className="sp-comment-footer">
-          <span style={{ display: "inline-flex" }}>
+          <span>
             <Icon type="like" />
             <span className="sp-comment-score">{data.score}</span>
           </span>
