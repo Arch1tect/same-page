@@ -1,0 +1,40 @@
+.sp-comment-username {
+  font-size: smaller;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.sp-comment-avatar {
+  vertical-align: top;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+.sp-comment-footer {
+  margin-top: 10px;
+  color: gray;
+}
+
+.sp-comment-score {
+  margin-top: -3px;
+  margin-left: 3px;
+  color: #1890ff;
+}
+
+.sp-comment-footer .anticon {
+  cursor: pointer;
+}
+
+.sp-comment-footer .anticon:hover {
+  color: black;
+}
+
+.sp-comment-reply {
+  float: right;
+  margin-top: -1px;
+  cursor: pointer;
+}
+
+.sp-comment-reply:hover {
+  color: black;
+}

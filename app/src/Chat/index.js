@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 
-import Header from "./Header"
+import Header from "./Header/Header"
 import Body from "./Body"
-import Footer from "./Footer"
+import Footer from "./Footer/Footer"
 
 import socket from "./socket"
 

@@ -7,22 +7,21 @@ body ::-webkit-scrollbar {
 
 /* Track */
 body ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 1px lightgray; 
+  -webkit-box-shadow: inset 0 0 1px lightgray;
 }
 
 /* Handle */
 body ::-webkit-scrollbar-thumb {
-  background: #ccc; 
+  background: #ccc;
   /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); */
 }
 body ::-webkit-scrollbar-thumb:window-inactive {
-background: rgba(0,0,0,0.05); 
+  background: rgba(0, 0, 0, 0.05);
 }
-
 
 .ant-tabs-bar {
   color: white;
-  background: rgba(0,0,0,.75);
+  background: rgba(0, 0, 0, 0.75);
   margin: 0px;
 }
 
@@ -36,13 +35,6 @@ background: rgba(0,0,0,0.05);
   vertical-align: 0;
 }
 
-.card-container > .ant-tabs-card > .ant-tabs-content > .ant-tabs-tabpane {
-  /* background: #9e9e9e; */
-  /* padding: 16px; */
-}
-.card-container > .ant-tabs-card > .ant-tabs-content {
-  /* margin-top: -15px; */
-}
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
   border-color: transparent;
   border-radius: 0;
@@ -51,9 +43,13 @@ background: rgba(0,0,0,0.05);
 
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
   /* border-color: #fff; */
-  background:#fff;
+  background: #fff;
 }
 
 .ant-tabs-nav .ant-tabs-tab .anticon {
   margin: 0;
+}
+
+.ant-avatar > img {
+  object-fit: cover;
 }

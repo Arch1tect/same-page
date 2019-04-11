@@ -1,5 +1,5 @@
 import React from "react"
-import Message from "./Message"
+import Message from "./Message/Message"
 
 const commentBodyStyle = {
   height: "calc(100% - 67px)",
