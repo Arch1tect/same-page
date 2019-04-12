@@ -26,7 +26,9 @@ function Comment(props) {
             <Icon type="like" />
             <span className="sp-comment-score">{data.score}</span>
           </span>
-          <span className="sp-comment-reply">回复</span>
+          <span onClick={props.reply} className="sp-comment-reply">
+            回复
+          </span>
         </div>
       </div>
     </div>

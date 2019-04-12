@@ -2,7 +2,7 @@ import React from "react"
 import Message from "./Message"
 
 const chatBodyStyle = {
-  height: "calc(100% - 100px)",
+  height: "calc(100% - 107px)",
   overflow: "auto",
   width: "100%",
   position: "fixed",

@@ -5,10 +5,9 @@ const Option = Select.Option
 function CommentHeader(props) {
   return (
     <center className="sp-tab-header">
-      <Select size="small" defaultValue="Yiminghe">
-        <Option value="jack">由新到旧</Option>
-        <Option value="lucy">由旧到新</Option>
-        <Option value="Yiminghe">按好评数</Option>
+      <Select onChange={props.orderBy} size="small" defaultValue="best">
+        <Option value="newest">按时间排序</Option>
+        <Option value="best">按好评排序</Option>
       </Select>
     </center>
   )

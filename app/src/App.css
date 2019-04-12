@@ -53,3 +53,8 @@ body ::-webkit-scrollbar-thumb:window-inactive {
 .ant-avatar > img {
   object-fit: cover;
 }
+
+.ant-input {
+  border-radius: 0;
+  resize: none;
+}

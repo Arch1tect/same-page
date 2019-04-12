@@ -40,6 +40,7 @@ class App extends Component {
     return (
       <div className="sp-chat-bottom">
         <Input
+          size="large"
           onKeyDown={this.handleKeyDown}
           value={this.state.input}
           addonBefore={<Icon type="smile" />}
