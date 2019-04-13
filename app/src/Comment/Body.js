@@ -1,6 +1,6 @@
 import React from "react"
 
-import Message from "./Message/Message"
+import Message from "./Message"
 
 function CommentBody(props) {
   const data = props.data || []

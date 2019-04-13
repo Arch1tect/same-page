@@ -34,8 +34,11 @@ class CommentTab extends React.Component {
       loading: false,
       comments: [],
       input: "",
-      inputFocus: false
+      inputFocus: false,
+      replyTo: null
     }
+    this.inputRef = React.createRef()
+
     this.offset = 0
     this.order = "best"
   }
@@ -43,16 +46,49 @@ class CommentTab extends React.Component {
     this.setState({ inputFocus: true })
   }
 
-  reply = () => {
-    this.setState({ inputFocus: true })
+  reply = (userId, username) => {
+    this.setState({ replyTo: username, replyToUserId: userId })
+    this.inputRef.current.focus()
+  }
+
+  submit = () => {
+    const payload = {
+      user_id: "123",
+      user_name: "David",
+      message: this.state.input,
+      reply_to_user_id: this.state.replyToUserId,
+      reply_to_user_name: this.state.replyTo
+    }
+    axios
+      .post(
+        "http://localhost:9000/db/comments/v2/url/https://www.zhihu.com/",
+        payload
+      )
+      .then(res => {
+        let content = this.state.input
+        if (this.state.replyTo) {
+          content = "@" + this.state.replyTo + " \n" + content
+        }
+        const selfMsg = {
+          name: "David",
+          time: moment().fromNow(),
+          content: content
+        }
+        this.setState({ comments: [selfMsg].concat(this.state.comments) })
+        this.clearInput()
+      })
   }
 
   handleInput = e => {
     this.setState({ input: e.target.value })
   }
   clearInput = () => {
-    console.log("clear input")
-    this.setState({ input: "", inputFocus: false })
+    this.setState({
+      input: "",
+      inputFocus: false,
+      replyTo: null,
+      replyToUserId: null
+    })
   }
   orderBy = val => {
     this.setState({ comments: [] })
@@ -95,6 +131,10 @@ class CommentTab extends React.Component {
     if (this.state.inputFocus) {
       rowNum = 5
     }
+    let placeholder = "留言。。。"
+    if (this.state.replyTo) {
+      placeholder = "@" + this.state.replyTo
+    }
     return (
       <div>
         <Header orderBy={this.orderBy} />
@@ -123,8 +163,9 @@ class CommentTab extends React.Component {
             value={this.state.input}
             onFocus={this.onFocus}
             onChange={this.handleInput}
-            placeholder="留言。。。"
+            placeholder={placeholder}
             rows={rowNum}
+            ref={this.inputRef}
           />
           {this.state.inputFocus && (
             <div
@@ -134,7 +175,11 @@ class CommentTab extends React.Component {
               }}
             >
               <Button onClick={this.clearInput}>取消</Button>
-              <Button style={{ margin: 10 }} type="primary">
+              <Button
+                onClick={this.submit}
+                style={{ margin: 10 }}
+                type="primary"
+              >
                 提交
               </Button>
             </div>
