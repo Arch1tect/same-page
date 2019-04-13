@@ -32,6 +32,7 @@ class CommentTab extends React.Component {
     super(props)
     this.state = {
       loading: false,
+      submitting: false,
       comments: [],
       input: "",
       inputFocus: false,
@@ -59,12 +60,16 @@ class CommentTab extends React.Component {
       reply_to_user_id: this.state.replyToUserId,
       reply_to_user_name: this.state.replyTo
     }
+    this.setState({ submitting: true })
     axios
       .post(
         "http://localhost:9000/db/comments/v2/url/https://www.zhihu.com/",
         payload
       )
       .then(res => {
+        // TODO: scroll to top
+        this.setState({ submitting: false })
+
         let content = this.state.input
         if (this.state.replyTo) {
           content = "@" + this.state.replyTo + " \n" + content
@@ -179,6 +184,7 @@ class CommentTab extends React.Component {
                 onClick={this.submit}
                 style={{ margin: 10 }}
                 type="primary"
+                loading={this.state.submitting}
               >
                 提交
               </Button>
