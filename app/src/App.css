@@ -51,8 +51,24 @@ body ::-webkit-scrollbar-thumb:window-inactive {
 .ant-avatar > img {
   object-fit: cover;
 }
-
+.ant-avatar {
+  /* avatar is always clickable? */
+  cursor: pointer;
+}
 .ant-input {
   border-radius: 0;
   resize: none;
+}
+
+.sp-special-tab {
+  /* covers entire tab except top bar */
+  background: white;
+  z-index: 10;
+  position: fixed;
+  top: 35px;
+  width: 100%;
+  height: calc(100% - 35px);
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

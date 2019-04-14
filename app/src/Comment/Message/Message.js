@@ -1,34 +1,36 @@
 import "./Message.css"
 
-import React from "react"
+import React, { useContext } from "react"
 import { Avatar, Icon } from "antd"
+import TabContext from "context/TabContext"
 
 function Comment(props) {
+  const tabContext = useContext(TabContext)
   const data = props.data
-  let avatar = <Avatar size="large" className="sp-comment-avatar" icon="user" />
-  if (data.avatarSrc) {
-    avatar = (
-      <Avatar size="large" className="sp-comment-avatar" src={data.avatarSrc} />
-    )
-  }
 
   return (
     <div style={{ marginTop: 10 }}>
-      {avatar}
+      <Avatar
+        size="large"
+        className="sp-comment-message-avatar"
+        icon="user"
+        src={data.avatarSrc}
+        onClick={() => tabContext.selectOtherUser(data)}
+      />
       <div className="sp-message-body">
         <div style={{ marginBottom: 5 }}>
-          <span className="sp-comment-username">{data.name}</span>
-          <span className="sp-comment-time">{data.time}</span>
+          <span className="sp-comment-message-username">{data.name}</span>
+          <span className="sp-comment-message-time">{data.time}</span>
         </div>
         <div>{data.content}</div>
-        <div className="sp-comment-footer">
+        <div className="sp-comment-message-footer">
           <span>
             <Icon type="like" />
-            <span className="sp-comment-score">{data.score}</span>
+            <span className="sp-comment-message-score">{data.score}</span>
           </span>
           <span
             onClick={() => props.reply(data.userId, data.name)}
-            className="sp-comment-reply"
+            className="sp-comment-message-reply"
           >
             回复
           </span>

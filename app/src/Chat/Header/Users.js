@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Avatar } from "antd"
+import TabContext from "context/TabContext"
 
 import urls from "config/urls"
 
@@ -17,14 +18,15 @@ const usersStyle = {
 }
 
 function User(props) {
-  let avatar = <Avatar icon="user" />
-  if (props.avatarSrc) {
-    avatar = <Avatar src={props.avatarSrc} />
-  }
+  const tabContext = useContext(TabContext)
   return (
-    <div className="sp-online-user" key={props.userId}>
-      {avatar}
-      <div className="username">{props.username}</div>
+    <div
+      className="sp-online-user"
+      onClick={() => tabContext.selectOtherUser(props)}
+      key={props.userId}
+    >
+      <Avatar icon="user" src={props.avatarSrc} />
+      <div className="sp-online-user-username">{props.username}</div>
     </div>
   )
 }

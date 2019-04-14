@@ -6,7 +6,7 @@ import { Button, Input } from "antd"
 import axios from "axios"
 import moment from "moment"
 
-import urls from "../config/urls"
+import urls from "config/urls"
 import Header from "./Header"
 import Body from "./Body"
 
@@ -59,10 +59,7 @@ class CommentTab extends React.Component {
     }
     this.setState({ submitting: true })
     axios
-      .post(
-        "http://localhost:9000/db/comments/v2/url/https://www.zhihu.com/",
-        payload
-      )
+      .post(urls.dbAPI + "/db/comments/v2/url/https://www.zhihu.com/", payload)
       .then(res => {
         // TODO: scroll to top
         this.setState({ submitting: false })
@@ -117,6 +114,15 @@ class CommentTab extends React.Component {
       res.data.forEach(comment => {
         if (comment.has_avatar) {
           comment.avatarSrc = urls.cloudFront + comment.user_id + ".jpg"
+        }
+        if (!comment.username) {
+          // TODO: backend should return username
+          comment.username = comment.name
+        }
+        if (!comment.userId) {
+          // TODO: backend should return camel case userId not user_id
+          // should return int id?
+          comment.userId = comment.user_id
         }
         comment.time = moment.utc(comment.created_time).fromNow()
       })

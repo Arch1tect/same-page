@@ -8,7 +8,6 @@ import socket from "./socket"
 
 class App extends Component {
   render() {
-    console.log("render chat tab")
     return (
       <div>
         <Header />
