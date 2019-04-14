@@ -31,9 +31,6 @@ body ::-webkit-scrollbar-thumb:window-inactive {
 .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-nav-container {
   height: 35px;
 }
-.anticon {
-  vertical-align: 0;
-}
 
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
   border-color: transparent;
@@ -48,6 +45,7 @@ body ::-webkit-scrollbar-thumb:window-inactive {
 
 .ant-tabs-nav .ant-tabs-tab .anticon {
   margin: 0;
+  vertical-align: 0;
 }
 
 .ant-avatar > img {
