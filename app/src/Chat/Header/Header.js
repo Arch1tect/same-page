@@ -18,7 +18,6 @@ function toggleOnline(val) {
 function ChatHeader(props) {
   const [showUsers, toggleUsers] = useState(false)
   const [users, setUsers] = useState([])
-  window.setOnlineUsers = setUsers
   // Todo: use effect maybe?
   socket.on("user joined", data => {
     // console.debug(data.onlineUsers)
@@ -41,7 +40,7 @@ function ChatHeader(props) {
     <div className="sp-tab-header">
       <Row justify="center">
         <Col style={{ textAlign: "left" }} span={8}>
-          <Button size="small" icon="notification" />
+          <Button style={{ border: "none" }} size="small" icon="notification" />
         </Col>
         <Col span={8}>
           {/* <Switch
@@ -65,6 +64,7 @@ function ChatHeader(props) {
         </Col>
         <Col style={{ textAlign: "right" }} span={8}>
           <Button
+            style={{ border: "none" }}
             onClick={() => toggleUsers(!showUsers)}
             size="small"
             icon="team"
