@@ -16,7 +16,7 @@ function AvatarWithHoverCard(props) {
     clearTimeout(hideCardTimer)
     hideCardTimer = setTimeout(() => {
       setAnchor(null)
-    }, 300)
+    }, 100)
   }
   function showCard(el) {
     clearTimeout(hideCardTimer)
