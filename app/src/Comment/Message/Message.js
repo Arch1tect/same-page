@@ -1,22 +1,15 @@
 import "./Message.css"
 
 import React, { useContext } from "react"
-import { Avatar, Icon } from "antd"
-import TabContext from "context/TabContext"
+import { Icon } from "antd"
+import AvatarWithHoverCard from "Profile/AvatarWithHoverCard"
 
 function Comment(props) {
-  const tabContext = useContext(TabContext)
   const data = props.data
 
   return (
     <div style={{ marginTop: 10 }}>
-      <Avatar
-        size="large"
-        className="sp-comment-message-avatar"
-        icon="user"
-        src={data.avatarSrc}
-        onClick={() => tabContext.selectOtherUser(data)}
-      />
+      <AvatarWithHoverCard className="sp-comment-message-avatar" data={data} />
       <div className="sp-message-body">
         <div style={{ marginBottom: 5 }}>
           <span className="sp-comment-message-username">{data.name}</span>

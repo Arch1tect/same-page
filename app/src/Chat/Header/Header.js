@@ -20,10 +20,13 @@ function ChatHeader(props) {
   const [users, setUsers] = useState([])
   // Todo: use effect maybe?
   socket.on("user joined", data => {
-    // console.debug(data.onlineUsers)
+    console.debug("user joined")
+    console.debug(data.onlineUsers)
     setUsers(data.onlineUsers)
   })
   socket.on("user left", data => {
+    console.debug("user left")
+    console.debug(data.onlineUsers)
     setUsers(data.onlineUsers)
   })
   window.addEventListener(

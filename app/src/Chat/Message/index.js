@@ -1,7 +1,8 @@
-import React, { Component } from "react"
+import React, { useContext } from "react"
 import { Avatar, Radio } from "antd"
 
 import MessageBody from "./Body"
+import AvatarWithHoverCard from "Profile/AvatarWithHoverCard"
 
 /*
 props includes:
@@ -21,12 +22,13 @@ const userNameStyle = {
 function ChatMessage(props) {
   console.log("render chat message")
   const data = props.data
-  let avatar = null
-  if (data.avatarSrc) {
-    avatar = <Avatar size="small" src={data.avatarSrc} />
-  } else {
-    avatar = <Avatar size="small" icon="user" />
-  }
+  // let avatar = null
+  // if (data.avatarSrc) {
+  //   avatar = <Avatar size="small" src={data.avatarSrc} />
+  // } else {
+  //   avatar = <Avatar size="small" icon="user" />
+  // }
+
   let messageHeader = null
   let textAlign = "left"
   if (data.self) {
@@ -34,13 +36,13 @@ function ChatMessage(props) {
     messageHeader = (
       <div style={{ marginTop: 10 }}>
         <span style={userNameStyle}>{data.username}</span>
-        {avatar}
+        <AvatarWithHoverCard size="small" data={data} />
       </div>
     )
   } else {
     messageHeader = (
       <div style={{ marginTop: 10 }}>
-        {avatar}
+        <AvatarWithHoverCard size="small" data={data} />
         <span style={userNameStyle}>{data.username}</span>
       </div>
     )

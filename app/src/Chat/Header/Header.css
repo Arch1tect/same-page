@@ -13,10 +13,13 @@
 .sp-online-user {
   display: inline-block;
   margin: 5px;
+  /* width: 50px; */
 }
 .sp-online-user-username {
-  font-size: small;
-  max-width: 50px;
+  font-size: 10px;
+  max-width: 45px;
   text-overflow: ellipsis;
   overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
 }

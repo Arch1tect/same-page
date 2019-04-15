@@ -2,6 +2,8 @@ import React, { useContext } from "react"
 import { Avatar } from "antd"
 import TabContext from "context/TabContext"
 
+// import AvatarWithHoverCard from "Profile/AvatarWithHoverCard"
+
 import urls from "config/urls"
 
 const usersStyle = {
@@ -17,26 +19,29 @@ const usersStyle = {
   borderBottom: "1px solid lightgray"
 }
 
-function User(props) {
-  const tabContext = useContext(TabContext)
-  return (
-    <div
-      className="sp-online-user"
-      onClick={() => tabContext.selectOtherUser(props)}
-      key={props.userId}
-    >
-      <Avatar icon="user" src={props.avatarSrc} />
-      <div className="sp-online-user-username">{props.username}</div>
-    </div>
-  )
-}
-
 function Users(props) {
+  const tabContext = useContext(TabContext)
+
   const users = (props.users || []).map(user => {
     if (user.hasAvatar) {
       user.avatarSrc = urls.cloudFront + user.userId + ".jpg"
     }
-    return User(user)
+    return (
+      <div
+        className="sp-online-user"
+        onClick={() => tabContext.selectOtherUser(user)}
+        key={user.userId}
+      >
+        <Avatar
+          title={user.username}
+          size={45}
+          shape="square"
+          icon="user"
+          src={user.avatarSrc}
+        />
+        <div className="sp-online-user-username">{user.username}</div>
+      </div>
+    )
   })
 
   return <div style={usersStyle}>{users}</div>

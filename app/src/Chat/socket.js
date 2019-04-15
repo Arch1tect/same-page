@@ -8,7 +8,9 @@ socket.on("login", data => {
   socket.emit("login", {
     username: "David",
     userId: "xyz",
-    roomId: "https://www.hulu.com/welcome",
+    roomId: "https://www.baidu.com/",
+    // roomId: "baidu.com",
+    // roomId: "https://www.hulu.com/welcome",
     url: "https://www.hulu.com/welcome", // added field in v2.6.0
 
     version: "4.0.0",
@@ -21,6 +23,8 @@ socket.on("login", data => {
 socket.on("new message", data => {
   console.log(data)
   data.text = data.message
+  // TODO: user int id not uuid
+  data.userId = data.sender
   window.addLiveMsgToChatBody(data)
 })
 
