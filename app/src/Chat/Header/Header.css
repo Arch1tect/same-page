@@ -1,7 +1,6 @@
 .sp-tab-header {
   border-bottom: 1px solid lightgray;
   padding: 5px;
-  /* text-align: center; */
 }
 .sp-toggle-online {
   float: left;
@@ -13,12 +12,11 @@
 .sp-online-user {
   display: inline-block;
   margin: 5px;
-  /* width: 50px; */
 }
 .sp-online-user-username {
   font-size: 10px;
   max-width: 45px;
-  text-overflow: ellipsis;
+  /* text-overflow: ellipsis; */
   overflow: hidden;
   white-space: nowrap;
   text-align: center;

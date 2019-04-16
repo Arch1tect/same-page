@@ -6,16 +6,14 @@ import Footer from "./Footer"
 
 import socket from "./socket"
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <Header />
-        <Body />
-        <Footer />
-      </div>
-    )
-  }
+function Chat(props) {
+  return (
+    <div>
+      <Header />
+      <Body />
+      <Footer />
+    </div>
+  )
 }
 
-export default App
+export default Chat

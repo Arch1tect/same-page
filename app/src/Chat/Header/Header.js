@@ -1,6 +1,6 @@
 import "./Header.css"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Switch, Radio, Button } from "antd"
 import { Row, Col } from "antd"
 
@@ -18,26 +18,32 @@ function toggleOnline(val) {
 function ChatHeader(props) {
   const [showUsers, toggleUsers] = useState(false)
   const [users, setUsers] = useState([])
-  // Todo: use effect maybe?
-  socket.on("user joined", data => {
-    console.debug("user joined")
-    console.debug(data.onlineUsers)
-    setUsers(data.onlineUsers)
-  })
-  socket.on("user left", data => {
-    console.debug("user left")
-    console.debug(data.onlineUsers)
-    setUsers(data.onlineUsers)
-  })
-  window.addEventListener(
-    "message",
-    e => {
-      if (e.origin === urls.debugMsgSrc) {
-        setUsers(e.data)
-      }
-    },
-    false
-  )
+
+  // TODO: need to change back to class component
+  // if need access to users state
+  // like Body.js
+  useEffect(() => {
+    console.log("register user join/left events")
+    socket.on("user joined", data => {
+      console.debug("user joined")
+      // console.debug(data.onlineUsers)
+      setUsers(data.onlineUsers)
+    })
+    socket.on("user left", data => {
+      console.debug("user left")
+      // console.debug(data.onlineUsers)
+      setUsers(data.onlineUsers)
+    })
+    window.addEventListener(
+      "message",
+      e => {
+        if (e.origin === urls.debugMsgSrc) {
+          setUsers(e.data)
+        }
+      },
+      false
+    )
+  }, [])
 
   return (
     <div className="sp-tab-header">

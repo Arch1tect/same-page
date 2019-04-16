@@ -20,12 +20,4 @@ socket.on("login", data => {
   })
 })
 
-socket.on("new message", data => {
-  console.log(data)
-  data.text = data.message
-  // TODO: user int id not uuid
-  data.userId = data.sender
-  window.addLiveMsgToChatBody(data)
-})
-
 export default socket

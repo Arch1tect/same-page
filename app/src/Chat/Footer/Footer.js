@@ -3,6 +3,7 @@ import "./Footer.css"
 import React, { Component } from "react"
 import { Input, Icon } from "antd"
 
+import socket from "../socket"
 const MESSAGE_TIME_GAP = 2 * 1000
 let lastMsgTime = 0
 
@@ -19,11 +20,10 @@ class App extends Component {
       const now = new Date()
       if (now - lastMsgTime > MESSAGE_TIME_GAP) {
         let msg = {
-          text: this.state.input,
-          username: "David",
-          self: true
+          msg: this.state.input,
+          username: "David"
         }
-        window.addLiveMsgToChatBody(msg)
+        socket.emit("new message", msg)
         this.setState({ input: "" })
         lastMsgTime = now
       } else {

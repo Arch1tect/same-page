@@ -20,14 +20,7 @@ const userNameStyle = {
 }
 
 function ChatMessage(props) {
-  console.log("render chat message")
   const data = props.data
-  // let avatar = null
-  // if (data.avatarSrc) {
-  //   avatar = <Avatar size="small" src={data.avatarSrc} />
-  // } else {
-  //   avatar = <Avatar size="small" icon="user" />
-  // }
 
   let messageHeader = null
   let textAlign = "left"
