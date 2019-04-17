@@ -9,6 +9,7 @@ import { Tabs, Icon, Tooltip } from "antd"
 
 import Chat from "./Chat"
 import Comment from "./Comment"
+import Profile from "./Profile"
 import OtherProfile from "./Profile/OtherProfile"
 import TabContext from "./context/TabContext"
 
@@ -70,7 +71,7 @@ function App(props) {
             }
             key="4"
           >
-            Tab 4
+            <Profile />
           </TabPane>
         </Tabs>
       </div>

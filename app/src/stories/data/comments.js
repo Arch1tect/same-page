@@ -18,7 +18,8 @@ const comments = [
     name: "喵",
     has_avatar: 1,
     score: 15,
-    voted: 0
+    voted: 0,
+    self: true
   },
   {
     id: 591,
@@ -128,7 +129,8 @@ const comments = [
     name: "旧梦空城",
     has_avatar: 1,
     score: null,
-    voted: 0
+    voted: 0,
+    self: true
   },
   {
     id: 2632,
@@ -138,7 +140,8 @@ const comments = [
     name: "东尼大蛇",
     has_avatar: 1,
     score: null,
-    voted: 0
+    voted: 0,
+    self: true
   },
   {
     id: 2620,
@@ -268,7 +271,8 @@ const comments = [
     name: "u492009",
     has_avatar: 0,
     score: null,
-    voted: 0
+    voted: 0,
+    self: true
   },
   {
     id: 2202,
@@ -278,7 +282,8 @@ const comments = [
     name: "u818678",
     has_avatar: 0,
     score: null,
-    voted: 0
+    voted: 0,
+    self: true
   },
   {
     id: 2173,
@@ -288,7 +293,8 @@ const comments = [
     name: "u83429",
     has_avatar: 0,
     score: null,
-    voted: 0
+    voted: 0,
+    self: true
   },
   {
     id: 2139,
