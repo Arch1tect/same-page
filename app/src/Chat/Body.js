@@ -11,10 +11,12 @@ const chatBodyStyle = {
   padding: 10,
   paddingBottom: 50
 }
+const AUTO_SCROLL_TRESHOLD_DISTANCE = 100
 class ChatBody extends React.Component {
   constructor(props) {
     super(props)
     this.state = { messages: props.data || [] }
+    this.bodyRef = React.createRef()
     // window.addLiveMsgToChatBody only for debug
     window.addLiveMsgToChatBody = this.addMsg
   }
@@ -34,7 +36,19 @@ class ChatBody extends React.Component {
       this.setState((state, props) => ({
         messages: [...state.messages, data]
       }))
+      this.scrollToBottomIfNearBottom()
     })
+  }
+  scrollToBottomIfNearBottom = () => {
+    const bodyDiv = this.bodyRef.current
+    if (
+      bodyDiv.scrollHeight - bodyDiv.scrollTop - bodyDiv.offsetHeight <
+      AUTO_SCROLL_TRESHOLD_DISTANCE
+    ) {
+      setTimeout(() => {
+        bodyDiv.scrollTop = bodyDiv.scrollHeight
+      }, 100)
+    }
   }
   addMsg = msg => {
     this.setState((state, props) => ({
@@ -59,7 +73,11 @@ class ChatBody extends React.Component {
       )
       lastMsg = msg
     })
-    return <div style={chatBodyStyle}>{messages}</div>
+    return (
+      <div ref={this.bodyRef} style={chatBodyStyle}>
+        {messages}
+      </div>
+    )
   }
 }
 
