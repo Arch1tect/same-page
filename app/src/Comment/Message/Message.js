@@ -8,7 +8,7 @@ function Comment(props) {
   const data = props.data
 
   return (
-    <div style={{ marginTop: 10 }}>
+    <div style={{ marginTop: 10 }} className={data.self ? "self" : ""}>
       <AvatarWithHoverCard className="sp-comment-message-avatar" data={data} />
       <div className="sp-message-body">
         <div style={{ marginBottom: 5 }}>

@@ -1,7 +1,7 @@
 import "./Comment.css"
 
 import React from "react"
-import { Button, Input } from "antd"
+import { Button, Icon, Input } from "antd"
 
 import axios from "axios"
 import moment from "moment"
@@ -36,7 +36,7 @@ class CommentTab extends React.Component {
       replyTo: null
     }
     this.inputRef = React.createRef()
-
+    this.bodyRef = React.createRef()
     this.offset = 0
     this.order = "best"
   }
@@ -71,10 +71,15 @@ class CommentTab extends React.Component {
         const selfMsg = {
           name: "David",
           time: moment().fromNow(),
-          content: content
+          content: content,
+          self: true
         }
         this.setState({ comments: [selfMsg].concat(this.state.comments) })
         this.clearInput()
+        setTimeout(() => {
+          console.debug("[Comment] scroll to top")
+          this.bodyRef.current.scrollTop = 0
+        }, 500)
       })
   }
 
@@ -124,6 +129,10 @@ class CommentTab extends React.Component {
           // should return int id?
           comment.userId = comment.user_id
         }
+        if (comment.userId == "123") {
+          // TODO: this should be handled by backend
+          comment.self = true
+        }
         comment.time = moment.utc(comment.created_time).fromNow()
       })
       this.setState({ loading: false })
@@ -146,15 +155,18 @@ class CommentTab extends React.Component {
     return (
       <div>
         <Header orderBy={this.orderBy} />
-        <div style={commentBodyStyle}>
+        <div ref={this.bodyRef} style={commentBodyStyle}>
           {this.state.loading && this.state.comments.length === 0 && (
-            <center>Loading...</center>
+            <center>
+              <Icon type="loading" />
+            </center>
           )}
           {(!this.state.loading || this.state.comments.length > 0) && (
             <Body data={this.state.comments} reply={this.reply} />
           )}
           {this.state.comments.length > 0 && (
             <center style={{ marginTop: 20 }}>
+              {/* TODO: only if there is more */}
               <Button
                 loading={this.state.loading}
                 type="primary"
