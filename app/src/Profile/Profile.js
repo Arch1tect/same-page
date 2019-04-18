@@ -13,7 +13,7 @@ const ProfileBodyStyle = {
   width: "100%",
   position: "fixed",
   background: "#eceff1",
-  padding: 10,
+  padding: 20,
   paddingTop: 30,
   paddingBottom: 30
 }
@@ -98,13 +98,13 @@ function SelfProfile(props) {
             <div>关注者: {user.followers}</div>
           </Col>
         </Row>
-        <Divider style={{ marginTop: 30, fontSize: "small", color: "gray" }}>
+        <Divider style={{ marginTop: 50, fontSize: "small", color: "gray" }}>
           编辑个人资料
         </Divider>
 
         <center>
           <div style={{ width: "100%", maxWidth: 400 }}>
-            <Row gutter={10} style={{ marginTop: 10 }}>
+            <Row gutter={10} style={{ marginTop: 15 }}>
               <Col style={{ textAlign: "right" }} span={8}>
                 用户名:
               </Col>

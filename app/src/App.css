@@ -59,7 +59,10 @@ body ::-webkit-scrollbar-thumb:window-inactive {
   border-radius: 0;
   resize: none;
 }
-
+.ant-divider-horizontal.ant-divider-with-text::before,
+.ant-divider-horizontal.ant-divider-with-text::after {
+  border-top: 1px solid lightgray;
+}
 .sp-special-tab {
   /* covers entire tab except top bar */
   background: white;
