@@ -1,26 +1,40 @@
 import React, { useState, useEffect, useContext } from "react"
-import { Avatar, Button, Row, Col } from "antd"
+import { Divider, Radio, Avatar, Button, Row, Col, Input } from "antd"
 import axios from "axios"
 
 import urls from "config/urls"
 import TabContext from "context/TabContext"
 
+const TextArea = Input.TextArea
+
+const ProfileBodyStyle = {
+  height: "calc(100% - 50px)",
+  overflow: "auto",
+  width: "100%",
+  position: "fixed",
+  background: "#eceff1",
+  padding: 10,
+  paddingTop: 30,
+  paddingBottom: 30
+}
+
 const avatarStyle = {
-  margin: "auto",
-  marginTop: 20,
-  display: "block"
+  // margin: "auto",
+  // display: "block"
+}
+
+const inputStyle = {
+  // backgroundColor: "transparent",
+  // border: "none",
+  // borderBottom: "1px solid gray",
+  maxWidth: 100
 }
 
 const aboutStyle = {
-  width: "75%",
-  maxWidth: 350,
-  borderBottom: "1px solid lightgray",
-  textAlign: "left",
+  // border: "none",
+  // borderBottom: "1px solid gray",
+  // backgroundColor: "transparent",
   overflow: "auto",
-  maxHeight: 72,
-  padding: 5,
-  paddingLeft: 10,
-  paddingRight: 10,
   wordBreak: "break-word"
 }
 
@@ -28,7 +42,8 @@ function SelfProfile(props) {
   const tabContext = useContext(TabContext)
   const basicUser = {
     userId: "1",
-    username: "David"
+    username: "David",
+    aboutMe: ""
   }
   const [user, setUser] = useState(basicUser)
   useEffect(() => {
@@ -47,36 +62,103 @@ function SelfProfile(props) {
   }, [])
 
   return (
-    <div className="sp-special-tab">
-      <Avatar style={avatarStyle} size={128} src={user.avatarSrc} icon="user" />
-      <center style={{ margin: 20, fontSize: "large", fontWeight: "bold" }}>
-        {user.username}
-      </center>
-      <Row gutter={50} style={{ textAlign: "center" }}>
-        <Col style={{ textAlign: "right" }} span={12}>
-          ID: {user.userId}
+    <div>
+      <Row
+        className="sp-tab-header"
+        gutter={50}
+        style={{ textAlign: "center" }}
+      >
+        <Col span={12}>
+          <Button size="small">修改密码</Button>
         </Col>
-        <Col style={{ textAlign: "left" }} span={12}>
-          关注者: {user.followers}
+        <Col span={12}>
+          <Button size="small" type="danger">
+            登出
+          </Button>
         </Col>
       </Row>
-      <br />
-      <center>
-        <div style={aboutStyle}>{user.about}</div>
-        <br />
+      <div style={ProfileBodyStyle}>
+        <Row gutter={30} type="flex" align="middle">
+          <Col style={{ textAlign: "right" }} span={12}>
+            <Avatar
+              style={avatarStyle}
+              shape="square"
+              size={100}
+              src={user.avatarSrc}
+              icon="user"
+            />
+          </Col>
+          <Col
+            style={{ textAlign: "left", fontSize: "small", fontWeight: "bold" }}
+            span={12}
+          >
+            <div>ID: {user.userId}</div>
+            <div>积分: {user.followers}</div>
+            <div>关注了: {user.userId}</div>
+            <div>关注者: {user.followers}</div>
+          </Col>
+        </Row>
+        <Divider style={{ marginTop: 30, fontSize: "small", color: "gray" }}>
+          编辑个人资料
+        </Divider>
 
-        <Button
-          type="primary"
-          icon="user-add"
-          style={{ margin: 10 }}
-          size="large"
-        >
-          关注
-        </Button>
-        <Button icon="mail" style={{ margin: 10 }} size="large">
-          私信
-        </Button>
-      </center>
+        <center>
+          <div style={{ width: "100%", maxWidth: 400 }}>
+            <Row gutter={10} style={{ marginTop: 10 }}>
+              <Col style={{ textAlign: "right" }} span={8}>
+                用户名:
+              </Col>
+              <Col style={{ textAlign: "left" }} span={16}>
+                <Input
+                  className="sp-field-no-highlight"
+                  style={inputStyle}
+                  size="small"
+                  value={user.username}
+                />
+              </Col>
+            </Row>
+            <Row gutter={10} style={{ marginTop: 10 }}>
+              <Col style={{ textAlign: "right" }} span={8}>
+                性别:
+              </Col>
+              <Col style={{ textAlign: "left" }} span={16}>
+                <Radio.Group
+                  onChange={e => {
+                    user.sex = e.target.value
+                    setUser({ ...user })
+                  }}
+                  value={user.sex}
+                >
+                  <Radio value={1}>男</Radio>
+                  <Radio value={2}>女</Radio>
+                </Radio.Group>
+              </Col>
+            </Row>
+            <Row gutter={10} style={{ marginTop: 10 }}>
+              <Col style={{ textAlign: "right" }} span={8}>
+                个人简介:
+              </Col>
+              <Col style={{ textAlign: "left" }} span={16}>
+                <TextArea
+                  className="sp-field-no-highlight"
+                  style={aboutStyle}
+                  size="small"
+                  value={user.about}
+                  onChange={e => {
+                    user.about = e.target.value
+                    setUser({ ...user })
+                  }}
+                  autosize={{ minRows: 3, maxRows: 5 }}
+                />
+              </Col>
+            </Row>
+          </div>
+
+          <Button type="primary" style={{ marginTop: 30 }} size="large">
+            保存
+          </Button>
+        </center>
+      </div>
     </div>
   )
 }
