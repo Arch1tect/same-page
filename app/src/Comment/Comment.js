@@ -17,7 +17,7 @@ const commentBodyStyle = {
   overflow: "auto",
   width: "100%",
   position: "fixed",
-  background: "#eceff1",
+  background: "#f6f9fc",
   padding: 10,
   paddingBottom: 30
 }

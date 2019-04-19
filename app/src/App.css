@@ -55,6 +55,9 @@ body ::-webkit-scrollbar-thumb:window-inactive {
   /* avatar is always clickable? */
   cursor: pointer;
 }
+.ant-avatar.ant-avatar-icon {
+  background: #87d068;
+}
 .ant-input {
   border-radius: 0;
   resize: none;
