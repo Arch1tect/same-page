@@ -5,6 +5,8 @@ import axios from "axios"
 import urls from "config/urls"
 import TabContext from "context/TabContext"
 
+import AvatarUploader from "./AvatarUploader"
+
 const TextArea = Input.TextArea
 
 const ProfileBodyStyle = {
@@ -14,7 +16,7 @@ const ProfileBodyStyle = {
   position: "fixed",
   background: "#eceff1",
   padding: 20,
-  paddingTop: 30,
+  paddingTop: 10,
   paddingBottom: 30
 }
 
@@ -34,6 +36,7 @@ const aboutStyle = {
   // border: "none",
   // borderBottom: "1px solid gray",
   // backgroundColor: "transparent",
+  width: "80%",
   overflow: "auto",
   wordBreak: "break-word"
 }
@@ -78,6 +81,9 @@ function SelfProfile(props) {
         </Col>
       </Row>
       <div style={ProfileBodyStyle}>
+        <Divider style={{ marginTop: 10, fontSize: "small", color: "gray" }}>
+          账号信息
+        </Divider>
         <Row gutter={30} type="flex" align="middle">
           <Col style={{ textAlign: "right" }} span={12}>
             <Avatar
@@ -105,6 +111,14 @@ function SelfProfile(props) {
         <center>
           <div style={{ width: "100%", maxWidth: 400 }}>
             <Row gutter={10} style={{ marginTop: 15 }}>
+              <Col style={{ textAlign: "right" }} span={8}>
+                上传头像:
+              </Col>
+              <Col style={{ textAlign: "left" }} span={16}>
+                <AvatarUploader />
+              </Col>
+            </Row>
+            <Row gutter={10} style={{ marginTop: 10 }}>
               <Col style={{ textAlign: "right" }} span={8}>
                 用户名:
               </Col>
