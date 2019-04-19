@@ -56,7 +56,7 @@ body ::-webkit-scrollbar-thumb:window-inactive {
   cursor: pointer;
 }
 .ant-avatar.ant-avatar-icon {
-  background: #87d068;
+  /* background: #87d068; */
 }
 .ant-input {
   border-radius: 0;
