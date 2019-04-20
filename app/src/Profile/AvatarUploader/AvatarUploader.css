@@ -57,11 +57,14 @@
 
 .fileContainer .deleteImage {
   /* display: none; */
-  background: #a0a0a0;
+  background: #d0d0d0;
   font-size: 20px;
   top: -5px;
   right: -15px;
   /* font-weight: bold; */
+}
+.fileContainer .deleteImage:hover {
+  background: #a0a0a0;
 }
 
 .fileContainer .uploadPictureContainer {

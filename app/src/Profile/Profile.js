@@ -81,10 +81,17 @@ function SelfProfile(props) {
         </Col>
       </Row>
       <div style={ProfileBodyStyle}>
-        <Divider style={{ marginTop: 10, fontSize: "small", color: "gray" }}>
+        <Divider
+          style={{
+            marginTop: 10,
+            marginBottom: 25,
+            fontSize: "small",
+            color: "gray"
+          }}
+        >
           账号信息
         </Divider>
-        <Row gutter={30} type="flex" align="middle">
+        <Row gutter={20} type="flex" align="middle">
           <Col style={{ textAlign: "right" }} span={12}>
             <Avatar
               style={avatarStyle}
@@ -104,7 +111,14 @@ function SelfProfile(props) {
             <div>关注者: {user.followers}</div>
           </Col>
         </Row>
-        <Divider style={{ marginTop: 50, fontSize: "small", color: "gray" }}>
+        <Divider
+          style={{
+            marginTop: 35,
+            marginBottom: 25,
+            fontSize: "small",
+            color: "gray"
+          }}
+        >
           编辑个人资料
         </Divider>
 
@@ -168,7 +182,7 @@ function SelfProfile(props) {
             </Row>
           </div>
 
-          <Button type="primary" style={{ marginTop: 30 }} size="large">
+          <Button type="primary" style={{ marginTop: 20 }} size="large">
             保存
           </Button>
         </center>
