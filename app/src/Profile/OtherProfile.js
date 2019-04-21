@@ -54,7 +54,7 @@ function OtherProfile(props) {
         style={{
           position: "fixed",
           marginTop: 5,
-          marginLeft: 10,
+          marginLeft: 5,
           border: "none",
           fontSize: "large"
         }}

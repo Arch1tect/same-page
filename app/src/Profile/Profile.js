@@ -6,6 +6,8 @@ import urls from "config/urls"
 import TabContext from "context/TabContext"
 
 import AvatarUploader from "./AvatarUploader"
+import PasswordReset from "./PasswordReset"
+import ResetPassword from "./ResetPassword"
 
 const TextArea = Input.TextArea
 
@@ -14,7 +16,7 @@ const ProfileBodyStyle = {
   overflow: "auto",
   width: "100%",
   position: "fixed",
-  background: "#f6f9fc",
+  background: "rgb(249, 249, 249)",
   padding: 20,
   paddingTop: 10,
   paddingBottom: 30
@@ -49,6 +51,7 @@ function SelfProfile(props) {
     aboutMe: ""
   }
   const [user, setUser] = useState(basicUser)
+  const [resettingPassword, setResetPasswordState] = useState(false)
   useEffect(() => {
     axios.get(urls.dbAPI + "/db/user/" + user.userId).then(resp => {
       console.log(resp.data)
@@ -66,13 +69,23 @@ function SelfProfile(props) {
 
   return (
     <div>
+      {resettingPassword && (
+        <ResetPassword setResetPasswordState={setResetPasswordState} />
+      )}
       <Row
         className="sp-tab-header"
         gutter={50}
         style={{ textAlign: "center" }}
       >
         <Col span={12}>
-          <Button size="small">修改密码</Button>
+          <Button
+            onClick={() => {
+              setResetPasswordState(!resettingPassword)
+            }}
+            size="small"
+          >
+            更改密码
+          </Button>
         </Col>
         <Col span={12}>
           <Button size="small" type="danger">
@@ -137,12 +150,7 @@ function SelfProfile(props) {
                 用户名:
               </Col>
               <Col style={{ textAlign: "left" }} span={16}>
-                <Input
-                  className="sp-field-no-highlight"
-                  style={inputStyle}
-                  size="small"
-                  value={user.username}
-                />
+                <Input style={inputStyle} size="small" value={user.username} />
               </Col>
             </Row>
             <Row gutter={10} style={{ marginTop: 10 }}>
@@ -168,7 +176,6 @@ function SelfProfile(props) {
               </Col>
               <Col style={{ textAlign: "left" }} span={16}>
                 <TextArea
-                  className="sp-field-no-highlight"
                   style={aboutStyle}
                   size="small"
                   value={user.about}
