@@ -7,6 +7,8 @@ import AccountContext from "context/account-context"
 import TabContext from "context/tab-context"
 import ResetPassword from "./ResetPassword"
 import EditProfile from "./EditProfile"
+import Login from "containers/Account/Login"
+
 const avatarStyle = {
   margin: "auto",
   marginTop: 20,
@@ -37,7 +39,7 @@ const aboutStyle = {
   wordBreak: "break-word"
 }
 
-function SelfProfile(props) {
+function Account(props) {
   const accountContext = useContext(AccountContext)
   const account = accountContext.account
 
@@ -60,22 +62,32 @@ function SelfProfile(props) {
   //   })
   // }, [])
 
+  if (!account.token) {
+    return <Login setAccount={accountContext.setAccount} />
+  }
+
   return (
     <div>
       {resettingPassword && (
         <ResetPassword setResetPasswordState={setResetPasswordState} />
       )}
       {edittingProfile && (
-        <EditProfile setEdittingProfileState={setEdittingProfileState} />
+        <EditProfile
+          account={account}
+          setEdittingProfileState={setEdittingProfileState}
+        />
       )}
 
       <div style={ProfileBodyStyle}>
-        <Avatar
-          style={avatarStyle}
-          size={128}
-          src={account.avatarSrc}
-          icon="user"
-        />
+        <a href={account.avatarSrc} target="_blank">
+          <Avatar
+            style={avatarStyle}
+            size={128}
+            src={account.avatarSrc}
+            icon="user"
+          />
+        </a>
+
         <center style={{ margin: 20, fontSize: "large", fontWeight: "bold" }}>
           {account.username}
         </center>
@@ -122,4 +134,4 @@ function SelfProfile(props) {
   )
 }
 
-export default SelfProfile
+export default Account

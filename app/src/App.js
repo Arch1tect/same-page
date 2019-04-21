@@ -22,12 +22,16 @@ const defaultAccount = {
 
 function App(props) {
   const [account, setAccount] = useState(defaultAccount)
+  let tab = "chat"
+  if (!account.token) {
+    tab = "account"
+  }
 
   return (
     <AccountContext.Provider
       value={{ account: account, setAccount: setAccount }}
     >
-      <Tab />
+      <Tab tab={tab} />
     </AccountContext.Provider>
   )
 }

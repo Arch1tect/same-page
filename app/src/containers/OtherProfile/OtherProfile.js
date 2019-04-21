@@ -62,7 +62,14 @@ function OtherProfile(props) {
         icon="arrow-left"
       />
 
-      <Avatar style={avatarStyle} size={128} src={user.avatarSrc} icon="user" />
+      <a href={user.avatarSrc} target="_blank">
+        <Avatar
+          style={avatarStyle}
+          size={128}
+          src={user.avatarSrc}
+          icon="user"
+        />
+      </a>
       <center style={{ margin: 20, fontSize: "large", fontWeight: "bold" }}>
         {user.username}
       </center>

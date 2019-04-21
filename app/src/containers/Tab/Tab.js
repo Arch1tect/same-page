@@ -9,17 +9,19 @@ import { Tabs, Icon, Tooltip } from "antd"
 
 import Chat from "containers/Chat"
 import Comment from "containers/Comment"
-import Profile from "containers/Profile"
+import Account from "containers/Account"
 import OtherProfile from "containers/Profile/OtherProfile"
+
 import TabContext from "context/tab-context"
 
 const TabPane = Tabs.TabPane
 
 // const store = createStore(rootReducer)
 
-function App(props) {
-  console.log("render app")
-  const [activeTab, changeTab] = useState("1")
+function Tab(props) {
+  console.log("render tab")
+
+  const [activeTab, changeTab] = useState(props.tab)
   const [other, selectOtherUser] = useState()
 
   return (
@@ -39,7 +41,7 @@ function App(props) {
                 <Icon type="message" />
               </Tooltip>
             }
-            key="1"
+            key="chat"
           >
             <Chat />
           </TabPane>
@@ -49,7 +51,7 @@ function App(props) {
                 <Icon type="form" />
               </Tooltip>
             }
-            key="2"
+            key="comment"
           >
             <Comment />
           </TabPane>
@@ -59,7 +61,7 @@ function App(props) {
                 <Icon type="mail" />
               </Tooltip>
             }
-            key="3"
+            key="mailbox"
           >
             Tab 3
           </TabPane>
@@ -69,9 +71,9 @@ function App(props) {
                 <Icon type="user" />
               </Tooltip>
             }
-            key="4"
+            key="account"
           >
-            <Profile />
+            <Account />
           </TabPane>
         </Tabs>
       </div>
@@ -80,4 +82,4 @@ function App(props) {
   )
 }
 
-export default App
+export default Tab

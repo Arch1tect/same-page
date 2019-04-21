@@ -1,28 +1,14 @@
 import React from "react"
 
-import {
-  Form,
-  Input,
-  Tooltip,
-  Icon,
-  Cascader,
-  Select,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-  AutoComplete
-} from "antd"
+import { Form, Input, Select, Button, AutoComplete } from "antd"
 import AvatarUploader from "./AvatarUploader"
 
 const { Option } = Select
-const AutoCompleteOption = AutoComplete.Option
 
 class EditProfileForm extends React.Component {
-  state = {
-    confirmDirty: false,
-    autoCompleteResult: []
-  }
+  // state = {
+  //   confirmDirty: false
+  // }
 
   handleSubmit = e => {
     e.preventDefault()
@@ -33,14 +19,14 @@ class EditProfileForm extends React.Component {
     })
   }
 
-  handleConfirmBlur = e => {
-    const value = e.target.value
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value })
-  }
+  // handleConfirmBlur = e => {
+  //   const value = e.target.value
+  //   this.setState({ confirmDirty: this.state.confirmDirty || !!value })
+  // }
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const { autoCompleteResult } = this.state
+    const account = this.props.account
 
     const formItemLayout = {
       labelCol: {
@@ -101,7 +87,8 @@ class EditProfileForm extends React.Component {
                   message: "用户名不能为空",
                   whitespace: true
                 }
-              ]
+              ],
+              initialValue: account.username
             })(<Input />)}
           </Form.Item>
           <Form.Item label="性别">
@@ -118,7 +105,9 @@ class EditProfileForm extends React.Component {
             )}
           </Form.Item>
           <Form.Item label={<span>个人简介</span>}>
-            {getFieldDecorator("about", {})(<Input />)}
+            {getFieldDecorator("about", {
+              initialValue: account.about
+            })(<Input />)}
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>
             <Button
