@@ -1,5 +1,5 @@
 import "antd/dist/antd.css"
-import "./App.css"
+import "./Tab.css"
 
 import React, { useState } from "react"
 import { Tabs, Icon, Tooltip } from "antd"

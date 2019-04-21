@@ -1,30 +1,29 @@
 import "./Footer.css"
 
-import React, { Component } from "react"
+import React, { useState, useContext } from "react"
 import { Input, Icon } from "antd"
 
+import AccountContext from "context/account-context"
 import socket from "../socket"
 const MESSAGE_TIME_GAP = 2 * 1000
 let lastMsgTime = 0
 
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      input: ""
-    }
-  }
+function Footer(props) {
+  const [input, setInput] = useState("")
+  const accountContext = useContext(AccountContext)
+  const account = accountContext.account
 
-  handleKeyDown = e => {
+  const handleKeyDown = e => {
     if (e.key === "Enter") {
       const now = new Date()
       if (now - lastMsgTime > MESSAGE_TIME_GAP) {
         let msg = {
-          msg: this.state.input,
-          username: "David"
+          msg: input,
+          // TODO: no need to send username
+          username: account.username
         }
         socket.emit("new message", msg)
-        this.setState({ input: "" })
+        setInput("")
         lastMsgTime = now
       } else {
         console.error("too fast")
@@ -32,25 +31,23 @@ class App extends Component {
     }
   }
 
-  handleChange = e => {
-    this.setState({ input: e.target.value })
+  const handleChange = e => {
+    setInput(e.target.value)
   }
 
-  render() {
-    return (
-      <div className="sp-chat-bottom">
-        <Input
-          size="large"
-          onKeyDown={this.handleKeyDown}
-          value={this.state.input}
-          addonBefore={<Icon type="smile" />}
-          addonAfter={<Icon type="paper-clip" />}
-          onChange={this.handleChange}
-          placeholder="请输入。。。"
-        />
-      </div>
-    )
-  }
+  return (
+    <div className="sp-chat-bottom">
+      <Input
+        size="large"
+        onKeyDown={handleKeyDown}
+        value={input}
+        addonBefore={<Icon type="smile" />}
+        addonAfter={<Icon type="paper-clip" />}
+        onChange={handleChange}
+        placeholder="请输入。。。"
+      />
+    </div>
+  )
 }
 
-export default App
+export default Footer

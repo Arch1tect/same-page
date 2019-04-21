@@ -2,6 +2,7 @@ import React from "react"
 import Message from "./Message"
 import socket from "./socket"
 import urls from "config/urls"
+import AccountContext from "context/account-context"
 const chatBodyStyle = {
   height: "calc(100% - 107px)",
   overflow: "auto",
@@ -20,6 +21,7 @@ class ChatBody extends React.Component {
     // window.addLiveMsgToChatBody only for debug
     window.addLiveMsgToChatBody = this.addMsg
   }
+
   componentDidMount() {
     console.log("register new message events")
     socket.on("new message", data => {
@@ -30,7 +32,7 @@ class ChatBody extends React.Component {
       if (data.hasAvatar) {
         data.avatarSrc = urls.cloudFront + data.userId + ".jpg"
       }
-      if (data.userId == "xyz") {
+      if (data.userId == this.context.account.userId) {
         data.self = true
       }
       this.setState((state, props) => ({
@@ -80,5 +82,6 @@ class ChatBody extends React.Component {
     )
   }
 }
+ChatBody.contextType = AccountContext
 
 export default ChatBody

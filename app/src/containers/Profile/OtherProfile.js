@@ -12,7 +12,8 @@ const avatarStyle = {
 }
 
 const aboutStyle = {
-  width: "75%",
+  display: "inline-block",
+  minWidth: 200,
   maxWidth: 350,
   borderBottom: "1px solid lightgray",
   textAlign: "left",
@@ -76,19 +77,20 @@ function OtherProfile(props) {
       <br />
       <center>
         <div style={aboutStyle}>{user.about}</div>
-        <br />
 
-        <Button
-          type="primary"
-          icon="user-add"
-          style={{ margin: 10 }}
-          size="large"
-        >
-          关注
-        </Button>
-        <Button icon="mail" style={{ margin: 10 }} size="large">
-          私信
-        </Button>
+        <div style={{ marginTop: 30 }}>
+          <Button
+            type="primary"
+            icon="user-add"
+            style={{ margin: 10 }}
+            size="large"
+          >
+            关注
+          </Button>
+          <Button icon="mail" style={{ margin: 10 }} size="large">
+            私信
+          </Button>
+        </div>
       </center>
     </div>
   )

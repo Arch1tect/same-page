@@ -3,6 +3,7 @@ import { Avatar, Button, Row, Col } from "antd"
 import axios from "axios"
 
 import urls from "config/urls"
+import AccountContext from "context/account-context"
 import TabContext from "context/tab-context"
 import ResetPassword from "./ResetPassword"
 import EditProfile from "./EditProfile"
@@ -23,7 +24,8 @@ const ProfileBodyStyle = {
   paddingBottom: 30
 }
 const aboutStyle = {
-  width: "75%",
+  display: "inline-block",
+  minWidth: 200,
   maxWidth: 350,
   borderBottom: "1px solid lightgray",
   textAlign: "left",
@@ -36,12 +38,10 @@ const aboutStyle = {
 }
 
 function SelfProfile(props) {
-  const basicUser = {
-    userId: "1",
-    username: "David",
-    about: "我就是我，不一样的烟火"
-  }
-  const [user, setUser] = useState(basicUser)
+  const accountContext = useContext(AccountContext)
+  const account = accountContext.account
+
+  // const [user, setUser] = useState(basicUser)
   const [resettingPassword, setResetPasswordState] = useState(false)
   const [edittingProfile, setEdittingProfileState] = useState(false)
 
@@ -73,36 +73,36 @@ function SelfProfile(props) {
         <Avatar
           style={avatarStyle}
           size={128}
-          src={user.avatarSrc}
+          src={account.avatarSrc}
           icon="user"
         />
         <center style={{ margin: 20, fontSize: "large", fontWeight: "bold" }}>
-          {user.username}
+          {account.username}
         </center>
         <Row gutter={50} style={{ textAlign: "center" }}>
           <Col style={{ textAlign: "right" }} span={12}>
-            ID: {user.userId}
+            ID: {account.userId}
           </Col>
           <Col style={{ textAlign: "left" }} span={12}>
-            关注者: {user.followers}
+            关注者: {account.followers}
           </Col>
         </Row>
         <br />
         <center>
-          <div style={aboutStyle}>{user.about}</div>
-          <br />
-
-          <Button
-            type="primary"
-            icon="edit"
-            style={{ margin: 10 }}
-            size="large"
-            onClick={() => {
-              setEdittingProfileState(true)
-            }}
-          >
-            修改资料
-          </Button>
+          <div style={aboutStyle}>{account.about}</div>
+          <div style={{ marginTop: 30 }}>
+            <Button
+              type="primary"
+              icon="edit"
+              style={{ margin: 10 }}
+              size="large"
+              onClick={() => {
+                setEdittingProfileState(true)
+              }}
+            >
+              修改资料
+            </Button>
+          </div>
           <br />
           <br />
           <Button

@@ -7,6 +7,7 @@ import axios from "axios"
 import moment from "moment"
 
 import urls from "config/urls"
+import AccountContext from "context/account-context"
 import Header from "./Header"
 import Body from "./Body"
 
@@ -33,7 +34,8 @@ class CommentTab extends React.Component {
       comments: [],
       input: "",
       inputFocus: false,
-      replyTo: null
+      replyTo: "",
+      replyToUserId: ""
     }
     this.inputRef = React.createRef()
     this.bodyRef = React.createRef()
@@ -51,12 +53,15 @@ class CommentTab extends React.Component {
 
   submit = () => {
     const payload = {
-      user_id: "123",
-      user_name: "David",
+      // TODO: no need to pass in user id and username
+      // backend get it from token
+      user_id: this.context.account.userId,
+      user_name: this.context.account.username,
       message: this.state.input,
       reply_to_user_id: this.state.replyToUserId,
       reply_to_user_name: this.state.replyTo
     }
+
     this.setState({ submitting: true })
     axios
       .post(urls.dbAPI + "/db/comments/v2/url/https://www.zhihu.com/", payload)
@@ -69,7 +74,7 @@ class CommentTab extends React.Component {
           content = "@" + this.state.replyTo + " \n" + content
         }
         const selfMsg = {
-          name: "David",
+          name: this.context.account.username,
           time: moment().fromNow(),
           content: content,
           self: true
@@ -210,5 +215,7 @@ class CommentTab extends React.Component {
     )
   }
 }
+
+CommentTab.contextType = AccountContext
 
 export default CommentTab
