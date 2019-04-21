@@ -3,7 +3,7 @@ import { Avatar, Button, Row, Col } from "antd"
 import axios from "axios"
 
 import urls from "config/urls"
-import TabContext from "context/TabContext"
+import TabContext from "context/tab-context"
 
 const avatarStyle = {
   margin: "auto",

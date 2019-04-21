@@ -3,7 +3,7 @@ import { Avatar, Button, Row, Col } from "antd"
 import axios from "axios"
 
 import urls from "config/urls"
-import TabContext from "context/TabContext"
+import TabContext from "context/tab-context"
 import ResetPassword from "./ResetPassword"
 import EditProfile from "./EditProfile"
 const avatarStyle = {

@@ -7,11 +7,11 @@ import { Tabs, Icon, Tooltip } from "antd"
 // import { createStore } from "redux"
 // import rootReducer from "./reducers"
 
-import Chat from "./Chat"
-import Comment from "./Comment"
-import Profile from "./Profile"
-import OtherProfile from "./Profile/OtherProfile"
-import TabContext from "./context/TabContext"
+import Chat from "containers/Chat"
+import Comment from "containers/Comment"
+import Profile from "containers/Profile"
+import OtherProfile from "containers/Profile/OtherProfile"
+import TabContext from "context/tab-context"
 
 const TabPane = Tabs.TabPane
 

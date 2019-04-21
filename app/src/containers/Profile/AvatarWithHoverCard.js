@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react"
 import { Avatar, Icon } from "antd"
-import TabContext from "context/TabContext"
+import TabContext from "context/tab-context"
 
 import ProfileCard from "./ProfileCard"
 import Popper from "@material-ui/core/Popper"

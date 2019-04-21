@@ -1,8 +1,8 @@
 import "./Message.css"
 
-import React, { useContext } from "react"
+import React from "react"
 import { Icon } from "antd"
-import AvatarWithHoverCard from "Profile/AvatarWithHoverCard"
+import AvatarWithHoverCard from "containers/Profile/AvatarWithHoverCard"
 
 function Comment(props) {
   const data = props.data
