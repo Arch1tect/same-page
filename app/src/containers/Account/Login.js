@@ -26,15 +26,19 @@ class NormalLoginForm extends React.Component {
             // this.setState({ submitting: false })
             console.log(res.data)
             const account = res.data
+            this.setState({ loading: false })
             this.props.setAccount({
               token: account.token
             })
           })
           .catch(err => {
             console.error(err)
+            this.setState({ loading: false })
           })
           .then(() => {
-            this.setState({ loading: false })
+            // can't set it here because if succeed
+            // component is unmounted
+            // this.setState({ loading: false })
           })
 
         console.log("Received values of form: ", values)
