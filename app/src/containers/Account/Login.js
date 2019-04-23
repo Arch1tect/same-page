@@ -16,12 +16,12 @@ class NormalLoginForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const payload = {
-          id: values.userId,
+          userId: values.userId,
           password: values.password
         }
         this.setState({ loading: true })
         axios
-          .post(urls.dbAPI + "/db/user/login", payload)
+          .post(urls.dbAPI + "/api/v1/login", payload)
           .then(res => {
             // this.setState({ submitting: false })
             console.log(res.data)
