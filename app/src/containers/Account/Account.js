@@ -42,7 +42,7 @@ const aboutStyle = {
 function Account(props) {
   const accountContext = useContext(AccountContext)
   const account = accountContext.account
-
+  const user = account.user
   // const [user, setUser] = useState(basicUser)
   const [resettingPassword, setResetPasswordState] = useState(false)
   const [edittingProfile, setEdittingProfileState] = useState(false)
@@ -89,19 +89,27 @@ function Account(props) {
         </a>
 
         <center style={{ margin: 20, fontSize: "large", fontWeight: "bold" }}>
-          {account.username}
+          {user.name}
         </center>
         <Row gutter={50} style={{ textAlign: "center" }}>
           <Col style={{ textAlign: "right" }} span={12}>
-            ID: {account.userId}
+            ID: {user.id}
           </Col>
           <Col style={{ textAlign: "left" }} span={12}>
-            关注者: {account.followers}
+            积分: {user.credit}
+          </Col>
+        </Row>
+        <Row gutter={50} style={{ textAlign: "center" }}>
+          <Col style={{ textAlign: "right" }} span={12}>
+            关注了: {user.following}
+          </Col>
+          <Col style={{ textAlign: "left" }} span={12}>
+            关注者: {user.followers}
           </Col>
         </Row>
         <br />
         <center>
-          <div style={aboutStyle}>{account.about}</div>
+          <div style={aboutStyle}>{user.about}</div>
           <div style={{ marginTop: 30 }}>
             <Button
               type="primary"

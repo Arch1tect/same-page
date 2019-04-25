@@ -28,7 +28,8 @@ class NormalLoginForm extends React.Component {
             const account = res.data
             this.setState({ loading: false })
             this.props.setAccount({
-              token: account.token
+              token: account.token,
+              user: account.user
             })
           })
           .catch(err => {
