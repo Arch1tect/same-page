@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { Avatar, Radio } from "antd"
 
 import MessageBody from "./Body"
-import AvatarWithHoverCard from "containers/Profile/AvatarWithHoverCard"
+import AvatarWithHoverCard from "containers/OtherProfile/AvatarWithHoverCard"
 
 /*
 props includes:

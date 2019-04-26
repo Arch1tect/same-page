@@ -9,8 +9,10 @@ const { Meta } = Card
 function ProfileCard(props) {
   const basicUser = {
     avatarSrc: props.data.avatarSrc,
-    username: props.data.username
+    name: props.data.name
   }
+  console.log("card")
+  console.log(props)
   const user = basicUser
   // const [user, setUser] = useState(basicUser)
   // const [loading, setLoading] = useState(true)
@@ -20,7 +22,7 @@ function ProfileCard(props) {
   //     if (resp.data.length) {
   //       // Todo: backend should return just 1
   //       const data = resp.data[0]
-  //       user.username = data.name
+  //       user.name = data.name
   //       user.userId = data.id
   //       user.about = data.about
   //       user.followers = data.followers.length
@@ -52,7 +54,7 @@ function ProfileCard(props) {
     <Card size="small" style={{ width: 250 }}>
       <Meta
         avatar={<Avatar size={48} src={user.avatarSrc} icon="user" />}
-        title={user.username}
+        title={user.name}
         description={footer}
       />
     </Card>

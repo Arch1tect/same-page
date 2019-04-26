@@ -2,7 +2,7 @@ import "./Message.css"
 
 import React from "react"
 import { Icon } from "antd"
-import AvatarWithHoverCard from "containers/Profile/AvatarWithHoverCard"
+import AvatarWithHoverCard from "containers/OtherProfile/AvatarWithHoverCard"
 
 function Comment(props) {
   const data = props.data

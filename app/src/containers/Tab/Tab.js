@@ -10,7 +10,7 @@ import { Tabs, Icon, Tooltip } from "antd"
 import Chat from "containers/Chat"
 import Comment from "containers/Comment"
 import Account from "containers/Account"
-import OtherProfile from "containers/Profile/OtherProfile"
+import OtherProfile from "containers/OtherProfile"
 
 import TabContext from "context/tab-context"
 

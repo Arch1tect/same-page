@@ -123,22 +123,6 @@ class CommentTab extends React.Component {
     }
     axios.post(urls.dbAPI + "/api/v1/get_comments", payload).then(res => {
       res.data.forEach(comment => {
-        if (comment.has_avatar) {
-          comment.avatarSrc = urls.cloudFront + comment.user_id + ".jpg"
-        }
-        // if (!comment.username) {
-        //   // TODO: backend should return username
-        //   comment.username = comment.name
-        // }
-        // if (!comment.userId) {
-        //   // TODO: backend should return camel case userId not user_id
-        //   // should return int id?
-        //   comment.userId = comment.user_id
-        // }
-        if (comment.userId == "123") {
-          // TODO: this should be handled by backend
-          comment.self = true
-        }
         comment.time = moment.utc(comment.created).fromNow()
       })
       this.setState({ loading: false })

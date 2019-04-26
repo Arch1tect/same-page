@@ -30,7 +30,7 @@ function OtherProfile(props) {
   const tabContext = useContext(TabContext)
   const basicUser = {
     avatarSrc: props.data.avatarSrc,
-    username: props.data.username
+    name: props.data.name
   }
   const [user, setUser] = useState(basicUser)
   useEffect(() => {
@@ -39,7 +39,7 @@ function OtherProfile(props) {
       if (resp.data.length) {
         // Todo: backend should return just 1
         const data = resp.data[0]
-        user.username = data.name
+        user.name = data.name
         user.userId = data.id
         user.about = data.about
         user.followers = data.followers.length
@@ -71,7 +71,7 @@ function OtherProfile(props) {
         />
       </a>
       <center style={{ margin: 20, fontSize: "large", fontWeight: "bold" }}>
-        {user.username}
+        {user.name}
       </center>
       <Row gutter={50} style={{ textAlign: "center" }}>
         <Col style={{ textAlign: "right" }} span={12}>

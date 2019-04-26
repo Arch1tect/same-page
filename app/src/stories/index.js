@@ -5,8 +5,8 @@ import { Button } from "antd"
 import React from "react"
 import { storiesOf } from "@storybook/react"
 
-import ChatBody from "../Chat/Body"
-import CommentBody from "../Comment/Body"
+import ChatBody from "containers/Chat/Body"
+import CommentBody from "containers/Comment/Body"
 
 import chatMessages from "./data/chats"
 import comments from "./data/comments"
