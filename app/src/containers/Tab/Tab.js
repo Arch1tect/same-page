@@ -42,6 +42,7 @@ function Tab(props) {
               </Tooltip>
             }
             key="chat"
+            forceRender={true}
           >
             <Chat />
           </TabPane>

@@ -1,10 +1,10 @@
 import "./Header.css"
 
 import React, { useState, useEffect } from "react"
-import { Switch, Radio, Button } from "antd"
+import { Radio, Button } from "antd"
 import { Row, Col } from "antd"
 
-import socket from "../socket"
+import { socketHandler } from "socket/socket"
 import Users from "./Users"
 import urls from "config/urls"
 
@@ -23,17 +23,13 @@ function ChatHeader(props) {
   // if need access to users state
   // like Body.js
   useEffect(() => {
-    console.log("register user join/left events")
-    socket.on("user joined", data => {
-      console.debug("user joined")
-      // console.debug(data.onlineUsers)
+    console.log("register user join/left handlers")
+    socketHandler.onUserJoin = data => {
       setUsers(data.onlineUsers)
-    })
-    socket.on("user left", data => {
-      console.debug("user left")
-      // console.debug(data.onlineUsers)
+    }
+    socketHandler.onUserLeft = data => {
       setUsers(data.onlineUsers)
-    })
+    }
     window.addEventListener(
       "message",
       e => {

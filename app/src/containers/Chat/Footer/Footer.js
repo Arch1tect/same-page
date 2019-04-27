@@ -4,7 +4,8 @@ import React, { useState, useContext } from "react"
 import { Input, Icon } from "antd"
 
 import AccountContext from "context/account-context"
-import socket from "../socket"
+import socketManager from "socket/socket"
+
 const MESSAGE_TIME_GAP = 2 * 1000
 let lastMsgTime = 0
 
@@ -22,7 +23,7 @@ function Footer(props) {
           // TODO: no need to send username
           username: account.username
         }
-        socket.emit("new message", msg)
+        socketManager.sendMessage(msg)
         setInput("")
         lastMsgTime = now
       } else {

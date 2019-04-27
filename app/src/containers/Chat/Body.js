@@ -1,6 +1,6 @@
 import React from "react"
 import Message from "./Message"
-import socket from "./socket"
+import { socketHandler } from "socket/socket"
 import urls from "config/urls"
 import AccountContext from "context/account-context"
 const chatBodyStyle = {
@@ -23,9 +23,8 @@ class ChatBody extends React.Component {
   }
 
   componentDidMount() {
-    console.log("register new message events")
-    socket.on("new message", data => {
-      console.log(data)
+    console.log("register new message handler")
+    socketHandler.onLiveMsg = data => {
       data.text = data.message
       // TODO: user int id not uuid?
       data.userId = data.sender
@@ -39,7 +38,7 @@ class ChatBody extends React.Component {
         messages: [...state.messages, data]
       }))
       this.scrollToBottomIfNearBottom()
-    })
+    }
   }
   scrollToBottomIfNearBottom = () => {
     const bodyDiv = this.bodyRef.current
