@@ -55,26 +55,24 @@ class CommentTab extends React.Component {
     const payload = {
       // TODO: no need to pass in user id and username
       // backend get it from token
-      user_id: this.context.account.userId,
-      user_name: this.context.account.username,
-      message: this.state.input,
+      user_id: this.context.account.id,
+      user_name: this.context.account.name,
+      url: "https://www.zhihu.com/",
+      content: this.state.input,
       reply_to_user_id: this.state.replyToUserId,
       reply_to_user_name: this.state.replyTo
     }
 
     this.setState({ submitting: true })
     axios
-      .post(urls.dbAPI + "/db/comments/v2/url/https://www.zhihu.com/", payload)
+      .post(urls.dbAPI + "/api/v1/post_comment", payload)
       .then(res => {
-        // TODO: scroll to top
-        this.setState({ submitting: false })
-
         let content = this.state.input
         if (this.state.replyTo) {
           content = "@" + this.state.replyTo + " \n" + content
         }
         const selfMsg = {
-          name: this.context.account.username,
+          name: this.context.account.name,
           time: moment().fromNow(),
           content: content,
           self: true
@@ -86,8 +84,13 @@ class CommentTab extends React.Component {
           this.bodyRef.current.scrollTop = 0
         }, 500)
       })
+      .catch(err => {
+        console.error(err)
+      })
+      .then(() => {
+        this.setState({ submitting: false })
+      })
   }
-
   handleInput = e => {
     this.setState({ input: e.target.value })
   }
@@ -105,29 +108,33 @@ class CommentTab extends React.Component {
     this.order = val
     this.loadComments()
   }
-
   loadMore = () => {
     this.offset = this.state.comments.length
     this.loadComments()
   }
-
   loadComments = () => {
     this.setState({ loading: true })
     const payload = {
-      uuid: "123",
-      userId: "123",
+      userId: this.context.account.id,
       url: "https://www.zhihu.com/",
       offset: this.offset,
       limit: LIMIT,
       order: this.order
     }
-    axios.post(urls.dbAPI + "/api/v1/get_comments", payload).then(res => {
-      res.data.forEach(comment => {
-        comment.time = moment.utc(comment.created).fromNow()
+    axios
+      .post(urls.dbAPI + "/api/v1/get_comments", payload)
+      .then(res => {
+        res.data.forEach(comment => {
+          comment.time = moment.utc(comment.created).fromNow()
+        })
+        this.setState({ comments: this.state.comments.concat(res.data) })
       })
-      this.setState({ loading: false })
-      this.setState({ comments: this.state.comments.concat(res.data) })
-    })
+      .catch(err => {
+        console.error(err)
+      })
+      .then(() => {
+        this.setState({ loading: false })
+      })
   }
   componentDidMount() {
     this.loadComments()

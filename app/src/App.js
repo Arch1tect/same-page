@@ -5,6 +5,7 @@ import Tab from "containers/Tab"
 import AccountContext from "context/account-context"
 import socketManager from "socket/socket"
 import storageManager from "utils/storage"
+import axios from "axios"
 
 // const defaultAccount = {
 //   username: null,
@@ -34,6 +35,7 @@ class App extends React.Component {
       loadingFromStorage: true
     }
   }
+
   componentDidMount() {
     console.log("get account from storage, register account change listener")
     storageManager.get("account", account => {
@@ -42,17 +44,22 @@ class App extends React.Component {
         console.debug("found account in storage")
         console.debug(account)
         this.setState({ account: account })
-        socketManager.connect(account)
       } else {
         console.debug("no account found in storage")
       }
     })
     storageManager.addEventListener("account", account => {
       this.setState({ account: account })
-      if (account) {
-        socketManager.connect(account)
-      }
     })
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (!prevState.account && this.state.account) {
+      console.debug("account changed from null to exist")
+      socketManager.connect(this.state.account)
+      console.log(this.state.account)
+      axios.defaults.headers.common["token"] = this.state.account.token
+    }
   }
 
   setAccount = account => {
