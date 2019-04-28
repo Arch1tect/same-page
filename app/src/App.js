@@ -54,11 +54,20 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!prevState.account && this.state.account) {
-      console.debug("account changed from null to exist")
-      socketManager.connect(this.state.account)
-      console.log(this.state.account)
+    // Need to differentiate login/logout with profile info update
+    // maybe shouldn't have grouped them in one object?
+    const login = !prevState.account && this.state.account
+    const logout = prevState.account && !this.state.account
+    if (login) {
+      console.debug("logged in")
       axios.defaults.headers.common["token"] = this.state.account.token
+      socketManager.connect(this.state.account)
+    }
+    if (logout) {
+      console.debug("logged out")
+      axios.defaults.headers.common["token"] = null
+      socketManager.disconnect()
+      // TODO:  change tab?
     }
   }
 

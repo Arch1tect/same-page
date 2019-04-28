@@ -1,7 +1,7 @@
 import "./Footer.css"
 
 import React, { useState, useContext } from "react"
-import { Input, Icon } from "antd"
+import { Button, Input, Icon } from "antd"
 
 import AccountContext from "context/account-context"
 import socketManager from "socket/socket"
@@ -37,8 +37,11 @@ function Footer(props) {
     setInput(e.target.value)
   }
 
-  return (
-    <div className="sp-chat-bottom">
+  let content = (
+    <center style={{ padding: 10, background: "lightgray" }}>尚未登录</center>
+  )
+  if (account) {
+    content = (
       <Input
         size="large"
         onKeyDown={handleKeyDown}
@@ -48,8 +51,10 @@ function Footer(props) {
         onChange={handleChange}
         placeholder="请输入。。。"
       />
-    </div>
-  )
+    )
+  }
+
+  return <div className="sp-chat-bottom">{content}</div>
 }
 
 export default Footer

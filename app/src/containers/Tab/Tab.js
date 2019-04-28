@@ -25,7 +25,9 @@ function Tab(props) {
   const [other, selectOtherUser] = useState()
 
   return (
-    <TabContext.Provider value={{ selectOtherUser: selectOtherUser }}>
+    <TabContext.Provider
+      value={{ selectOtherUser: selectOtherUser, changeTab: changeTab }}
+    >
       <div className="card-container">
         <Tabs
           onChange={val => {

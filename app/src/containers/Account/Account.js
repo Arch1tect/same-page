@@ -1,10 +1,12 @@
 import React, { useState, useContext } from "react"
 import { Avatar, Button, Row, Col } from "antd"
+import axios from "axios"
 
 import AccountContext from "context/account-context"
 import ResetPassword from "./ResetPassword"
 import EditProfile from "./EditProfile"
 import Login from "containers/Account/Login"
+import urls from "config/urls"
 
 const avatarStyle = {
   margin: "auto",
@@ -39,11 +41,12 @@ const aboutStyle = {
 function Account(props) {
   const accountContext = useContext(AccountContext)
   const account = accountContext.account
+  const setAccount = accountContext.setAccount
   // const user = account.user
   // const [user, setUser] = useState(basicUser)
   const [resettingPassword, setResetPasswordState] = useState(false)
   const [edittingProfile, setEdittingProfileState] = useState(false)
-
+  const [loggingOut, setLoggingOut] = useState(false)
   // useEffect(() => {
   //   axios.get(urls.dbAPI + "/db/user/" + props.data.userId).then(resp => {
   //     console.log(resp.data)
@@ -130,7 +133,27 @@ function Account(props) {
           >
             更改密码
           </Button>
-          <Button type="danger" style={{ margin: 10 }}>
+          <Button
+            onClick={() => {
+              setLoggingOut(true)
+
+              axios
+                .post(urls.dbAPI + "/api/v1/logout")
+                .then(res => {
+                  console.debug("logout success")
+                })
+                .catch(err => {
+                  console.error(err)
+                })
+                .then(() => {
+                  setLoggingOut(false)
+                  setAccount(null)
+                })
+            }}
+            loading={loggingOut}
+            type="danger"
+            style={{ margin: 10 }}
+          >
             登出
           </Button>
         </center>

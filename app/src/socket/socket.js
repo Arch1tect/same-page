@@ -65,6 +65,18 @@ const socketManager = {
         // token: chatboxConfig.token
       })
     })
+  },
+  disconnect: () => {
+    if (_socket) {
+      if (_socket.connected) {
+        console.debug("disconnect socket")
+        _socket.disconnect()
+      } else {
+        console.warn("socket not connected, no need to disconnect")
+      }
+    } else {
+      console.warn("socket not created, cannot disconnect")
+    }
   }
 }
 export const socketHandler = {}

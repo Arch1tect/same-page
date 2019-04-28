@@ -115,7 +115,6 @@ class CommentTab extends React.Component {
   loadComments = () => {
     this.setState({ loading: true })
     const payload = {
-      userId: this.context.account.id,
       url: "https://www.zhihu.com/",
       offset: this.offset,
       limit: LIMIT,
