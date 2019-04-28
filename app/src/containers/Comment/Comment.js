@@ -67,8 +67,11 @@ class CommentTab extends React.Component {
         if (this.state.replyTo) {
           content = "@" + this.state.replyTo + " \n" + content
         }
+        const account = this.context.account
         const selfMsg = {
-          name: this.context.account.name,
+          userId: account.id,
+          avatarSrc: account.avatarSrc,
+          name: account.name,
           time: moment().fromNow(),
           content: content,
           self: true
