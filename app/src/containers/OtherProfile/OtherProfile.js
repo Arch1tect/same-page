@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
-import { Avatar, Button, Row, Col } from "antd"
+import { Avatar, Icon, Button, Row, Col } from "antd"
 import axios from "axios"
 
 import urls from "config/urls"
@@ -25,27 +25,40 @@ const aboutStyle = {
   wordBreak: "break-word"
 }
 
+function displayUserId(id) {
+  // To be deleted
+  // old client is still sending uuid
+  // do not show uuid, only show number id
+  if (!isNaN(id)) {
+    return id
+  }
+  return ""
+}
+
 function OtherProfile(props) {
   if (!props.data) return <span />
   const tabContext = useContext(TabContext)
+
   const basicUser = {
     avatarSrc: props.data.avatarSrc,
-    name: props.data.name
+    name: props.data.name,
+    id: props.data.userId
   }
   const [user, setUser] = useState(basicUser)
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
-    axios.get(urls.dbAPI + "/db/user/" + props.data.userId).then(resp => {
-      console.log(resp.data)
-      if (resp.data.length) {
-        // Todo: backend should return just 1
-        const data = resp.data[0]
-        user.name = data.name
-        user.userId = data.id
-        user.about = data.about
-        user.followers = data.followers.length
-        setUser({ ...user })
-      }
-    })
+    axios
+      .get(urls.dbAPI + "/api/v1/user/" + basicUser.id)
+      .then(resp => {
+        console.debug(resp.data)
+        setUser(resp.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+      .then(() => {
+        setLoading(false)
+      })
   }, [])
 
   return (
@@ -61,6 +74,18 @@ function OtherProfile(props) {
         }}
         icon="arrow-left"
       />
+      {loading && (
+        <Icon
+          style={{
+            position: "fixed",
+            marginTop: 10,
+            right: 10,
+            border: "none",
+            fontSize: "large"
+          }}
+          type="loading"
+        />
+      )}
 
       <a href={user.avatarSrc} rel="noopener noreferrer" target="_blank">
         <Avatar
@@ -75,7 +100,7 @@ function OtherProfile(props) {
       </center>
       <Row gutter={50} style={{ textAlign: "center" }}>
         <Col style={{ textAlign: "right" }} span={12}>
-          ID: {user.userId}
+          ID: {displayUserId(user.id)}
         </Col>
         <Col style={{ textAlign: "left" }} span={12}>
           关注者: {user.followers}

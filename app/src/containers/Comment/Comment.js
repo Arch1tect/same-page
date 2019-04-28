@@ -53,10 +53,6 @@ class CommentTab extends React.Component {
 
   submit = () => {
     const payload = {
-      // TODO: no need to pass in user id and username
-      // backend get it from token
-      user_id: this.context.account.id,
-      user_name: this.context.account.name,
       url: "https://www.zhihu.com/",
       content: this.state.input,
       reply_to_user_id: this.state.replyToUserId,
@@ -148,32 +144,12 @@ class CommentTab extends React.Component {
     if (this.state.replyTo) {
       placeholder = "@" + this.state.replyTo
     }
-    return (
-      <div>
-        <Header orderBy={this.orderBy} />
-        <div ref={this.bodyRef} style={commentBodyStyle}>
-          {this.state.loading && this.state.comments.length === 0 && (
-            <center>
-              <Icon type="loading" />
-            </center>
-          )}
-          {(!this.state.loading || this.state.comments.length > 0) && (
-            <Body data={this.state.comments} reply={this.reply} />
-          )}
-          {this.state.comments.length > 0 && (
-            <center style={{ marginTop: 20 }}>
-              {/* TODO: only if there is more */}
-              <Button
-                loading={this.state.loading}
-                type="primary"
-                onClick={this.loadMore}
-              >
-                加载更多...
-              </Button>
-            </center>
-          )}
-        </div>
-        <div className="sp-comment-footer">
+    let footer = (
+      <center style={{ padding: 10, background: "lightgray" }}>尚未登录</center>
+    )
+    if (this.context.account) {
+      footer = (
+        <div>
           <TextArea
             size="large"
             value={this.state.input}
@@ -202,6 +178,34 @@ class CommentTab extends React.Component {
             </div>
           )}
         </div>
+      )
+    }
+    return (
+      <div>
+        <Header orderBy={this.orderBy} />
+        <div ref={this.bodyRef} style={commentBodyStyle}>
+          {this.state.loading && this.state.comments.length === 0 && (
+            <center>
+              <Icon type="loading" />
+            </center>
+          )}
+          {(!this.state.loading || this.state.comments.length > 0) && (
+            <Body data={this.state.comments} reply={this.reply} />
+          )}
+          {this.state.comments.length > 0 && (
+            <center style={{ marginTop: 20 }}>
+              {/* TODO: only if there is more */}
+              <Button
+                loading={this.state.loading}
+                type="primary"
+                onClick={this.loadMore}
+              >
+                加载更多...
+              </Button>
+            </center>
+          )}
+        </div>
+        <div className="sp-comment-footer">{footer}</div>
       </div>
     )
   }
