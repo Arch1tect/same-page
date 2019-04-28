@@ -75,11 +75,15 @@ class App extends React.Component {
         </center>
       )
     }
+    let tab = "chat"
+    if (!this.state.account) {
+      tab = "account"
+    }
     return (
       <AccountContext.Provider
         value={{ account: this.state.account, setAccount: this.setAccount }}
       >
-        <Tab tab={"account"} />
+        <Tab tab={tab} />
       </AccountContext.Provider>
     )
   }
