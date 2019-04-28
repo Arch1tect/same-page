@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useContext } from "react"
 import { Avatar, Button, Row, Col } from "antd"
-import axios from "axios"
 
-import urls from "config/urls"
 import AccountContext from "context/account-context"
-import TabContext from "context/tab-context"
 import ResetPassword from "./ResetPassword"
 import EditProfile from "./EditProfile"
 import Login from "containers/Account/Login"
@@ -42,7 +39,7 @@ const aboutStyle = {
 function Account(props) {
   const accountContext = useContext(AccountContext)
   const account = accountContext.account
-  const user = account.user
+  // const user = account.user
   // const [user, setUser] = useState(basicUser)
   const [resettingPassword, setResetPasswordState] = useState(false)
   const [edittingProfile, setEdittingProfileState] = useState(false)
@@ -62,7 +59,7 @@ function Account(props) {
   //   })
   // }, [])
 
-  if (!account.token) {
+  if (!account) {
     return <Login setAccount={accountContext.setAccount} />
   }
 
@@ -79,7 +76,7 @@ function Account(props) {
       )}
 
       <div style={ProfileBodyStyle}>
-        <a href={account.avatarSrc} target="_blank">
+        <a href={account.avatarSrc} rel="noopener noreferrer" target="_blank">
           <Avatar
             style={avatarStyle}
             size={128}
@@ -89,27 +86,27 @@ function Account(props) {
         </a>
 
         <center style={{ margin: 20, fontSize: "large", fontWeight: "bold" }}>
-          {user.name}
+          {account.name}
         </center>
         <Row gutter={50} style={{ textAlign: "center" }}>
           <Col style={{ textAlign: "right" }} span={12}>
-            ID: {user.id}
+            ID: {account.id}
           </Col>
           <Col style={{ textAlign: "left" }} span={12}>
-            积分: {user.credit}
+            积分: {account.credit}
           </Col>
         </Row>
         <Row gutter={50} style={{ textAlign: "center" }}>
           <Col style={{ textAlign: "right" }} span={12}>
-            关注了: {user.following}
+            关注了: {account.following}
           </Col>
           <Col style={{ textAlign: "left" }} span={12}>
-            关注者: {user.followers}
+            关注者: {account.followers}
           </Col>
         </Row>
         <br />
         <center>
-          <div style={aboutStyle}>{user.about}</div>
+          <div style={aboutStyle}>{account.about}</div>
           <div style={{ marginTop: 30 }}>
             <Button
               type="primary"

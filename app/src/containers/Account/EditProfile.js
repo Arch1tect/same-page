@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Form, Input, Select, Button, AutoComplete } from "antd"
+import { Form, Input, Select, Button } from "antd"
 import AvatarUploader from "./AvatarUploader"
 
 const { Option } = Select

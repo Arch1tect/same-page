@@ -27,18 +27,16 @@ class NormalLoginForm extends React.Component {
             console.log(res.data)
             const account = res.data
             this.setState({ loading: false })
-            this.props.setAccount({
-              token: account.token,
-              user: account.user
-            })
+            this.props.setAccount(account)
           })
           .catch(err => {
             console.error(err)
             this.setState({ loading: false })
           })
           .then(() => {
-            // can't set it here because if succeed
-            // component is unmounted
+            // can't change state here because if succeed
+            // component will be unmounted before we set loading
+            // to be false
             // this.setState({ loading: false })
           })
 

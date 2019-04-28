@@ -62,7 +62,7 @@ function OtherProfile(props) {
         icon="arrow-left"
       />
 
-      <a href={user.avatarSrc} target="_blank">
+      <a href={user.avatarSrc} rel="noopener noreferrer" target="_blank">
         <Avatar
           style={avatarStyle}
           size={128}

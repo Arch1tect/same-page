@@ -1,8 +1,8 @@
-import React, { useContext } from "react"
-import { Avatar, Radio } from "antd"
+import React from "react"
 
 import MessageBody from "./Body"
 import AvatarWithHoverCard from "containers/OtherProfile/AvatarWithHoverCard"
+import { Avatar } from "antd"
 
 /*
 props includes:
@@ -29,7 +29,12 @@ function ChatMessage(props) {
     messageHeader = (
       <div style={{ marginTop: 10 }}>
         <span style={userNameStyle}>{data.username}</span>
-        <AvatarWithHoverCard size="small" data={data} />
+        <Avatar
+          size="small"
+          icon="user"
+          src={data.avatarSrc}
+          size={data.size}
+        />
       </div>
     )
   } else {

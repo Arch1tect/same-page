@@ -8,12 +8,12 @@ import { socketHandler } from "socket/socket"
 import Users from "./Users"
 import urls from "config/urls"
 
-function togglePageOrSiteChat(e) {
-  console.log(e.target.value)
-}
-function toggleOnline(val) {
-  console.log(val)
-}
+// function togglePageOrSiteChat(e) {
+//   console.log(e.target.value)
+// }
+// function toggleOnline(val) {
+//   console.log(val)
+// }
 
 function ChatHeader(props) {
   const [showUsers, toggleUsers] = useState(false)

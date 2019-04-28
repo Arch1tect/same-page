@@ -21,6 +21,7 @@ function Footer(props) {
         let msg = {
           msg: input,
           // TODO: no need to send username
+          // socket server remembers it during login
           username: account.username
         }
         socketManager.sendMessage(msg)

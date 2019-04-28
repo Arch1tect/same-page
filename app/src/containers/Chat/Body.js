@@ -31,7 +31,7 @@ class ChatBody extends React.Component {
       if (data.hasAvatar) {
         data.avatarSrc = urls.cloudFront + data.userId + ".jpg"
       }
-      if (data.userId == this.context.account.userId) {
+      if (data.userId === this.context.account.userId) {
         data.self = true
       }
       this.setState((state, props) => ({

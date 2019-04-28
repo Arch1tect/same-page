@@ -1,8 +1,5 @@
-import React, { useState, useEffect, useContext } from "react"
-import { Button, Avatar, Card, Icon } from "antd"
-import axios from "axios"
-
-import urls from "config/urls"
+import React from "react"
+import { Button, Avatar, Card } from "antd"
 
 const { Meta } = Card
 

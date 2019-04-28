@@ -1,32 +1,39 @@
 import * as io from "socket.io-client"
 
-let socket = null
+let _socket = null
+let _account = null
 const socketManager = {
   sendMessage: msg => {
-    socket.emit("new message", msg)
+    _socket.emit("new message", msg)
   },
   // connect should be called when user is logged in
   // after user data is properly set
-  connect: () => {
-    if (socket) {
+  connect: account => {
+    _account = account
+    if (_socket) {
       console.debug("socket already created, reconnect")
-      socket.connect()
+      if (_socket.connected) {
+        console.warn("socket currently connected")
+      } else {
+        _socket.connect()
+      }
       return
     } else {
       console.debug("create socket and connect!")
     }
-    socket = io("https://api.yiyechat.com", { path: "/socket.io" })
+    _socket = io("https://api.yiyechat.com", { path: "/socket.io" })
 
-    socket.on("new message", data => {
-      console.debug("new message")
+    _socket.on("new message", data => {
+      console.debug(data)
       data.name = data.username
+      data.self = data.sender.toString() === account.id.toString()
       if (socketHandler.onLiveMsg) {
         socketHandler.onLiveMsg(data)
       } else {
         console.warn("onLiveMsg not defined")
       }
     })
-    socket.on("user joined", data => {
+    _socket.on("user joined", data => {
       console.debug("user joined")
       if (socketHandler.onUserJoin) {
         socketHandler.onUserJoin(data)
@@ -34,7 +41,7 @@ const socketManager = {
         console.warn("onUserJoin not defined")
       }
     })
-    socket.on("user left", data => {
+    _socket.on("user left", data => {
       console.debug("user left")
       if (socketHandler.onUserLeft) {
         socketHandler.onUserLeft(data)
@@ -42,11 +49,11 @@ const socketManager = {
         console.warn("onUserLeft not defined")
       }
     })
-    socket.on("login", data => {
-      console.debug("connected, login now")
-      socket.emit("login", {
-        username: "account.name",
-        userId: "account.userId",
+    _socket.on("login", data => {
+      console.debug("connected, login as " + _account.id)
+      _socket.emit("login", {
+        username: _account.name,
+        userId: _account.id,
         // roomId: "https://www.baidu.com/",
         // roomId: "baidu.com",
         roomId: "https://www.hulu.com/welcome",
