@@ -103,7 +103,7 @@ function OtherProfile(props) {
           ID: {displayUserId(user.id)}
         </Col>
         <Col style={{ textAlign: "left" }} span={12}>
-          关注者: {user.followers}
+          关注者: {user.followerCount}
         </Col>
       </Row>
       <br />
