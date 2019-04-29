@@ -54,9 +54,7 @@ class EditProfileForm extends React.Component {
     return (
       <div className="sp-special-tab">
         <Button
-          onClick={() => {
-            this.props.setEdittingProfileState(false)
-          }}
+          onClick={this.props.back}
           style={{
             position: "fixed",
             marginTop: 5,
@@ -113,9 +111,7 @@ class EditProfileForm extends React.Component {
             <Button
               size="large"
               style={{ marginRight: 20 }}
-              onClick={() => {
-                this.props.setEdittingProfileState(false)
-              }}
+              onClick={this.props.back}
             >
               取消
             </Button>

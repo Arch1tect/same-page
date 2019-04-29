@@ -29,12 +29,7 @@ function ChatMessage(props) {
     messageHeader = (
       <div style={{ marginTop: 10 }}>
         <span style={userNameStyle}>{data.username}</span>
-        <Avatar
-          size="small"
-          icon="user"
-          src={data.avatarSrc}
-          size={data.size}
-        />
+        <Avatar size="small" icon="user" src={data.avatarSrc} />
       </div>
     )
   } else {

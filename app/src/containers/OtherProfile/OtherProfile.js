@@ -42,7 +42,7 @@ function OtherProfile(props) {
   const basicUser = {
     avatarSrc: props.data.avatarSrc,
     name: props.data.name,
-    id: props.data.userId
+    id: props.data.userId || props.data.id
   }
   const [user, setUser] = useState(basicUser)
   const [loading, setLoading] = useState(true)
@@ -87,14 +87,7 @@ function OtherProfile(props) {
         />
       )}
 
-      <a href={user.avatarSrc} rel="noopener noreferrer" target="_blank">
-        <Avatar
-          style={avatarStyle}
-          size={128}
-          src={user.avatarSrc}
-          icon="user"
-        />
-      </a>
+      <Avatar style={avatarStyle} size={128} src={user.avatarSrc} icon="user" />
       <center style={{ margin: 20, fontSize: "large", fontWeight: "bold" }}>
         {user.name}
       </center>
