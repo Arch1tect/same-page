@@ -101,10 +101,10 @@ function Account(props) {
         </Row>
         <Row gutter={50} style={{ textAlign: "center" }}>
           <Col style={{ textAlign: "right" }} span={12}>
-            关注了: {account.following}
+            关注了: {account.followingCount}
           </Col>
           <Col style={{ textAlign: "left" }} span={12}>
-            关注者: {account.followers}
+            关注者: {account.followerCount}
           </Col>
         </Row>
         <br />
