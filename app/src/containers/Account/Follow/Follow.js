@@ -39,8 +39,10 @@ function Follow(props) {
     }
     url += "?offset=" + offset
 
-    if (users.length) {
+    if (offset) {
       setLoadingMore(true)
+    } else {
+      setLoading(true)
     }
     axios
       .get(url)
