@@ -61,12 +61,12 @@ function Profile(props) {
       </Row>
       <Row gutter={50} style={{ textAlign: "center" }}>
         <Col style={{ textAlign: "right" }} span={12}>
-          <span className="sp-follow-stats" onClick={props.showFollow}>
+          <span className="sp-follow-stats" onClick={props.showFollowings}>
             关注了: {account.followingCount}
           </span>
         </Col>
         <Col style={{ textAlign: "left" }} span={12}>
-          <span className="sp-follow-stats" onClick={props.showFollow}>
+          <span className="sp-follow-stats" onClick={props.showFollowers}>
             关注者: {account.followerCount}
           </span>
         </Col>

@@ -14,7 +14,10 @@ function Account(props) {
 
   const [resettingPassword, setResetPasswordState] = useState(false)
   const [edittingProfile, setEdittingProfileState] = useState(false)
+  // showingFollow is for toggling the Follow view
+  // showFollowers is for toggling follower vs following
   const [showingFollow, setShowingFollowState] = useState(false)
+  const [showFollowers, setShowFollowersState] = useState(false)
   const backToMainPage = () => {
     // called by the back button
     setResetPasswordState(false)
@@ -28,7 +31,14 @@ function Account(props) {
   return (
     <div>
       {resettingPassword && <ResetPassword back={backToMainPage} />}
-      {showingFollow && <Follow back={backToMainPage} />}
+      {showingFollow && (
+        <Follow
+          showFollowers={showFollowers}
+          followingCount={account.followingCount}
+          followerCount={account.followerCount}
+          back={backToMainPage}
+        />
+      )}
       {edittingProfile && (
         <EditProfile account={account} back={backToMainPage} />
       )}
@@ -36,7 +46,14 @@ function Account(props) {
         account={account}
         showResetPassword={setResetPasswordState}
         showEditProfile={setEdittingProfileState}
-        showFollow={setShowingFollowState}
+        showFollowings={() => {
+          setShowingFollowState(true)
+          setShowFollowersState(false)
+        }}
+        showFollowers={() => {
+          setShowingFollowState(true)
+          setShowFollowersState(true)
+        }}
         setAccount={setAccount}
       />
     </div>
