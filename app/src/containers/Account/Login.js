@@ -47,7 +47,6 @@ class NormalLoginForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-
     return (
       <div className="sp-special-tab">
         <Form
@@ -90,7 +89,11 @@ class NormalLoginForm extends React.Component {
             >
               登录
             </Button>
-            或 <a href="">注册</a>
+            或
+            {
+              // eslint-disable-next-line
+              <a>注册</a>
+            }
           </Form.Item>
         </Form>
       </div>

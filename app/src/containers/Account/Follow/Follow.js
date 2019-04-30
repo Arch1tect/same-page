@@ -22,7 +22,7 @@ function Follow(props) {
   function shouldShowLoadMoreBtn() {
     // if already loaded users and
     // haven't loaded all users
-    if (users.length == 0) return false
+    if (users.length === 0) return false
     if (showFollowers) {
       return users.length < props.followerCount
     } else {

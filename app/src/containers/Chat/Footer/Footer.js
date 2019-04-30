@@ -1,7 +1,7 @@
 import "./Footer.css"
 
 import React, { useState, useContext } from "react"
-import { Button, Input, Icon } from "antd"
+import { Input, Icon } from "antd"
 
 import AccountContext from "context/account-context"
 import socketManager from "socket/socket"
