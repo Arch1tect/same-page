@@ -51,6 +51,17 @@ class CommentTab extends React.Component {
     this.inputRef.current.focus()
   }
 
+  vote = commentId => {
+    const payload = {
+      comment_id: commentId
+    }
+    axios
+      .post(urls.dbAPI + "/api/v1/vote_comment", payload)
+      .then(res => {})
+      .catch(err => {})
+      .then(() => {})
+  }
+
   submit = () => {
     const payload = {
       url: "https://www.zhihu.com/",
@@ -193,7 +204,11 @@ class CommentTab extends React.Component {
             </center>
           )}
           {(!this.state.loading || this.state.comments.length > 0) && (
-            <Body data={this.state.comments} reply={this.reply} />
+            <Body
+              data={this.state.comments}
+              vote={this.vote}
+              reply={this.reply}
+            />
           )}
           {this.state.comments.length > 0 && (
             <center style={{ marginTop: 20 }}>

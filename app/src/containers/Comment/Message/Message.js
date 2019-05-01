@@ -1,12 +1,17 @@
 import "./Message.css"
 
-import React from "react"
+import React, { useState } from "react"
 import { Icon } from "antd"
 import AvatarWithHoverCard from "containers/OtherProfile/AvatarWithHoverCard"
 
 function Comment(props) {
   const data = props.data
-
+  const [score, setScore] = useState(data.score)
+  const [voted, setVoted] = useState(data.voted)
+  function theme() {
+    if (voted) return "twoTone"
+    return "outlined"
+  }
   return (
     <div style={{ marginTop: 10 }} className={data.self ? "self" : ""}>
       <AvatarWithHoverCard className="sp-comment-message-avatar" data={data} />
@@ -18,8 +23,21 @@ function Comment(props) {
         <div>{data.content}</div>
         <div className="sp-comment-message-footer">
           <span>
-            <Icon type="like" />
-            <span className="sp-comment-message-score">{data.score}</span>
+            <Icon
+              theme={theme()}
+              onClick={() => {
+                setScore(prevScore => {
+                  if (voted) return prevScore - 1
+                  return prevScore + 1
+                })
+                setVoted(prevState => {
+                  return !prevState
+                })
+                props.vote(data.id)
+              }}
+              type="like"
+            />
+            <span className="sp-comment-message-score">{score}</span>
           </span>
           <span
             onClick={() => props.reply(data.userId, data.name)}
