@@ -1,13 +1,16 @@
 import "./Message.css"
 
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { Icon } from "antd"
 import AvatarWithHoverCard from "containers/OtherProfile/AvatarWithHoverCard"
+import AccountContext from "context/account-context"
 
 function Comment(props) {
   const data = props.data
   const [score, setScore] = useState(data.score)
   const [voted, setVoted] = useState(data.voted)
+  const account = useContext(AccountContext).account
+
   function theme() {
     if (voted) return "twoTone"
     return "outlined"
@@ -26,6 +29,10 @@ function Comment(props) {
             <Icon
               theme={theme()}
               onClick={() => {
+                if (!account) {
+                  // TODO: show error msg
+                  return
+                }
                 setScore(prevScore => {
                   if (voted) return prevScore - 1
                   return prevScore + 1

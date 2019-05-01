@@ -7,26 +7,6 @@ import socketManager from "socket/socket"
 import storageManager from "utils/storage"
 import axios from "axios"
 
-// const defaultAccount = {
-//   username: null,
-//   userId: null,
-//   token: null,
-//   password: null,
-//   avatarSrc: null
-// }
-
-// const defaultAccount = {
-//   name: "King David",
-//   about: "我就是我，不一样的烟火!",
-//   userId: 123,
-//   token: null,
-//   password: null,
-//   avatarSrc:
-//     "https://dnsofx4sf31ab.cloudfront.net/f2a0b5a6-dc6d-423d-52e3-1f5fe3003101.jpg"
-// }
-
-// todo: move to useEffect
-
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -37,6 +17,19 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    axios.interceptors.response.use(
+      response => {
+        // Do something with response data
+        return response
+      },
+      error => {
+        // set account to null when we receive 401
+        // TODO: display error msg
+        if (error.response.status === 401) {
+          this.setAccount(null)
+        }
+      }
+    )
     console.log("get account from storage, register account change listener")
     storageManager.get("account", account => {
       this.setState({ loadingFromStorage: false })
