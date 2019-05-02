@@ -45,13 +45,18 @@ function OtherProfile(props) {
     id: props.data.userId || props.data.id
   }
   const [user, setUser] = useState(basicUser)
+  const [followerCount, setFollowerCount] = useState("")
+  const [following, setFollowing] = useState(false)
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     axios
       .get(urls.dbAPI + "/api/v1/user/" + basicUser.id)
       .then(resp => {
         console.debug(resp.data)
-        setUser(resp.data)
+        const userData = resp.data
+        setUser(userData)
+        setFollowing(userData.following)
+        setFollowerCount(userData.followerCount)
       })
       .catch(err => {
         console.error(err)
@@ -96,26 +101,72 @@ function OtherProfile(props) {
           ID: {displayUserId(user.id)}
         </Col>
         <Col style={{ textAlign: "left" }} span={12}>
-          关注者: {user.followerCount}
+          关注者: {followerCount}
         </Col>
       </Row>
       <br />
       <center>
         <div style={aboutStyle}>{user.about}</div>
 
-        <div style={{ marginTop: 30 }}>
-          <Button
-            type="primary"
-            icon="user-add"
-            style={{ margin: 10 }}
-            size="large"
-          >
-            关注
-          </Button>
-          <Button icon="mail" style={{ margin: 10 }} size="large">
-            私信
-          </Button>
-        </div>
+        {!loading && (
+          <div style={{ marginTop: 30 }}>
+            {following && (
+              <Button
+                icon="user-delete"
+                style={{ margin: 10 }}
+                size="large"
+                onClick={() => {
+                  // TODO: wait till user loaded
+                  // to get uuid and know whether following or not
+                  const payload = {
+                    uuid: user.uuid
+                  }
+                  setFollowing(false)
+                  setFollowerCount(followerCount - 1)
+                  axios
+                    .post(urls.dbAPI + "/api/v1/follow", payload)
+                    .then(resp => {})
+                    .catch(err => {
+                      console.error(err)
+                    })
+                    .then(() => {})
+                }}
+              >
+                取消关注
+              </Button>
+            )}
+            {!following && (
+              <Button
+                type="primary"
+                icon="user-add"
+                style={{ margin: 10 }}
+                size="large"
+                onClick={() => {
+                  // TODO: wait till user loaded
+                  // to get uuid and know whether following or not
+                  const payload = {
+                    uuid: user.uuid
+                  }
+                  setFollowing(true)
+                  setFollowerCount(followerCount + 1)
+                  axios
+                    .post(urls.dbAPI + "/api/v1/follow", payload)
+                    .then(resp => {})
+                    .catch(err => {
+                      console.error(err)
+                    })
+                    .then(() => {})
+                }}
+              >
+                关注
+              </Button>
+            )}
+
+            <Button icon="mail" style={{ margin: 10 }} size="large">
+              私信
+            </Button>
+          </div>
+        )}
       </center>
     </div>
   )
