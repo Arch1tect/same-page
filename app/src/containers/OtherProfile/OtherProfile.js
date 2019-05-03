@@ -4,6 +4,8 @@ import axios from "axios"
 
 import urls from "config/urls"
 import TabContext from "context/tab-context"
+import AccountContext from "context/account-context"
+import followEventHandler from "containers/Account/Follow/event"
 
 const avatarStyle = {
   margin: "auto",
@@ -38,6 +40,7 @@ function displayUserId(id) {
 function OtherProfile(props) {
   if (!props.data) return <span />
   const tabContext = useContext(TabContext)
+  const accountContext = useContext(AccountContext)
 
   const basicUser = {
     avatarSrc: props.data.avatarSrc,
@@ -48,6 +51,19 @@ function OtherProfile(props) {
   const [followerCount, setFollowerCount] = useState("")
   const [following, setFollowing] = useState(false)
   const [loading, setLoading] = useState(true)
+
+  function updateAccountFollowing(follow) {
+    // context.account needs to know about following number
+    // has changed
+    const newAccountData = { ...accountContext.account }
+    if (follow) {
+      newAccountData.followingCount++
+    } else {
+      newAccountData.followingCount--
+    }
+    accountContext.setAccount(newAccountData)
+  }
+
   useEffect(() => {
     axios
       .get(urls.dbAPI + "/api/v1/user/" + basicUser.id)
@@ -72,7 +88,7 @@ function OtherProfile(props) {
         onClick={() => tabContext.selectOtherUser()}
         style={{
           position: "fixed",
-          marginTop: 5,
+          marginTop: 1,
           marginLeft: 5,
           border: "none",
           fontSize: "large"
@@ -125,7 +141,10 @@ function OtherProfile(props) {
                   setFollowerCount(followerCount - 1)
                   axios
                     .post(urls.dbAPI + "/api/v1/follow", payload)
-                    .then(resp => {})
+                    .then(resp => {
+                      updateAccountFollowing(false)
+                      followEventHandler.follow(false, user)
+                    })
                     .catch(err => {
                       console.error(err)
                     })
@@ -149,9 +168,13 @@ function OtherProfile(props) {
                   }
                   setFollowing(true)
                   setFollowerCount(followerCount + 1)
+
                   axios
                     .post(urls.dbAPI + "/api/v1/follow", payload)
-                    .then(resp => {})
+                    .then(resp => {
+                      updateAccountFollowing(true)
+                      followEventHandler.follow(true, user)
+                    })
                     .catch(err => {
                       console.error(err)
                     })

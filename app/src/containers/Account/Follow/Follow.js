@@ -1,11 +1,13 @@
 import "./Follow.css"
 import axios from "axios"
 
-import React, { useEffect, useState, useContext } from "react"
+import React, { useEffect, useState, useContext, useRef } from "react"
 import { Avatar, Icon, Radio, Button } from "antd"
 
 import TabContext from "context/tab-context"
+import AccountContext from "context/account-context"
 import urls from "config/urls"
+import followEventHandler from "./event"
 
 function Follow(props) {
   const [showFollowers, setShowFollowers] = useState(props.showFollowers)
@@ -13,11 +15,39 @@ function Follow(props) {
   const [loadingMore, setLoadingMore] = useState(false)
   const [users, setUsers] = useState([])
   const tabContext = useContext(TabContext)
+  const accountContext = useContext(AccountContext)
+  const account = accountContext.account
+  const usersRef = useRef([])
 
   useEffect(() => {
     setUsers([])
     loadUsers(0)
+
+    if (!showFollowers) {
+      console.debug("register follow handler")
+      followEventHandler.follow = (followUser, user) => {
+        console.log("update followings")
+        let updatedUsers = []
+        if (!followUser) {
+          updatedUsers = usersRef.current.filter(u => u.uuid !== user.uuid)
+        } else {
+          updatedUsers = [user, ...usersRef.current]
+        }
+        setUsers(updatedUsers)
+      }
+
+      return () => {
+        console.debug("unregister follow handler")
+        followEventHandler.follow = () => {
+          console.debug("following handler isn't mounted")
+        }
+      }
+    }
   }, [showFollowers])
+
+  useEffect(() => {
+    usersRef.current = users
+  }, [users])
 
   function shouldShowLoadMoreBtn() {
     // if already loaded users and
@@ -87,8 +117,12 @@ function Follow(props) {
             setShowFollowers(e.target.value)
           }}
         >
-          <Radio.Button value={false}>关注了</Radio.Button>
-          <Radio.Button value={true}>被关注</Radio.Button>
+          <Radio.Button value={false}>
+            关注了 {account.followingCount}
+          </Radio.Button>
+          <Radio.Button value={true}>
+            被关注 {account.followerCount}
+          </Radio.Button>
         </Radio.Group>
       </center>
       <div className="sp-follow-body">
