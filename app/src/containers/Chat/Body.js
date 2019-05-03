@@ -25,15 +25,6 @@ class ChatBody extends React.Component {
   componentDidMount() {
     console.log("register new message handler")
     socketHandler.onLiveMsg = data => {
-      data.text = data.message
-      // TODO: user int id not uuid?
-      data.userId = data.sender
-      if (data.hasAvatar) {
-        data.avatarSrc = urls.cloudFront + data.userId + ".jpg"
-      }
-      if (data.userId === this.context.account.userId) {
-        data.self = true
-      }
       this.setState((state, props) => ({
         messages: [...state.messages, data]
       }))

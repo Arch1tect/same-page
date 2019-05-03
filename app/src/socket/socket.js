@@ -1,5 +1,7 @@
 import * as io from "socket.io-client"
 
+import urls from "config/urls"
+
 let _socket = null
 let _account = null
 const socketManager = {
@@ -25,8 +27,14 @@ const socketManager = {
 
     _socket.on("new message", data => {
       console.debug(data)
-      data.name = data.username
+      // TODO: move following data massage to backend
       data.self = data.sender.toString() === account.id.toString()
+      data.text = data.message
+      data.userId = data.sender
+      if (data.hasAvatar) {
+        data.avatarSrc = urls.cloudFront + data.userId + ".jpg"
+      }
+
       if (socketHandler.onLiveMsg) {
         socketHandler.onLiveMsg(data)
       } else {

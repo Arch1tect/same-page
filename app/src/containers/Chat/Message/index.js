@@ -22,21 +22,28 @@ const userNameStyle = {
 function ChatMessage(props) {
   const data = props.data
 
+  const user = {
+    id: data.userId,
+    name: data.username,
+    self: data.self,
+    avatarSrc: data.avatarSrc
+  }
+
   let messageHeader = null
   let textAlign = "left"
-  if (data.self) {
+  if (user.self) {
     textAlign = "right"
     messageHeader = (
       <div style={{ marginTop: 10 }}>
-        <span style={userNameStyle}>{data.username}</span>
-        <Avatar size="small" icon="user" src={data.avatarSrc} />
+        <span style={userNameStyle}>{user.name}</span>
+        <Avatar size="small" icon="user" src={user.avatarSrc} />
       </div>
     )
   } else {
     messageHeader = (
       <div style={{ marginTop: 10 }}>
-        <AvatarWithHoverCard size="small" data={data} />
-        <span style={userNameStyle}>{data.username}</span>
+        <AvatarWithHoverCard size="small" user={user} />
+        <span style={userNameStyle}>{user.name}</span>
       </div>
     )
   }
@@ -46,7 +53,7 @@ function ChatMessage(props) {
 
   return (
     <div
-      className={data.self ? "self" : "other"}
+      className={user.self ? "self" : "other"}
       style={{ textAlign: textAlign }}
     >
       {messageHeader}

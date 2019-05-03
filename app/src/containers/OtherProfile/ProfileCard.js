@@ -1,60 +1,74 @@
 import React from "react"
-import { Button, Avatar, Card } from "antd"
-
+import { Button, Avatar, Card, Icon } from "antd"
 const { Meta } = Card
 
-function ProfileCard(props) {
-  const basicUser = {
-    avatarSrc: props.data.avatarSrc,
-    name: props.data.name
-  }
-  console.log("card")
-  console.log(props)
-  const user = basicUser
-  // const [user, setUser] = useState(basicUser)
-  // const [loading, setLoading] = useState(true)
-  // useEffect(() => {
-  //   axios.get(urls.dbAPI + "/db/user/" + props.data.userId).then(resp => {
-  //     console.log(resp.data)
-  //     if (resp.data.length) {
-  //       // Todo: backend should return just 1
-  //       const data = resp.data[0]
-  //       user.name = data.name
-  //       user.userId = data.id
-  //       user.about = data.about
-  //       user.followers = data.followers.length
-  //       user.followings = data.followings.length
-  //       setUser({ ...user })
-  //       setLoading(false)
-  //     }
-  //   })
-  // }, [])
-  // TODO: missing useEffect cleanup
+const aboutStyle = {
+  display: "inline-block",
+  width: "100%",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  textAlign: "left",
+  marginBottom: 5
+}
 
+function ProfileCard(props) {
+  const { user, following, followerCount, followUser } = props
   const footer = (
     <div>
-      {/* <div style={{ fontSize: "small", fontWeight: "bold", marginBottom: 10 }}>
-        关注者: {user.followers}
-      </div>
-      <div style={{ marginBottom: 10 }}>{user.about}</div> */}
+      {user.about && <div style={aboutStyle}>{user.about}</div>}
 
-      <Button type="primary" icon="user-add" size="small">
-        关注
-      </Button>
-      <Button icon="mail" style={{ margin: 5 }} size="small">
+      {following && (
+        <Button
+          icon="user-delete"
+          size="small"
+          onClick={() => {
+            followUser(false)
+          }}
+        >
+          取消关注
+        </Button>
+      )}
+      {!following && (
+        <Button
+          icon="user-add"
+          type="primary"
+          size="small"
+          onClick={() => {
+            followUser(true)
+          }}
+        >
+          关注
+        </Button>
+      )}
+
+      <Button icon="mail" style={{ marginLeft: 10 }} size="small">
         私信
       </Button>
     </div>
   )
 
+  const avatar = (
+    <AvatarWithFollowerCount
+      followerCount={followerCount}
+      src={user.avatarSrc}
+    />
+  )
+
   return (
-    <Card size="small" style={{ width: 250 }}>
-      <Meta
-        avatar={<Avatar size={48} src={user.avatarSrc} icon="user" />}
-        title={user.name}
-        description={footer}
-      />
+    <Card size="small" style={{ width: 270, overflow: "hidden" }}>
+      <Meta avatar={avatar} title={user.name} description={footer} />
     </Card>
   )
 }
+
+function AvatarWithFollowerCount(props) {
+  return (
+    <span>
+      <Avatar size={48} src={props.src} icon="user" />
+      {/* <div>关注者: {props.followerCount}</div> */}
+    </span>
+  )
+}
+
 export default ProfileCard

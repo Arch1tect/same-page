@@ -7,6 +7,13 @@ import AccountContext from "context/account-context"
 
 function Comment(props) {
   const data = props.data
+  const user = {
+    id: data.userId,
+    name: data.name,
+    avatarSrc: data.avatarSrc,
+    self: data.self
+  }
+
   const [score, setScore] = useState(data.score)
   const [voted, setVoted] = useState(data.voted)
   const account = useContext(AccountContext).account
@@ -17,7 +24,7 @@ function Comment(props) {
   }
   return (
     <div style={{ marginTop: 10 }} className={data.self ? "self" : ""}>
-      <AvatarWithHoverCard className="sp-comment-message-avatar" data={data} />
+      <AvatarWithHoverCard className="sp-comment-message-avatar" user={user} />
       <div className="sp-message-body">
         <div style={{ marginBottom: 5 }}>
           <span className="sp-comment-message-username">{data.name}</span>

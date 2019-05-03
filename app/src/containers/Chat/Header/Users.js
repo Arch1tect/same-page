@@ -2,8 +2,6 @@ import React, { useContext } from "react"
 import { Avatar } from "antd"
 import TabContext from "context/tab-context"
 
-// import AvatarWithHoverCard from "Profile/AvatarWithHoverCard"
-
 import urls from "config/urls"
 
 const usersStyle = {
