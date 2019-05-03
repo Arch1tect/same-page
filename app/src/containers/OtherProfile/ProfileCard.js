@@ -22,7 +22,9 @@ function ProfileCard(props) {
         <Button
           icon="user-delete"
           size="small"
-          onClick={() => {
+          onClick={e => {
+            e.stopPropagation()
+
             followUser(false)
           }}
         >
@@ -34,7 +36,8 @@ function ProfileCard(props) {
           icon="user-add"
           type="primary"
           size="small"
-          onClick={() => {
+          onClick={e => {
+            e.stopPropagation()
             followUser(true)
           }}
         >
@@ -42,7 +45,14 @@ function ProfileCard(props) {
         </Button>
       )}
 
-      <Button icon="mail" style={{ marginLeft: 10 }} size="small">
+      <Button
+        onClick={e => {
+          e.stopPropagation()
+        }}
+        icon="mail"
+        style={{ marginLeft: 10 }}
+        size="small"
+      >
         私信
       </Button>
     </div>
@@ -56,7 +66,13 @@ function ProfileCard(props) {
   )
 
   return (
-    <Card size="small" style={{ width: 270, overflow: "hidden" }}>
+    <Card
+      onClick={e => {
+        e.stopPropagation()
+      }}
+      size="small"
+      style={{ width: 270, overflow: "hidden" }}
+    >
       <Meta avatar={avatar} title={user.name} description={footer} />
     </Card>
   )
