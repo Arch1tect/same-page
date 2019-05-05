@@ -31,35 +31,37 @@ function Comment(props) {
           <span className="sp-comment-message-time">{data.time}</span>
         </div>
         <div>{data.content}</div>
-        <div className="sp-comment-message-footer">
-          <span>
-            <Icon
-              theme={theme()}
-              onClick={() => {
-                if (!account) {
-                  // TODO: show error msg
-                  return
-                }
-                setScore(prevScore => {
-                  if (voted) return prevScore - 1
-                  return prevScore + 1
-                })
-                setVoted(prevState => {
-                  return !prevState
-                })
-                props.vote(data.id)
-              }}
-              type="like"
-            />
-            <span className="sp-comment-message-score">{score}</span>
-          </span>
-          <span
-            onClick={() => props.reply(data.userId, data.name)}
-            className="sp-comment-message-reply"
-          >
-            回复
-          </span>
-        </div>
+        {!data.noFooter && (
+          <div className="sp-comment-message-footer">
+            <span>
+              <Icon
+                theme={theme()}
+                onClick={() => {
+                  if (!account) {
+                    // TODO: show error msg
+                    return
+                  }
+                  setScore(prevScore => {
+                    if (voted) return prevScore - 1
+                    return prevScore + 1
+                  })
+                  setVoted(prevState => {
+                    return !prevState
+                  })
+                  props.vote(data.id)
+                }}
+                type="like"
+              />
+              <span className="sp-comment-message-score">{score}</span>
+            </span>
+            <span
+              onClick={() => props.reply(data.userId, data.name)}
+              className="sp-comment-message-reply"
+            >
+              回复
+            </span>
+          </div>
+        )}
       </div>
     </div>
   )

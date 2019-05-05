@@ -24,7 +24,7 @@ function ChatMessage(props) {
 
   const user = {
     id: data.userId,
-    name: data.username,
+    name: data.name,
     self: data.self,
     avatarSrc: data.avatarSrc
   }

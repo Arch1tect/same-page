@@ -1,14 +1,19 @@
 import "./Inbox.css"
-import React, { useEffect, useState } from "react"
-import { Avatar, Icon, Radio, Button } from "antd"
+import React, { useEffect, useState, useContext } from "react"
+import { Avatar, Icon, Radio } from "antd"
 
+import Conversation from "./Conversation"
 import { getMessages } from "services/message"
+import AccountContext from "context/account-context"
 
 function Inbox(props) {
   const [conversations, setConvasations] = useState({})
   const [loading, setLoading] = useState(false)
+  const [conversation, setConvasation] = useState()
+  const account = useContext(AccountContext).account
 
   useEffect(() => {
+    if (!account) return
     setLoading(true)
     getMessages()
       .then(resp => {
@@ -20,18 +25,24 @@ function Inbox(props) {
       .then(() => {
         setLoading(false)
       })
-  }, [])
+  }, [account])
 
   const rows = Object.keys(conversations).map(userId => {
     const conversation = conversations[userId]
     const user = conversation.user
     return (
-      <div key={user.id} className="sp-inbox-row">
+      <div
+        onClick={() => {
+          setConvasation(conversation)
+        }}
+        key={user.id}
+        className="sp-inbox-row"
+      >
         <Avatar icon="user" src={user.avatarSrc} />
         <span className="sp-row-right">
           <div>{user.name}</div>
           <div className="sp-message-content">
-            {conversation["messages"][0]["message"]}
+            {conversation["messages"][0]["content"]}
           </div>
         </span>
       </div>
@@ -40,36 +51,48 @@ function Inbox(props) {
 
   return (
     <div className="sp-inbox-tab">
-      <center className="sp-tab-header">
-        <Radio.Group
-          // className="sp-toggle-page-site-chat"
-          size="small"
-          defaultValue={true}
-          buttonStyle="solid"
-          onChange={e => {
-            // setShowFollowers(e.target.value)
+      {conversation && (
+        <Conversation
+          back={() => {
+            setConvasation(null)
           }}
-        >
-          <Radio.Button value={true}>私信</Radio.Button>
-          <Radio.Button value={false}>消息</Radio.Button>
-        </Radio.Group>
-      </center>
-      <div className="sp-tab-body">
-        {loading && (
-          <center>
-            <Icon
-              style={{
-                marginTop: 10,
-                border: "none",
-                fontSize: "large"
+          data={conversation}
+        />
+      )}
+      {!conversation && (
+        <div>
+          <center className="sp-tab-header">
+            <Radio.Group
+              // className="sp-toggle-page-site-chat"
+              size="small"
+              defaultValue={true}
+              buttonStyle="solid"
+              onChange={e => {
+                // setShowFollowers(e.target.value)
               }}
-              type="loading"
-            />
+            >
+              <Radio.Button value={true}>私信</Radio.Button>
+              <Radio.Button value={false}>消息</Radio.Button>
+            </Radio.Group>
           </center>
-        )}
+          <div className="sp-tab-body" style={{ paddingBottom: 30 }}>
+            {loading && (
+              <center>
+                <Icon
+                  style={{
+                    marginTop: 10,
+                    border: "none",
+                    fontSize: "large"
+                  }}
+                  type="loading"
+                />
+              </center>
+            )}
 
-        {rows}
-      </div>
+            {rows}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

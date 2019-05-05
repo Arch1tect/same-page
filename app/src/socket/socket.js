@@ -31,6 +31,7 @@ const socketManager = {
       data.self = data.sender.toString() === account.id.toString()
       data.text = data.message
       data.userId = data.sender
+      data.name = data.username
       if (data.hasAvatar) {
         data.avatarSrc = urls.cloudFront + data.userId + ".jpg"
       }

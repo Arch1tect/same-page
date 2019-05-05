@@ -24,6 +24,9 @@ function Account(props) {
     setEdittingProfileState(false)
     setShowingFollowState(false)
   }
+
+  // TODO: load account from db every time this tab is mounted
+
   if (!account) {
     return <Login setAccount={setAccount} />
   }

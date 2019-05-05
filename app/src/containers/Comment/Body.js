@@ -4,13 +4,14 @@ import Message from "./Message"
 
 function CommentBody(props) {
   const data = props.data || []
-  let index = 0
+  // let index = 0
   let comments = data.map(comment => {
     return (
       <Message
         vote={props.vote}
         reply={props.reply}
-        key={index++}
+        // key={index++}
+        key={comment.id}
         data={comment}
       />
     )

@@ -21,16 +21,6 @@ const aboutStyle = {
   wordBreak: "break-word"
 }
 
-function displayUserId(id) {
-  // To be deleted
-  // old client is still sending uuid
-  // do not show uuid, only show number id
-  if (!isNaN(id)) {
-    return id
-  }
-  return ""
-}
-
 function ProfileBody(props) {
   const { loading, loaded, user, following, followerCount, followUser } = props
 
@@ -54,7 +44,7 @@ function ProfileBody(props) {
         <span>
           <Row gutter={50} style={{ textAlign: "center" }}>
             <Col style={{ textAlign: "right" }} span={12}>
-              ID: {displayUserId(user.id)}
+              ID: {user.numId}
             </Col>
             <Col style={{ textAlign: "left" }} span={12}>
               关注者: {followerCount}

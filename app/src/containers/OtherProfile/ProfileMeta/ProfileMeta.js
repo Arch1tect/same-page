@@ -44,7 +44,7 @@ function ProfileMeta(props) {
       setFollowerCount(followerCount - 1)
     }
 
-    followUser(user.uuid)
+    followUser(user.id)
       .then(resp => {
         updateAccountFollowing(follow)
         followEventHandler.follow(follow, user)

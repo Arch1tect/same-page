@@ -30,7 +30,7 @@ function Follow(props) {
         console.log("update followings")
         let updatedUsers = []
         if (!followUser) {
-          updatedUsers = usersRef.current.filter(u => u.uuid !== user.uuid)
+          updatedUsers = usersRef.current.filter(u => u.id !== user.id)
         } else {
           updatedUsers = [user, ...usersRef.current]
         }

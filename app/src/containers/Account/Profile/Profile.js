@@ -53,7 +53,7 @@ function Profile(props) {
       </center>
       <Row gutter={50} style={{ textAlign: "center" }}>
         <Col style={{ textAlign: "right" }} span={12}>
-          ID: {account.id}
+          ID: {account.numId}
         </Col>
         <Col style={{ textAlign: "left" }} span={12}>
           积分: {account.credit}

@@ -90,3 +90,21 @@ body ::-webkit-scrollbar-thumb:window-inactive {
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+.sp-back-btn {
+  position: fixed;
+  margin-top: 1px;
+  margin-left: 5px;
+  background: none;
+  border: none;
+  font-size: large;
+}
+.sp-back-btn:hover {
+  background: none;
+}
+
+.sp-tab-header {
+  border-bottom: 1px solid lightgray;
+  padding: 5px;
+  height: 35px;
+}

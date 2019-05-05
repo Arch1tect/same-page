@@ -80,12 +80,15 @@ class CommentTab extends React.Component {
         }
         const account = this.context.account
         const selfMsg = {
+          id: Math.random(100), // whatever unique
           userId: account.id,
           avatarSrc: account.avatarSrc,
           name: account.name,
           time: moment().fromNow(),
           content: content,
-          self: true
+          self: true,
+          noFooter: true // can't support any action since there is no id
+          // maybe backend can return id
         }
         this.setState({ comments: [selfMsg].concat(this.state.comments) })
         this.clearInput()
