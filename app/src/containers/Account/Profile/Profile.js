@@ -1,10 +1,9 @@
 import "./Profile.css"
 
 import React, { useState } from "react"
-import axios from "axios"
 import { Avatar, Button, Row, Col } from "antd"
 
-import urls from "config/urls"
+import { logout } from "services/account"
 
 const avatarStyle = {
   margin: "auto",
@@ -94,8 +93,7 @@ function Profile(props) {
           onClick={() => {
             setLoggingOut(true)
 
-            axios
-              .post(urls.dbAPI + "/api/v1/logout")
+            logout()
               .then(res => {
                 console.debug("logout success")
               })

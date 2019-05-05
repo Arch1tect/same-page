@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
+import { Icon, Button } from "antd"
 
 import AccountContext from "context/account-context"
 import ResetPassword from "./ResetPassword"
@@ -6,6 +7,7 @@ import EditProfile from "./EditProfile"
 import Profile from "./Profile"
 import Follow from "./Follow"
 import Login from "containers/Account/Login"
+import { getAccount } from "services/account"
 
 function Account(props) {
   const accountContext = useContext(AccountContext)
@@ -18,6 +20,26 @@ function Account(props) {
   // showFollowers is for toggling follower vs following
   const [showingFollow, setShowingFollowState] = useState(false)
   const [showFollowers, setShowFollowersState] = useState(false)
+
+  const [loadingAccount, setLoadingAccount] = useState(false)
+  useEffect(() => {
+    // load account for once if user is logged in and
+    // switch to account tab, otherwise the account info
+    // is only loaded when login which becomes stale easily
+    if (account) {
+      setLoadingAccount(true)
+      console.debug("refresh account data")
+      getAccount()
+        .then(resp => {
+          setAccount(resp.data)
+        })
+        .catch(err => {})
+        .then(() => {
+          setLoadingAccount(false)
+        })
+    }
+  }, [])
+
   const backToMainPage = () => {
     // called by the back button
     setResetPasswordState(false)
@@ -25,14 +47,13 @@ function Account(props) {
     setShowingFollowState(false)
   }
 
-  // TODO: load account from db every time this tab is mounted
-
   if (!account) {
     return <Login setAccount={setAccount} />
   }
 
   return (
     <div>
+      {loadingAccount && <Button icon="loading" className="sp-back-btn" />}
       {resettingPassword && <ResetPassword back={backToMainPage} />}
       {showingFollow && (
         <Follow

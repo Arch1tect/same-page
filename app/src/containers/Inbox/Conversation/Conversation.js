@@ -1,3 +1,5 @@
+import "./Conversation.css"
+
 import React, { useContext, useState } from "react"
 import { Avatar, Icon, Input, Button } from "antd"
 
@@ -38,7 +40,7 @@ function Conversation(props) {
   })
 
   return (
-    <div>
+    <div className="sp-inbox-conversation">
       <Button onClick={props.back} className="sp-back-btn" icon="arrow-left" />
       <div className="sp-tab-header">
         <center>

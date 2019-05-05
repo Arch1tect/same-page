@@ -1,8 +1,7 @@
 import React from "react"
-import axios from "axios"
-
-import urls from "config/urls"
 import { Form, Icon, Input, Button } from "antd"
+
+import { login } from "services/account"
 
 class NormalLoginForm extends React.Component {
   constructor(props) {
@@ -15,13 +14,8 @@ class NormalLoginForm extends React.Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const payload = {
-          userId: values.userId,
-          password: values.password
-        }
         this.setState({ loading: true })
-        axios
-          .post(urls.dbAPI + "/api/v1/login", payload)
+        login(values.userId, values.password)
           .then(res => {
             // this.setState({ submitting: false })
             console.log(res.data)
