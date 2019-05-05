@@ -1,17 +1,5 @@
 .sp-follow-tab .ant-avatar {
-  margin-right: 30px;
-}
-.sp-follow-body {
-  /* covers entire tab except top bar and header*/
-  background: white;
-  z-index: 9; /* other profile has z index 10 */
-  position: fixed;
-  top: 70px;
-  width: 100%;
-  height: calc(100% - 70px);
-  width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+  margin-right: 10px;
 }
 .sp-follow-row {
   padding: 10px;

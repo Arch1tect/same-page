@@ -78,3 +78,15 @@ body ::-webkit-scrollbar-thumb:window-inactive {
   overflow-y: auto;
   overflow-x: hidden;
 }
+.sp-tab-body {
+  /* covers entire tab except top bar and header*/
+  background: white;
+  z-index: 9; /* other profile has z index 10 */
+  position: fixed;
+  top: 70px;
+  width: 100%;
+  height: calc(100% - 70px);
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

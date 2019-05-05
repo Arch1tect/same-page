@@ -126,7 +126,7 @@ function Follow(props) {
           </Radio.Button>
         </Radio.Group>
       </center>
-      <div className="sp-follow-body">
+      <div className="sp-tab-body">
         {loading && (
           <center>
             <Icon

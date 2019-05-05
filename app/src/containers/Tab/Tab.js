@@ -11,6 +11,7 @@ import Chat from "containers/Chat"
 import Comment from "containers/Comment"
 import Account from "containers/Account"
 import OtherProfile from "containers/OtherProfile"
+import Inbox from "containers/Inbox"
 
 import TabContext from "context/tab-context"
 
@@ -66,7 +67,7 @@ function Tab(props) {
             }
             key="mailbox"
           >
-            Tab 3
+            <Inbox />
           </TabPane>
           <TabPane
             tab={

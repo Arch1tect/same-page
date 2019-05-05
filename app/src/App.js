@@ -28,6 +28,7 @@ class App extends React.Component {
         if (error.response.status === 401) {
           this.setAccount(null)
         }
+        return Promise.reject(error)
       }
     )
     console.log("get account from storage, register account change listener")
