@@ -4,6 +4,7 @@
 .sp-follow-row {
   padding: 10px;
   cursor: pointer;
+  /* border-bottom: 1px solid #ececec; */
 }
 .sp-follow-row:hover {
   background: rgb(236, 236, 236);

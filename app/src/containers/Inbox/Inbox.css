@@ -1,7 +1,9 @@
 .sp-inbox-row {
-  padding: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
   display: flex;
   align-items: center; /* vertically align avatar with text */
+  margin-top: -1px; /* so that hover background cover border */
 }
 
 .sp-inbox-row:hover {
@@ -10,12 +12,13 @@
 }
 
 .sp-inbox-row .sp-row-right {
-  padding-left: 10px;
+  padding: 10px;
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   width: calc(100% - 50px);
+  border-bottom: 1px solid #ececec;
 }
 
 .sp-inbox-row .sp-message-content {
