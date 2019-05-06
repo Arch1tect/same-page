@@ -23,11 +23,23 @@ function Tab(props) {
   console.log("render tab")
 
   const [activeTab, changeTab] = useState(props.tab)
+  // view other's profile
   const [other, selectOtherUser] = useState()
+  // view direct message with other
+  const [conversationUser, setCoversationUser] = useState()
+  function directMessage(user) {
+    selectOtherUser(null)
+    changeTab("inbox")
+    setCoversationUser(user)
+  }
 
   return (
     <TabContext.Provider
-      value={{ selectOtherUser: selectOtherUser, changeTab: changeTab }}
+      value={{
+        selectOtherUser: selectOtherUser,
+        changeTab: changeTab,
+        directMessage: directMessage
+      }}
     >
       <div className="card-container">
         <Tabs
@@ -65,9 +77,9 @@ function Tab(props) {
                 <Icon type="mail" />
               </Tooltip>
             }
-            key="mailbox"
+            key="inbox"
           >
-            <Inbox />
+            <Inbox user={conversationUser} setUser={setCoversationUser} />
           </TabPane>
           <TabPane
             tab={
@@ -81,7 +93,7 @@ function Tab(props) {
           </TabPane>
         </Tabs>
       </div>
-      <OtherProfile data={other} />
+      <OtherProfile data={other} selectOtherUser={selectOtherUser} />
     </TabContext.Provider>
   )
 }

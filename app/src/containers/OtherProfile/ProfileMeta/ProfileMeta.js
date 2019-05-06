@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react"
 
 import { getUser } from "services/user"
 import AccountContext from "context/account-context"
+import TabContext from "context/tab-context"
 import followEventHandler from "containers/Account/Follow/event"
 import { followUser } from "services/follow"
 
@@ -10,10 +11,8 @@ function ProfileMeta(props) {
   // it's a wrapper that handles state and api calls
   // but doesn't contain html layout
 
-  // Provided variables are: loading, user, following
-  // Provided methods are: toggleFollow
-
   const accountContext = useContext(AccountContext)
+  const tabContext = useContext(TabContext)
 
   const [user, setUser] = useState(props.user)
   const [followerCount, setFollowerCount] = useState("")
@@ -84,7 +83,8 @@ function ProfileMeta(props) {
       user: user,
       followerCount: followerCount,
       following: following,
-      followUser: toggleFollow
+      followUser: toggleFollow,
+      directMessage: tabContext.directMessage
     })
   )
   return <span>{childrenWithProps}</span>

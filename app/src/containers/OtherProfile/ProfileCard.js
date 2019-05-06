@@ -13,7 +13,7 @@ const aboutStyle = {
 }
 
 function ProfileCard(props) {
-  const { user, following, followerCount, followUser } = props
+  const { user, following, followerCount, followUser, directMessage } = props
   const footer = (
     <div>
       {user.about && <div style={aboutStyle}>{user.about}</div>}
@@ -48,6 +48,7 @@ function ProfileCard(props) {
       <Button
         onClick={e => {
           e.stopPropagation()
+          directMessage(user)
         }}
         icon="mail"
         style={{ marginLeft: 10 }}

@@ -7,7 +7,6 @@ import PrfileBody from "./ProfileBody"
 
 function OtherProfile(props) {
   if (!props.data) return <span />
-  const tabContext = useContext(TabContext)
 
   const user = {
     avatarSrc: props.data.avatarSrc,
@@ -18,18 +17,12 @@ function OtherProfile(props) {
   return (
     <div className="sp-special-tab">
       <Button
-        onClick={() => tabContext.selectOtherUser()}
-        style={{
-          position: "fixed",
-          marginTop: 1,
-          marginLeft: 5,
-          border: "none",
-          fontSize: "large"
-        }}
+        onClick={() => props.selectOtherUser()}
+        className="sp-back-btn"
         icon="arrow-left"
       />
       <ProfileMeta user={user}>
-        <PrfileBody />
+        <PrfileBody directMessage={props.directMessage} />
       </ProfileMeta>
     </div>
   )

@@ -29,3 +29,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.sp-inbox-row .sp-message-time {
+  float: right;
+  color: gray;
+  font-weight: initial;
+}

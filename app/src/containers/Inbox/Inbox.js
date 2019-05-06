@@ -1,15 +1,29 @@
 import "./Inbox.css"
 import React, { useEffect, useState, useContext } from "react"
 import { Avatar, Icon, Radio } from "antd"
+import moment from "moment"
 
 import Conversation from "./Conversation"
 import { getMessages } from "services/message"
 import AccountContext from "context/account-context"
 
 function Inbox(props) {
+  const user = props.user
+  const setUser = props.setUser
   const [conversations, setConvasations] = useState({})
   const [loading, setLoading] = useState(false)
-  const [conversation, setConvasation] = useState()
+  let selectedConversation = null
+  if (user) {
+    if (user.id in conversations) {
+      selectedConversation = conversations[user.id]
+    } else {
+      selectedConversation = {
+        user: user,
+        messages: []
+      }
+      setConvasations({ ...conversations, [user.id]: selectedConversation })
+    }
+  }
   const account = useContext(AccountContext).account
 
   useEffect(() => {
@@ -27,23 +41,45 @@ function Inbox(props) {
       })
   }, [account])
 
-  const rows = Object.keys(conversations).map(userId => {
-    const conversation = conversations[userId]
-    const user = conversation.user
+  // Backend/storage returns dictionary data structure so
+  // it's easy to insert new conversation
+  // Need to convert into array and sort by date to display
+
+  const conversationsArray = Object.keys(conversations).map(userId => {
+    const c = conversations[userId]
+    c.time = moment.utc(c.time)
+    if (c.messages.length) {
+      c.lastMsg = c.messages[c.messages.length - 1]
+      c.time = moment.utc(c.lastMsg.created)
+    }
+    return c
+  })
+  conversationsArray.sort((a, b) => {
+    return b.time - a.time
+  })
+
+  const rows = conversationsArray.map(c => {
+    const user = c.user
     return (
       <div
         onClick={() => {
-          setConvasation(conversation)
+          setUser(user)
         }}
         key={user.id}
         className="sp-inbox-row"
       >
         <Avatar icon="user" src={user.avatarSrc} />
         <span className="sp-row-right">
-          <div>{user.name}</div>
-          <div className="sp-message-content">
-            {conversation["messages"][0]["content"]}
+          <div>
+            {user.name}
+            {c.lastMsg && (
+              <span className="sp-message-time">{c.time.fromNow()}</span>
+            )}
           </div>
+
+          {c.lastMsg && (
+            <div className="sp-message-content">{c.lastMsg.content}</div>
+          )}
         </span>
       </div>
     )
@@ -51,15 +87,15 @@ function Inbox(props) {
 
   return (
     <div className="sp-inbox-tab">
-      {conversation && (
+      {selectedConversation && (
         <Conversation
           back={() => {
-            setConvasation(null)
+            setUser(null)
           }}
-          data={conversation}
+          data={selectedConversation}
         />
       )}
-      {!conversation && (
+      {!selectedConversation && (
         <div>
           <center className="sp-tab-header">
             <Radio.Group

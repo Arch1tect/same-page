@@ -22,7 +22,15 @@ const aboutStyle = {
 }
 
 function ProfileBody(props) {
-  const { loading, loaded, user, following, followerCount, followUser } = props
+  const {
+    directMessage,
+    loading,
+    loaded,
+    user,
+    following,
+    followerCount,
+    followUser
+  } = props
 
   return (
     <div>
@@ -80,7 +88,14 @@ function ProfileBody(props) {
                 </Button>
               )}
 
-              <Button icon="mail" style={{ margin: 10 }} size="large">
+              <Button
+                onClick={() => {
+                  directMessage(user)
+                }}
+                icon="mail"
+                style={{ margin: 10 }}
+                size="large"
+              >
                 私信
               </Button>
             </div>
