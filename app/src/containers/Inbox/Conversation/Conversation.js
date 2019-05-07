@@ -4,6 +4,7 @@ import React, { useContext, useState } from "react"
 import { Avatar, Icon, Input, Button } from "antd"
 
 import Message from "containers/Chat/Message"
+import { postMessage } from "services/message"
 import AccountContext from "context/account-context"
 
 const conversationBodyStyle = {
@@ -18,8 +19,11 @@ const conversationBodyStyle = {
 
 function Conversation(props) {
   const account = useContext(AccountContext).account
-  const messages = props.data.messages
-  const other = props.data.user
+  const messages = props.conversation.messages
+  const other = props.conversation.user
+  const offset = props.offset
+  const [input, setInput] = useState("")
+  const [submitting, setSubmitting] = useState(false)
 
   let lastMsg = null
   const body = messages.map(msg => {
@@ -38,7 +42,22 @@ function Conversation(props) {
     lastMsg = msg
     return <Message key={msg.id} data={msg} mergeAbove={mergeAbove} />
   })
-
+  function handleKeyDown(e) {
+    if (e.key === "Enter") {
+      setSubmitting(true)
+      postMessage(other.id, input, offset)
+        .then(resp => {
+          props.mergeAndSaveNewConversations(resp.data)
+          setInput("")
+        })
+        .catch(err => {
+          console.error(err)
+        })
+        .then(() => {
+          setSubmitting(false)
+        })
+    }
+  }
   return (
     <div className="sp-inbox-conversation">
       <Button onClick={props.back} className="sp-back-btn" icon="arrow-left" />
@@ -53,11 +72,14 @@ function Conversation(props) {
       <div style={conversationBodyStyle}>{body}</div>
       <div className="sp-chat-bottom">
         <Input
+          disabled={submitting}
           size="large"
-          // onKeyDown={handleKeyDown}
-          // value={input}
+          onKeyDown={handleKeyDown}
+          value={input}
           addonBefore={<Icon type="smile" />}
-          // onChange={handleChange}
+          onChange={e => {
+            setInput(e.target.value)
+          }}
           placeholder="请输入。。。"
         />
       </div>

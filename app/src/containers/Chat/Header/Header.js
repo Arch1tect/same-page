@@ -26,6 +26,7 @@ function ChatHeader(props) {
   // TODO: need to change back to class component
   // if need access to users state
   // like Body.js
+  // no, not really
   useEffect(() => {
     console.log("register user join/left handlers")
     socketHandler.onUserJoin = data => {
@@ -43,6 +44,11 @@ function ChatHeader(props) {
       },
       false
     )
+    return () => {
+      socketHandler.onUserJoin = null
+      socketHandler.onUserLeft = null
+    }
+    // No clean up because chat header is never unmounted after mounted
   }, [])
 
   let content = (

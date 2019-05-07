@@ -6,14 +6,25 @@ import AccountContext from "context/account-context"
 import socketManager from "socket/socket"
 import storageManager from "utils/storage"
 import axios from "axios"
+import moment from "moment"
+require("moment/locale/zh-cn") //moment bug, has to manually include
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       account: null,
+      // Load account from storage is the first step of the app
+      // Do not mount any component until loading completed
+      // MUST initialize as true
       loadingFromStorage: true
     }
+    const locale = window.navigator.userLanguage || window.navigator.language
+    if (locale.indexOf("zh") > -1) {
+      moment.locale("zh-cn")
+      console.debug("chinese")
+    }
+    console.log(locale)
   }
 
   componentDidMount() {
@@ -74,7 +85,7 @@ class App extends React.Component {
     if (this.state.loadingFromStorage) {
       return (
         <center>
-          <Icon type="loading" />
+          <Icon style={{ marginTop: "50%" }} type="loading" />
         </center>
       )
     }

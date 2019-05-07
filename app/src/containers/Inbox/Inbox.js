@@ -1,16 +1,22 @@
 import "./Inbox.css"
-import React, { useEffect, useState, useContext } from "react"
+import React, { useEffect, useState, useContext, useRef } from "react"
 import { Avatar, Icon, Radio } from "antd"
 import moment from "moment"
 
 import Conversation from "./Conversation"
 import { getMessages } from "services/message"
 import AccountContext from "context/account-context"
+import storageManager from "utils/storage"
 
 function Inbox(props) {
   const user = props.user
   const setUser = props.setUser
-  const [conversations, setConvasations] = useState({})
+  const account = useContext(AccountContext).account
+  let storageKey = "inbox-"
+  if (account) storageKey += account.id
+  const prevAccountRef = useRef()
+  const [conversations, setConversations] = useState({})
+  // offset equals to the biggest message id
   const [loading, setLoading] = useState(false)
   let selectedConversation = null
   if (user) {
@@ -21,17 +27,15 @@ function Inbox(props) {
         user: user,
         messages: []
       }
-      setConvasations({ ...conversations, [user.id]: selectedConversation })
+      setConversations({ ...conversations, [user.id]: selectedConversation })
     }
   }
-  const account = useContext(AccountContext).account
-
-  useEffect(() => {
-    if (!account) return
+  function getMessagesFromServer(offset) {
     setLoading(true)
-    getMessages()
+    getMessages(offset)
       .then(resp => {
-        setConvasations(resp.data)
+        // Merge with existing data
+        mergeAndSaveNewConversations(resp.data)
       })
       .catch(err => {
         console.error(err)
@@ -39,21 +43,106 @@ function Inbox(props) {
       .then(() => {
         setLoading(false)
       })
+  }
+  function mergeAndSaveNewConversations(newConversations) {
+    // merge and save new conversations into storage
+    storageManager.get(storageKey, conversations => {
+      conversations = conversations || {}
+      Object.keys(newConversations).forEach(userId => {
+        if (userId in conversations) {
+          conversations[userId].messages.push(
+            ...newConversations[userId].messages
+          )
+          // use the new user data
+          conversations[userId].user = newConversations[userId].user
+        } else {
+          conversations[userId] = newConversations[userId]
+        }
+      })
+      storageManager.set(storageKey, conversations)
+    })
+  }
+  function getOffset(conversations) {
+    let offset = 0
+    Object.values(conversations).forEach(c => {
+      if (c.messages.length) {
+        c.lastMsg = c.messages[c.messages.length - 1]
+        offset = Math.max(offset, c.lastMsg.id)
+      }
+    })
+    return offset
+  }
+
+  useEffect(() => {
+    // console.debug("register inbox storage listener")
+    // storageManager.addEventListener("inbox", conversations => {
+    //   setConversations(conversations)
+    // })
+  }, [])
+
+  useEffect(() => {
+    // Listen for account change, 2 cases:
+    // 1. not logged in => logged in  (this may not be when
+    // the whole app logged in, since Inbox component is mounted
+    // later than the App component)
+    // 2. logged in => logged out
+
+    // There shouldn't be a case that's logged in as user A
+    // then suddenly changed to user B without going through
+    // a log out step
+
+    // When logged in
+    // 0. clear messages in memory (not in storage)
+    // 1. get messages from storage
+    // 2. get new messages from server using offset and save into storage
+
+    // When logged out, clear the memory
+
+    if (account) {
+      if (!prevAccountRef.current) {
+        // If logged in as a different account or first time login?
+        console.debug("[inbox] logged in, load from storage")
+        storageManager.get(storageKey, conversations => {
+          conversations = conversations || {}
+          setConversations(conversations)
+          console.debug("[inbox] loaded from storage, fetch from server")
+          getMessagesFromServer(getOffset(conversations))
+        })
+        console.debug("register inbox storage listener")
+        // TODO: if same account login and logout and login again
+        // this listener is registered multiple times, should unregister
+        // when logout
+        storageManager.addEventListener(storageKey, conversations => {
+          console.debug("[inbox] storage updated")
+          setConversations(conversations)
+        })
+      }
+    } else {
+      console.debug("[inbox] logged out")
+      setUser(null)
+      setConversations({})
+      // Clear memory
+    }
+
+    prevAccountRef.current = account
   }, [account])
 
   // Backend/storage returns dictionary data structure so
   // it's easy to insert new conversation
   // Need to convert into array and sort by date to display
-
+  // Also get offset
   const conversationsArray = Object.keys(conversations).map(userId => {
     const c = conversations[userId]
-    c.time = moment.utc(c.time)
     if (c.messages.length) {
       c.lastMsg = c.messages[c.messages.length - 1]
       c.time = moment.utc(c.lastMsg.created)
+    } else {
+      // if no message, this is user attempting to start conversation
+      c.time = moment.utc()
     }
     return c
   })
+
   conversationsArray.sort((a, b) => {
     return b.time - a.time
   })
@@ -76,7 +165,6 @@ function Inbox(props) {
               <span className="sp-message-time">{c.time.fromNow()}</span>
             )}
           </div>
-
           {c.lastMsg && (
             <div className="sp-message-content">{c.lastMsg.content}</div>
           )}
@@ -85,6 +173,13 @@ function Inbox(props) {
     )
   })
 
+  if (!account) {
+    return (
+      <div className="sp-inbox-tab">
+        <center className="sp-tab-header">尚未登录</center>
+      </div>
+    )
+  }
   return (
     <div className="sp-inbox-tab">
       {selectedConversation && (
@@ -92,7 +187,9 @@ function Inbox(props) {
           back={() => {
             setUser(null)
           }}
-          data={selectedConversation}
+          offset={getOffset(conversations)}
+          conversation={selectedConversation}
+          mergeAndSaveNewConversations={mergeAndSaveNewConversations}
         />
       )}
       {!selectedConversation && (
