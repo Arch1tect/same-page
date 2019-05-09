@@ -1,0 +1,16 @@
+.emoji-mart-preview {
+  display: none;
+}
+.emoji-mart {
+  position: fixed;
+  bottom: 39px;
+  left: 0px;
+  border-bottom: none !important;
+  z-index: 10;
+}
+.emoji-mart .emoji-mart-scroll {
+  height: 200px;
+}
+.emoji-mart-category-label span {
+  margin-bottom: 5px;
+}

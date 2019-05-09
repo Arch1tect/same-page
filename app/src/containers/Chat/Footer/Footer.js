@@ -1,8 +1,9 @@
 import "./Footer.css"
 
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useRef } from "react"
 import { Input, Icon } from "antd"
 
+import Emoji from "components/Emoji"
 import AccountContext from "context/account-context"
 import socketManager from "socket/socket"
 
@@ -11,6 +12,8 @@ let lastMsgTime = 0
 
 function Footer(props) {
   const [input, setInput] = useState("")
+  const inputRef = useRef()
+  const [showEmoji, setShowEmoji] = useState(false)
   const accountContext = useContext(AccountContext)
   const account = accountContext.account
 
@@ -32,6 +35,12 @@ function Footer(props) {
       }
     }
   }
+  const addEmoji = emoji => {
+    setInput(input => {
+      return input + emoji.native
+    })
+    inputRef.current.focus()
+  }
 
   const handleChange = e => {
     setInput(e.target.value)
@@ -41,12 +50,25 @@ function Footer(props) {
     <center style={{ padding: 10, background: "lightgray" }}>尚未登录</center>
   )
   if (account) {
+    const emojiBtn = (
+      <Icon
+        className="emojiOpener"
+        onClick={e => {
+          setShowEmoji(prevState => {
+            setShowEmoji(!prevState)
+          })
+        }}
+        type="smile"
+      />
+    )
+
     content = (
       <Input
+        ref={inputRef}
         size="large"
         onKeyDown={handleKeyDown}
         value={input}
-        addonBefore={<Icon type="smile" />}
+        addonBefore={emojiBtn}
         addonAfter={<Icon type="paper-clip" />}
         onChange={handleChange}
         placeholder="请输入。。。"
@@ -54,7 +76,20 @@ function Footer(props) {
     )
   }
 
-  return <div className="sp-chat-bottom">{content}</div>
+  return (
+    <div className="sp-chat-bottom">
+      {showEmoji && (
+        <Emoji
+          addEmoji={addEmoji}
+          exceptionClass="emojiOpener"
+          close={() => {
+            setShowEmoji(false)
+          }}
+        />
+      )}
+      {content}
+    </div>
+  )
 }
 
 export default Footer

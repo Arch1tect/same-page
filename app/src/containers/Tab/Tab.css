@@ -61,6 +61,7 @@ body ::-webkit-scrollbar-thumb:window-inactive {
 .ant-input {
   border-radius: 0;
   resize: none;
+  color: #525252;
 }
 .ant-divider-horizontal.ant-divider-with-text::before,
 .ant-divider-horizontal.ant-divider-with-text::after {

@@ -3,6 +3,8 @@
   display: none;
 }
 .sp-toggle-page-site-chat {
+  z-index: 0;
+  position: relative;
 }
 
 .sp-online-user {
