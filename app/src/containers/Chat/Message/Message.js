@@ -5,11 +5,12 @@ import AvatarWithHoverCard from "containers/OtherProfile/AvatarWithHoverCard"
 import { Avatar } from "antd"
 
 /*
+This is used by chat messages and direct messages
 props includes:
   avatarSrc
   username
-  text
-  type: text/emoji/img
+  content
+  type: text/sticker
   self
 */
 const userNameStyle = {
@@ -31,18 +32,24 @@ function ChatMessage(props) {
 
   let messageHeader = null
   let textAlign = "left"
+
+  let avatar = <Avatar size="small" icon="user" src={user.avatarSrc} />
+  if (!user.self && props.withHoverCard) {
+    avatar = <AvatarWithHoverCard size="small" user={user} />
+  }
+
   if (user.self) {
     textAlign = "right"
     messageHeader = (
       <div style={{ marginTop: 10 }}>
         <span style={userNameStyle}>{user.name}</span>
-        <Avatar size="small" icon="user" src={user.avatarSrc} />
+        {avatar}
       </div>
     )
   } else {
     messageHeader = (
       <div style={{ marginTop: 10 }}>
-        <AvatarWithHoverCard size="small" user={user} />
+        {avatar}
         <span style={userNameStyle}>{user.name}</span>
       </div>
     )

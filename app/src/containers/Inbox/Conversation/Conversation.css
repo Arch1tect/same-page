@@ -1,3 +1,11 @@
 .sp-inbox-conversation .ant-input {
   border-right: none;
 }
+.sp-inbox-conversation .sp-conversation-username {
+  color: black;
+  cursor: pointer;
+  padding: 5px;
+}
+.sp-inbox-conversation .sp-conversation-username:hover {
+  color: #40a9ff;
+}

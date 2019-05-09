@@ -208,7 +208,7 @@ function Inbox(props) {
               <Radio.Button value={false}>消息</Radio.Button>
             </Radio.Group>
           </center>
-          <div className="sp-tab-body" style={{ paddingBottom: 30 }}>
+          <div className="sp-tab-body" style={{ paddingBottom: 70 }}>
             {loading && (
               <center>
                 <Icon

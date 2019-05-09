@@ -1,7 +1,6 @@
 import React from "react"
 import Message from "./Message"
 import { socketHandler } from "socket/socket"
-import urls from "config/urls"
 import AccountContext from "context/account-context"
 const chatBodyStyle = {
   height: "calc(100% - 107px)",
@@ -61,7 +60,12 @@ class ChatBody extends React.Component {
         mergeAbove = true
       }
       messages.push(
-        <Message key={index++} data={msg} mergeAbove={mergeAbove} />
+        <Message
+          withHoverCard={true}
+          key={index++}
+          data={msg}
+          mergeAbove={mergeAbove}
+        />
       )
       lastMsg = msg
     })
