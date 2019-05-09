@@ -27,9 +27,13 @@ const socketManager = {
 
     _socket.on("new message", data => {
       console.debug(data)
-      // TODO: move following data massage to backend
+      // TODO: move following data massaging work to backend
       data.self = data.sender.toString() === account.id.toString()
-      data.text = data.message
+      data.type = "text"
+      if (data.message.startsWith("stickers/")) {
+        data.type = "sticker"
+      }
+      data.content = data.message
       data.userId = data.sender
       data.name = data.username
       if (data.hasAvatar) {
