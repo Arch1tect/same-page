@@ -25,7 +25,7 @@ function Comment(props) {
   return (
     <div style={{ marginTop: 10 }} className={data.self ? "self" : ""}>
       <AvatarWithHoverCard className="sp-comment-message-avatar" user={user} />
-      <div className="sp-message-body">
+      <div className="sp-message-body text">
         <div style={{ marginBottom: 5 }}>
           <span className="sp-comment-message-username">{data.name}</span>
           <span className="sp-comment-message-time">{data.time}</span>
