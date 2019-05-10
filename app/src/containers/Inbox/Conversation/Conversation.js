@@ -19,7 +19,7 @@ const conversationBodyStyle = {
   paddingBottom: 50
 }
 
-const AUTO_SCROLL_TRESHOLD_DISTANCE = 100
+const AUTO_SCROLL_TRESHOLD_DISTANCE = 150
 
 function Conversation(props) {
   const account = useContext(AccountContext).account
@@ -29,11 +29,6 @@ function Conversation(props) {
   const offset = props.offset
   const [sending, setSending] = useState(false)
   const bodyRef = useRef()
-
-  useEffect(() => {
-    const bodyDiv = bodyRef.current
-    bodyDiv.scrollTop = bodyDiv.scrollHeight
-  }, [])
 
   let lastMsg = null
   const body = messages.map(msg => {
@@ -52,7 +47,24 @@ function Conversation(props) {
     lastMsg = msg
     return <Message key={msg.id} data={msg} mergeAbove={mergeAbove} />
   })
-  function scrollToBottomIfNearBottom() {
+  useEffect(() => {
+    const bodyDiv = bodyRef.current
+    bodyDiv.scrollTop = bodyDiv.scrollHeight
+  }, [])
+
+  useEffect(() => {
+    console.debug("auto scroll down")
+    if (messages && messages.length) {
+      const lastMsg = messages[messages.length - 1]
+      let timeout = 50
+      if (lastMsg.type === "sticker") {
+        timeout = 500
+      }
+      scrollToBottomIfNearBottom(timeout)
+    }
+  }, [messages])
+  function scrollToBottomIfNearBottom(timeout) {
+    timeout = timeout || 100
     const bodyDiv = bodyRef.current
     if (
       bodyDiv.scrollHeight - bodyDiv.scrollTop - bodyDiv.offsetHeight <
@@ -60,7 +72,7 @@ function Conversation(props) {
     ) {
       setTimeout(() => {
         bodyDiv.scrollTop = bodyDiv.scrollHeight
-      }, 100)
+      }, timeout)
     }
   }
   function send(input) {
@@ -68,7 +80,7 @@ function Conversation(props) {
     postMessage(other.id, input, offset)
       .then(resp => {
         props.mergeAndSaveNewConversations(resp.data)
-        scrollToBottomIfNearBottom()
+        // TODO: maybe display message locally right away
       })
       .catch(err => {
         console.error(err)

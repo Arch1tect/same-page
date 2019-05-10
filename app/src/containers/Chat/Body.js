@@ -11,7 +11,7 @@ const chatBodyStyle = {
   padding: 10,
   paddingBottom: 50
 }
-const AUTO_SCROLL_TRESHOLD_DISTANCE = 100
+const AUTO_SCROLL_TRESHOLD_DISTANCE = 200
 class ChatBody extends React.Component {
   constructor(props) {
     super(props)
@@ -27,10 +27,13 @@ class ChatBody extends React.Component {
       this.setState((state, props) => ({
         messages: [...state.messages, data]
       }))
-      this.scrollToBottomIfNearBottom()
+      let timeout = 10
+      if (data.type == "sticker") timeout = 500
+      this.scrollToBottomIfNearBottom(timeout)
     }
   }
-  scrollToBottomIfNearBottom = () => {
+  scrollToBottomIfNearBottom = timeout => {
+    timeout = timeout || 100
     const bodyDiv = this.bodyRef.current
     if (
       bodyDiv.scrollHeight - bodyDiv.scrollTop - bodyDiv.offsetHeight <
@@ -38,7 +41,7 @@ class ChatBody extends React.Component {
     ) {
       setTimeout(() => {
         bodyDiv.scrollTop = bodyDiv.scrollHeight
-      }, 300)
+      }, timeout)
     }
   }
   addMsg = msg => {
