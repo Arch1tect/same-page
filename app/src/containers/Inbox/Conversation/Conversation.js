@@ -1,12 +1,13 @@
 import "./Conversation.css"
 
-import React, { useContext, useState, useRef } from "react"
-import { Avatar, Icon, Input, Button } from "antd"
+import React, { useContext, useState, useRef, useEffect } from "react"
+import { Button } from "antd"
 
 import Message from "containers/Chat/Message"
 import { postMessage } from "services/message"
 import AccountContext from "context/account-context"
 import TabContext from "context/tab-context"
+import InputWithPicker from "components/InputWithPicker"
 
 const conversationBodyStyle = {
   height: "calc(100% - 107px)",
@@ -26,10 +27,13 @@ function Conversation(props) {
   const messages = props.conversation.messages
   const other = props.conversation.user
   const offset = props.offset
-  const [input, setInput] = useState("")
-  const [submitting, setSubmitting] = useState(false)
+  const [sending, setSending] = useState(false)
   const bodyRef = useRef()
-  const inputRef = useRef()
+
+  useEffect(() => {
+    const bodyDiv = bodyRef.current
+    bodyDiv.scrollTop = bodyDiv.scrollHeight
+  }, [])
 
   let lastMsg = null
   const body = messages.map(msg => {
@@ -59,26 +63,22 @@ function Conversation(props) {
       }, 100)
     }
   }
-  function handleKeyDown(e) {
-    if (e.key === "Enter") {
-      setSubmitting(true)
-      postMessage(other.id, input, offset)
-        .then(resp => {
-          props.mergeAndSaveNewConversations(resp.data)
-          scrollToBottomIfNearBottom()
-          setInput("")
-          setTimeout(() => {
-            inputRef.current.focus()
-          }, 100)
-        })
-        .catch(err => {
-          console.error(err)
-        })
-        .then(() => {
-          setSubmitting(false)
-        })
-    }
+  function send(input) {
+    setSending(true)
+    postMessage(other.id, input, offset)
+      .then(resp => {
+        props.mergeAndSaveNewConversations(resp.data)
+        scrollToBottomIfNearBottom()
+      })
+      .catch(err => {
+        console.error(err)
+      })
+      .then(() => {
+        setSending(false)
+      })
+    return true
   }
+
   return (
     <div className="sp-inbox-conversation">
       <Button onClick={props.back} className="sp-back-btn" icon="arrow-left" />
@@ -102,19 +102,9 @@ function Conversation(props) {
       <div ref={bodyRef} style={conversationBodyStyle}>
         {body}
       </div>
+
       <div className="sp-chat-bottom">
-        <Input
-          ref={inputRef}
-          disabled={submitting}
-          size="large"
-          onKeyDown={handleKeyDown}
-          value={input}
-          addonBefore={<Icon type="smile" />}
-          onChange={e => {
-            setInput(e.target.value)
-          }}
-          placeholder="请输入。。。"
-        />
+        <InputWithPicker sending={sending} send={send} />
       </div>
     </div>
   )

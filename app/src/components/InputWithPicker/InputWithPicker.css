@@ -1,0 +1,12 @@
+.sp-input-with-picker .ant-input-group-addon {
+  border-radius: unset;
+}
+.sp-input-with-picker .ant-input-group-addon:last-child {
+  border-right: 0;
+}
+.sp-input-with-picker .ant-input-group-addon:first-child {
+  border-left: 0;
+}
+.sp-input-with-picker .ant-input {
+  border-right: none;
+}
