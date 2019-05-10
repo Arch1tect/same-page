@@ -27,7 +27,13 @@ class OutsideAlerter extends React.Component {
    * Alert if clicked on outside of element
    */
   handleClickOutside(event) {
-    if (event.target.className.indexOf(this.props.exceptionClass) > -1) return
+    console.log(event.target.className)
+    if (
+      event.target.className &&
+      event.target.className.indexOf &&
+      event.target.className.indexOf(this.props.exceptionClass) > -1
+    )
+      return
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
       this.props.close()
       event.isOutsideClick = true

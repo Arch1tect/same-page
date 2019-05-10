@@ -38,7 +38,7 @@ class ChatBody extends React.Component {
     ) {
       setTimeout(() => {
         bodyDiv.scrollTop = bodyDiv.scrollHeight
-      }, 100)
+      }, 300)
     }
   }
   addMsg = msg => {

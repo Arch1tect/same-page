@@ -2,6 +2,7 @@
   display: none;
 }
 .emoji-mart {
+  max-width: 100%;
   position: fixed;
   bottom: 39px;
   left: 0px;
@@ -13,4 +14,8 @@
 }
 .emoji-mart-category-label span {
   margin-bottom: 5px;
+}
+.emoji-mart-emoji-custom span {
+  width: 72px !important;
+  height: 72px !important;
 }

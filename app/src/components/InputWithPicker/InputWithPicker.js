@@ -25,9 +25,14 @@ function InputWithPicker(props) {
     }
   }
   const addEmoji = emoji => {
-    setInput(input => {
-      return input + emoji.native
-    })
+    if (emoji.custom) {
+      props.send(emoji.imageUrl)
+      setShowEmoji(false)
+    } else {
+      setInput(input => {
+        return input + emoji.native
+      })
+    }
     inputRef.current.focus()
   }
   const handleChange = e => {
