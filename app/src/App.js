@@ -1,5 +1,5 @@
 import React from "react"
-import { Icon } from "antd"
+import { Icon, message } from "antd"
 
 import Tab from "containers/Tab"
 import AccountContext from "context/account-context"
@@ -39,6 +39,15 @@ class App extends React.Component {
         if (error.response.status === 401) {
           this.setAccount(null)
         }
+        let errorMessage = "出错了"
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
+          errorMessage = error.response.data.error
+        }
+        message.error(errorMessage)
         return Promise.reject(error)
       }
     )

@@ -69,11 +69,11 @@ function ChatHeader(props) {
       <div>
         <Row justify="center">
           <Col style={{ textAlign: "left" }} span={8}>
-            <Button
+            {/* <Button
               style={{ border: "none" }}
               size="small"
               icon="notification"
-            />
+            /> */}
           </Col>
           <Col span={8}>
             {/* <Switch
