@@ -3,7 +3,7 @@ import { Icon, message } from "antd"
 
 import Tab from "containers/Tab"
 import AccountContext from "context/account-context"
-import socketManager from "socket/socket"
+import socketManager, { socketHandler } from "socket/socket"
 import storageManager from "utils/storage"
 import axios from "axios"
 import moment from "moment"
@@ -35,7 +35,6 @@ class App extends React.Component {
       },
       error => {
         // set account to null when we receive 401
-        // TODO: display error msg
         if (error.response.status === 401) {
           this.setAccount(null)
         }
@@ -65,6 +64,12 @@ class App extends React.Component {
     storageManager.addEventListener("account", account => {
       this.setState({ account: account })
     })
+    socketHandler.onConnected = () => {
+      message.success("连接成功！")
+    }
+    socketHandler.onDisconnected = () => {
+      message.warn("连接已断开")
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {

@@ -1,12 +1,13 @@
 import "./Footer.css"
 
 import React, { useContext } from "react"
+import { message } from "antd"
 
 import InputWithPicker from "components/InputWithPicker"
 import AccountContext from "context/account-context"
 import socketManager from "socket/socket"
 
-const MESSAGE_TIME_GAP = 2 * 1000
+const MESSAGE_TIME_GAP = 3 * 1000
 let lastMsgTime = 0
 
 function Footer(props) {
@@ -26,7 +27,7 @@ function Footer(props) {
       lastMsgTime = now
       return true
     } else {
-      console.error("too fast")
+      message.warn("请放慢速度")
       return false
     }
   }

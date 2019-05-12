@@ -62,8 +62,20 @@ const socketManager = {
         console.warn("onUserLeft not defined")
       }
     })
+    _socket.on("disconnect", data => {
+      if (socketHandler.onDisconnected) {
+        socketHandler.onDisconnected(data)
+      } else {
+        console.warn("onDisconnected not defined")
+      }
+    })
     _socket.on("login", data => {
       console.debug("connected, login as " + _account.id)
+      if (socketHandler.onConnected) {
+        socketHandler.onConnected(data)
+      } else {
+        console.warn("onConnected not defined")
+      }
       _socket.emit("login", {
         username: _account.name,
         userId: _account.id,
