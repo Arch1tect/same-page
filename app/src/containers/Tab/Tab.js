@@ -3,9 +3,6 @@ import "./Tab.css"
 
 import React, { useState } from "react"
 import { Tabs, Icon, Tooltip } from "antd"
-// import { Provider } from "react-redux"
-// import { createStore } from "redux"
-// import rootReducer from "./reducers"
 
 import Chat from "containers/Chat"
 import Comment from "containers/Comment"
@@ -16,8 +13,6 @@ import Inbox from "containers/Inbox"
 import TabContext from "context/tab-context"
 
 const TabPane = Tabs.TabPane
-
-// const store = createStore(rootReducer)
 
 function Tab(props) {
   console.log("render tab")

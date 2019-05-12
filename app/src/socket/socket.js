@@ -1,17 +1,24 @@
 import * as io from "socket.io-client"
 
 import urls from "config/urls"
+import { getUrl, getDomain } from "utils/url"
 
 let _socket = null
-let _account = null
+
+const _config = {
+  account: null,
+  pageOrSite: "site"
+}
 const socketManager = {
   sendMessage: msg => {
     _socket.emit("new message", msg)
   },
   // connect should be called when user is logged in
   // after user data is properly set
+  // socket is initilized only once, callbacks are registered
+  // only once, should only update socket config but not callbacks
   connect: account => {
-    _account = account
+    _config.account = account
     if (_socket) {
       console.debug("socket already created, reconnect")
       if (_socket.connected) {
@@ -28,7 +35,7 @@ const socketManager = {
     _socket.on("new message", data => {
       console.debug(data)
       // TODO: move following data massaging work to backend
-      data.self = data.sender.toString() === account.id.toString()
+      data.self = data.sender.toString() === _config.account.id.toString()
       data.type = "text"
       if (data.message.startsWith("stickers/")) {
         data.type = "sticker"
@@ -63,6 +70,7 @@ const socketManager = {
       }
     })
     _socket.on("disconnect", data => {
+      console.debug("disconnect")
       if (socketHandler.onDisconnected) {
         socketHandler.onDisconnected(data)
       } else {
@@ -70,26 +78,33 @@ const socketManager = {
       }
     })
     _socket.on("login", data => {
-      console.debug("connected, login as " + _account.id)
+      console.debug("connected, login as " + _config.account.id)
       if (socketHandler.onConnected) {
         socketHandler.onConnected(data)
       } else {
         console.warn("onConnected not defined")
       }
-      _socket.emit("login", {
-        username: _account.name,
-        userId: _account.id,
-        // roomId: "https://www.baidu.com/",
-        // roomId: "baidu.com",
-        roomId: "https://www.hulu.com/welcome",
-        url: "https://www.hulu.com/welcome", // added field in v2.6.0
 
+      _socket.emit("login", {
+        username: _config.account.name,
+        userId: _config.account.id,
+        roomId: _config.pageOrSite === "page" ? getUrl() : getDomain(),
+        url: getUrl(), // added field in v2.6.0
         version: "4.0.0",
-        lang: "en",
+        lang: "en", // TODO
         pageTitle: ""
-        // token: chatboxConfig.token
+        // token: chatboxConfig.token TODO
       })
     })
+  },
+  togglePageSite: pageOrSite => {
+    // TODO: don't really have to reconnect
+    // just tell socket server to change room
+    _config.pageOrSite = pageOrSite
+    _socket.disconnect()
+    setTimeout(() => {
+      _socket.connect()
+    }, 500)
   },
   disconnect: () => {
     if (_socket) {

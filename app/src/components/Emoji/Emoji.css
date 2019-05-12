@@ -19,3 +19,9 @@
   width: 72px !important;
   height: 72px !important;
 }
+.emoji-mart-category .emoji-mart-emoji span {
+  cursor: pointer;
+}
+.emoji-mart-anchor {
+  cursor: pointer;
+}

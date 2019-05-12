@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, Avatar, Card, Icon } from "antd"
+import { Button, Avatar, Card } from "antd"
 const { Meta } = Card
 
 const aboutStyle = {

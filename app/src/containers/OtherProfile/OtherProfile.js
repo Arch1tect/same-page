@@ -1,7 +1,6 @@
-import React, { useContext } from "react"
+import React from "react"
 import { Button } from "antd"
 
-import TabContext from "context/tab-context"
 import ProfileMeta from "./ProfileMeta"
 import PrfileBody from "./ProfileBody"
 

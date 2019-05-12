@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react"
-import { Avatar, Icon } from "antd"
+import { Avatar } from "antd"
 import TabContext from "context/tab-context"
 
 import ProfileCard from "./ProfileCard"

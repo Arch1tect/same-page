@@ -1,21 +1,15 @@
 import "./Header.css"
 
 import React, { useState, useEffect, useContext } from "react"
-import { Radio, Button } from "antd"
+import { Radio, Button, Tooltip } from "antd"
 import { Row, Col } from "antd"
 
-import { socketHandler } from "socket/socket"
+import socketManager, { socketHandler } from "socket/socket"
 import Users from "./Users"
 import AccountContext from "context/account-context"
 import TabContext from "context/tab-context"
 import urls from "config/urls"
-
-// function togglePageOrSiteChat(e) {
-//   console.log(e.target.value)
-// }
-// function toggleOnline(val) {
-//   console.log(val)
-// }
+import { getUrl, getDomain } from "utils/url"
 
 function ChatHeader(props) {
   const [showUsers, toggleUsers] = useState(false)
@@ -87,12 +81,19 @@ function ChatHeader(props) {
             <Radio.Group
               className="sp-toggle-page-site-chat"
               size="small"
-              defaultValue="a"
+              defaultValue="site"
               buttonStyle="solid"
-              onChange={props.addLiveMsg}
+              onChange={e => {
+                socketManager.togglePageSite(e.target.value)
+                console.log(e.target.value)
+              }}
             >
-              <Radio.Button value="a">网页</Radio.Button>
-              <Radio.Button value="b">网站</Radio.Button>
+              <Tooltip title={getUrl()}>
+                <Radio.Button value="page">网页</Radio.Button>
+              </Tooltip>
+              <Tooltip title={getDomain()}>
+                <Radio.Button value="site">网站</Radio.Button>
+              </Tooltip>
             </Radio.Group>
           </Col>
           <Col style={{ textAlign: "right" }} span={8}>

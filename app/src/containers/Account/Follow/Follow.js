@@ -6,7 +6,6 @@ import { Avatar, Icon, Radio, Button } from "antd"
 
 import TabContext from "context/tab-context"
 import AccountContext from "context/account-context"
-import AvatarWithHoverCard from "containers/OtherProfile/AvatarWithHoverCard"
 import urls from "config/urls"
 import followEventHandler from "./event"
 

@@ -80,7 +80,7 @@ class App extends React.Component {
     if (login) {
       console.debug("logged in")
       axios.defaults.headers.common["token"] = this.state.account.token
-      socketManager.connect(this.state.account)
+      socketManager.connect(this.state.account, true)
     }
     if (logout) {
       console.debug("logged out")
@@ -91,7 +91,7 @@ class App extends React.Component {
   }
 
   setAccount = account => {
-    console.log("set account")
+    console.debug("set account")
     storageManager.set("account", account)
   }
 

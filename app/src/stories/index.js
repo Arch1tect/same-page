@@ -7,6 +7,7 @@ import { storiesOf } from "@storybook/react"
 
 import ChatBody from "containers/Chat/Body"
 import CommentBody from "containers/Comment/Body"
+import IframeWithSrcInput from "./IframeWithSrcInput"
 
 import chatMessages from "./data/chats"
 import comments from "./data/comments"
@@ -45,8 +46,7 @@ storiesOf("Same Page", module)
           <Button onClick={removeOnlineUser}>-</Button>
         </ButtonGroup>
       </div>
-
-      <iframe className="sp-chatbox-iframe" src="http://localhost:3000" />
+      <IframeWithSrcInput />
     </div>
   ))
   .add("Test chat body", () => <ChatBody data={chatMessages} />)

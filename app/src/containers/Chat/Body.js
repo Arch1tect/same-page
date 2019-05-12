@@ -28,7 +28,7 @@ class ChatBody extends React.Component {
         messages: [...state.messages, data]
       }))
       let timeout = 10
-      if (data.type == "sticker") timeout = 500
+      if (data.type === "sticker") timeout = 500
       this.scrollToBottomIfNearBottom(timeout)
     }
   }

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react"
-import { Icon, Button } from "antd"
+import { Button } from "antd"
 
 import AccountContext from "context/account-context"
 import ResetPassword from "./ResetPassword"

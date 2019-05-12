@@ -7,6 +7,7 @@ import axios from "axios"
 import moment from "moment"
 
 import urls from "config/urls"
+import { getUrl } from "utils/url"
 import AccountContext from "context/account-context"
 import Header from "./Header"
 import Body from "./Body"
@@ -64,7 +65,7 @@ class CommentTab extends React.Component {
 
   submit = () => {
     const payload = {
-      url: "https://www.zhihu.com/",
+      url: getUrl(),
       content: this.state.input,
       reply_to_user_id: this.state.replyToUserId,
       reply_to_user_name: this.state.replyTo
@@ -128,7 +129,7 @@ class CommentTab extends React.Component {
   loadComments = () => {
     this.setState({ loading: true })
     const payload = {
-      url: "https://www.zhihu.com/",
+      url: getUrl(),
       offset: this.offset,
       limit: LIMIT,
       order: this.order

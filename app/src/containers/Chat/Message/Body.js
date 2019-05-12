@@ -10,7 +10,7 @@ function MessageBody(props) {
     // TODO: if extension, load from chrome://
 
     const imgSrc = process.env.PUBLIC_URL + content
-    content = <img src={imgSrc} />
+    content = <img alt={imgSrc} src={imgSrc} />
   }
   return <div className={className}>{content}</div>
 }
