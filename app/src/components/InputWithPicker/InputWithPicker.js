@@ -8,16 +8,25 @@ import Emoji from "../Emoji"
 function InputWithPicker(props) {
   const [input, setInput] = useState("")
   const inputRef = useRef()
+  // show emoji is one step slower than will show emoji
+  // so that we can show a loading icon
   const [showEmoji, setShowEmoji] = useState(false)
+  const [willShowEmoji, setWillShowEmoji] = useState(false)
+
   const sending = props.sending
   useEffect(() => {
     if (!sending) {
       inputRef.current.focus()
     }
   }, [sending])
+
+  useEffect(() => {
+    setShowEmoji(willShowEmoji)
+  }, [willShowEmoji])
+
   const handleKeyDown = e => {
     if (e.key === "Enter") {
-      setShowEmoji(false)
+      setWillShowEmoji(false)
       const shouldClear = props.send(input)
       if (shouldClear) {
         setInput("")
@@ -27,7 +36,7 @@ function InputWithPicker(props) {
   const addEmoji = emoji => {
     if (emoji.custom) {
       props.send(emoji.imageUrl)
-      setShowEmoji(false)
+      setWillShowEmoji(false)
     } else {
       setInput(input => {
         return input + emoji.native
@@ -43,8 +52,8 @@ function InputWithPicker(props) {
     <Icon
       className="emojiOpener"
       onClick={e => {
-        setShowEmoji(prevState => {
-          setShowEmoji(!prevState)
+        setWillShowEmoji(prevState => {
+          setWillShowEmoji(!prevState)
         })
       }}
       type="smile"
@@ -53,16 +62,16 @@ function InputWithPicker(props) {
 
   return (
     <div className="sp-input-with-picker">
+      {willShowEmoji && <Icon style={{ margin: 10 }} type="loading" />}
       {showEmoji && (
         <Emoji
           addEmoji={addEmoji}
           exceptionClass="emojiOpener"
           close={() => {
-            setShowEmoji(false)
+            setWillShowEmoji(false)
           }}
         />
       )}
-
       <Input
         ref={inputRef}
         size="large"
