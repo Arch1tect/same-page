@@ -16,6 +16,7 @@ function Inbox(props) {
   if (account) storageKey += account.id
   const prevAccountRef = useRef()
   const [conversations, setConversations] = useState({})
+  const [showNotifications, setShowNotifications] = useState(false)
   // offset equals to the biggest message id
   const [loading, setLoading] = useState(false)
   let selectedConversation = null
@@ -182,7 +183,7 @@ function Inbox(props) {
   }
   return (
     <div className="sp-inbox-tab">
-      {selectedConversation && (
+      {selectedConversation && !showNotifications && (
         <Conversation
           back={() => {
             setUser(null)
@@ -196,16 +197,15 @@ function Inbox(props) {
         <div>
           <center className="sp-tab-header">
             <Radio.Group
-              // className="sp-toggle-page-site-chat"
               size="small"
-              defaultValue={true}
+              defaultValue={showNotifications}
               buttonStyle="solid"
               onChange={e => {
-                // setShowFollowers(e.target.value)
+                setShowNotifications(e.target.value)
               }}
             >
-              <Radio.Button value={true}>私信</Radio.Button>
-              <Radio.Button value={false}>消息</Radio.Button>
+              <Radio.Button value={false}>私信</Radio.Button>
+              <Radio.Button value={true}>消息</Radio.Button>
             </Radio.Group>
           </center>
           <div className="sp-tab-body" style={{ paddingBottom: 70 }}>
@@ -222,7 +222,10 @@ function Inbox(props) {
               </center>
             )}
 
-            {rows}
+            {!showNotifications && rows}
+            {showNotifications && (
+              <center style={{ margin: 20 }}>没有消息</center>
+            )}
           </div>
         </div>
       )}

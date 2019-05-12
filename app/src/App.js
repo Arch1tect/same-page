@@ -65,10 +65,10 @@ class App extends React.Component {
       this.setState({ account: account })
     })
     socketHandler.onConnected = () => {
-      message.success("连接成功！")
+      message.success("连接成功！", 2)
     }
     socketHandler.onDisconnected = () => {
-      message.warn("连接已断开")
+      message.warn("连接已断开", 2)
     }
   }
 
