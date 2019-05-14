@@ -1,28 +1,38 @@
 import React from "react"
 
-import { Form, Input, Select, Button } from "antd"
+import { Form, Input, Select, Button, message } from "antd"
+
 import AvatarUploader from "./AvatarUploader"
+import { updateUser } from "services/user"
 
-const { Option } = Select
-
+// const { Option } = Select
+let avatarFile = null
 class EditProfileForm extends React.Component {
-  // state = {
-  //   confirmDirty: false
-  // }
+  state = {
+    submitting: false
+  }
 
   handleSubmit = e => {
     e.preventDefault()
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values)
+        console.log(avatarFile)
+        values.avatar = avatarFile
+        this.setState({ submitting: true })
+
+        updateUser(values)
+          .then(resp => {
+            message.success("更新成功！")
+            this.props.setAccount(resp.data)
+          })
+          .catch(err => {})
+          .then(() => {
+            this.setState({ submitting: false })
+          })
       }
     })
   }
-
-  // handleConfirmBlur = e => {
-  //   const value = e.target.value
-  //   this.setState({ confirmDirty: this.state.confirmDirty || !!value })
-  // }
 
   render() {
     const { getFieldDecorator } = this.props.form
@@ -75,20 +85,29 @@ class EditProfileForm extends React.Component {
           <Form.Item label="上传头像">
             {getFieldDecorator("upload", {
               valuePropName: "fileList",
-              getValueFromEvent: this.normFile
-            })(<AvatarUploader />)}
+              getValueFromEvent: () => {
+                return avatarFile
+              }
+            })(
+              <AvatarUploader
+                setFile={file => {
+                  avatarFile = file
+                }}
+              />
+            )}
           </Form.Item>
           <Form.Item label={<span>用户名</span>}>
-            {getFieldDecorator("nickname", {
+            {getFieldDecorator("name", {
               rules: [
                 {
                   message: "用户名不能为空",
                   whitespace: true
                 }
               ],
-              initialValue: account.username
+              initialValue: account.name
             })(<Input />)}
           </Form.Item>
+          {/* 
           <Form.Item label="性别">
             {getFieldDecorator("gender", {
               rules: [{ required: false, message: "请选择你的性别!" }]
@@ -101,7 +120,7 @@ class EditProfileForm extends React.Component {
                 <Option value="other">其他</Option>
               </Select>
             )}
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item label={<span>个人简介</span>}>
             {getFieldDecorator("about", {
               initialValue: account.about
@@ -115,7 +134,12 @@ class EditProfileForm extends React.Component {
             >
               取消
             </Button>
-            <Button type="primary" size="large" htmlType="submit">
+            <Button
+              loading={this.state.submitting}
+              type="primary"
+              size="large"
+              htmlType="submit"
+            >
               保存
             </Button>
           </Form.Item>

@@ -17,3 +17,10 @@ export const login = (userId, password) => {
 export const logout = () => {
   return axios.post(urls.dbAPI + "/api/v1/logout")
 }
+
+export const resetPassword = password => {
+  const payload = {
+    password: password
+  }
+  return axios.post(urls.dbAPI + "/api/v1/reset_password", payload)
+}

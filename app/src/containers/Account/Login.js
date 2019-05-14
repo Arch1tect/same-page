@@ -83,11 +83,11 @@ class NormalLoginForm extends React.Component {
             >
               登录
             </Button>
-            或
+            {/* 或
             {
               // eslint-disable-next-line
               <a>注册</a>
-            }
+            } */}
           </Form.Item>
         </Form>
       </div>

@@ -64,7 +64,11 @@ function Account(props) {
         />
       )}
       {edittingProfile && (
-        <EditProfile account={account} back={backToMainPage} />
+        <EditProfile
+          account={account}
+          setAccount={setAccount}
+          back={backToMainPage}
+        />
       )}
       <Profile
         account={account}

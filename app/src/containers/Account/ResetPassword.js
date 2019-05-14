@@ -1,5 +1,7 @@
 import React from "react"
-import { Form, Input, Button } from "antd"
+import { Form, Input, Button, message } from "antd"
+
+import { resetPassword } from "services/account"
 
 class ResetPasswordForm extends React.Component {
   state = {
@@ -10,6 +12,12 @@ class ResetPasswordForm extends React.Component {
     e.preventDefault()
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        resetPassword(values.password)
+          .then(() => {
+            message.success("更改成功！")
+          })
+          .catch()
+          .then()
         console.log("Received values of form: ", values)
       }
     })

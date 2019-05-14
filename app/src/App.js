@@ -35,7 +35,7 @@ class App extends React.Component {
       },
       error => {
         // set account to null when we receive 401
-        if (error.response.status === 401) {
+        if (error.response && error.response.status === 401) {
           this.setAccount(null)
         }
         let errorMessage = "出错了"

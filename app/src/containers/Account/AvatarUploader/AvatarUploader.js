@@ -14,6 +14,7 @@ class App extends React.Component {
     this.setState({
       pictures: picture
     })
+    this.props.setFile(picture[0])
   }
 
   render() {
