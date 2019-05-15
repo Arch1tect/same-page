@@ -7,24 +7,40 @@ import socketManager, { socketHandler } from "socket/socket"
 import storageManager from "utils/storage"
 import axios from "axios"
 import moment from "moment"
-require("moment/locale/zh-cn") //moment bug, has to manually include
+require("moment/locale/zh-cn") //moment.js bug, has to manually include
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       account: null,
-      // Load account from storage is the first step of the app
-      // Do not mount any component until loading completed
-      // MUST initialize as true
-      loadingFromStorage: true
+      // A few steps before mounting the app
+      // 1. Check local/chrome storage to see if there's account data
+      // , if so, mount the app.
+      // 2. If no account in storage, check if there's credential data
+      // in storage, if so, mount the app and auto login
+      // 3. If neither account nor credential data is in storage,
+      // mount the app and auto register
+
+      // In short, do not mount until done loading account/credential
+      // from storage
+
+      // above comment needs update
+      loadingFromStorage: true,
+      // Only if there is no account data in storage on page load
+      // autoLogin only once per page load
+      autoLogin: false
     }
     const locale = window.navigator.userLanguage || window.navigator.language
     if (locale.indexOf("zh") > -1) {
       moment.locale("zh-cn")
-      console.debug("chinese")
     }
-    console.log(locale)
+    // console.debug(locale)
+    message.config({
+      top: 80,
+      duration: 2,
+      maxCount: 3
+    })
   }
 
   componentDidMount() {
@@ -58,6 +74,7 @@ class App extends React.Component {
         console.debug(account)
         this.setState({ account: account })
       } else {
+        this.setState({ autoLogin: true })
         console.debug("no account found in storage")
       }
     })
@@ -95,6 +112,10 @@ class App extends React.Component {
     storageManager.set("account", account)
   }
 
+  stopAutoLogin = () => {
+    this.setState({ autoLogin: false })
+  }
+
   render() {
     if (this.state.loadingFromStorage) {
       return (
@@ -109,7 +130,12 @@ class App extends React.Component {
     }
     return (
       <AccountContext.Provider
-        value={{ account: this.state.account, setAccount: this.setAccount }}
+        value={{
+          account: this.state.account,
+          setAccount: this.setAccount,
+          autoLogin: this.state.autoLogin,
+          stopAutoLogin: this.stopAutoLogin
+        }}
       >
         <Tab tab={tab} />
       </AccountContext.Provider>

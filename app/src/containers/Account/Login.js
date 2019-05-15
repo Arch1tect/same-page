@@ -2,6 +2,8 @@ import React from "react"
 import { Form, Icon, Input, Button } from "antd"
 
 import { login } from "services/account"
+import storageManager from "utils/storage"
+import AccountContext from "context/account-context"
 
 class NormalLoginForm extends React.Component {
   constructor(props) {
@@ -10,31 +12,54 @@ class NormalLoginForm extends React.Component {
       loading: false
     }
   }
+
+  componentDidMount() {
+    storageManager.get("login", values => {
+      if (values) {
+        this.props.form.setFieldsValue({
+          userId: values.userId,
+          password: values.password
+        })
+        console.log(this.context)
+        if (this.context.autoLogin) {
+          this.context.stopAutoLogin()
+          this.loginUser(values)
+        }
+        console.debug("found login in storage")
+      } else {
+        console.debug("no login found in storage")
+      }
+    })
+  }
+
+  loginUser = values => {
+    this.setState({ loading: true })
+    login(values.userId, values.password)
+      .then(res => {
+        console.debug(res.data)
+        const account = res.data
+        this.setState({ loading: false })
+        this.props.setAccount(account)
+        storageManager.set("login", values)
+      })
+      .catch(err => {
+        console.error(err)
+        this.setState({ loading: false })
+      })
+      .then(() => {
+        // can't change state here because if succeed
+        // component will be unmounted before we set loading
+        // to be false
+        // this.setState({ loading: false })
+      })
+  }
+
   handleSubmit = e => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
+      console.debug("Received values of form: ", values)
       if (!err) {
-        this.setState({ loading: true })
-        login(values.userId, values.password)
-          .then(res => {
-            // this.setState({ submitting: false })
-            console.log(res.data)
-            const account = res.data
-            this.setState({ loading: false })
-            this.props.setAccount(account)
-          })
-          .catch(err => {
-            console.error(err)
-            this.setState({ loading: false })
-          })
-          .then(() => {
-            // can't change state here because if succeed
-            // component will be unmounted before we set loading
-            // to be false
-            // this.setState({ loading: false })
-          })
-
-        console.log("Received values of form: ", values)
+        this.loginUser(values)
       }
     })
   }
@@ -94,6 +119,7 @@ class NormalLoginForm extends React.Component {
     )
   }
 }
+NormalLoginForm.contextType = AccountContext
 
 const WrappedNormalLoginForm = Form.create({ name: "normal_login" })(
   NormalLoginForm
