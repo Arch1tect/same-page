@@ -52,8 +52,8 @@ body ::-webkit-scrollbar-thumb:window-inactive {
   object-fit: cover;
 }
 .ant-avatar {
-  /* avatar is always clickable? */
-  cursor: pointer;
+  /* avatar is always clickable? NO!*/
+  /* cursor: pointer; */
 }
 .ant-avatar.ant-avatar-icon {
   /* background: #87d068; */

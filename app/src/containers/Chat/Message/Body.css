@@ -24,3 +24,7 @@
 .sp-message-body img {
   max-width: 100px;
 }
+
+.sp-chat-message-avatar {
+  cursor: pointer;
+}

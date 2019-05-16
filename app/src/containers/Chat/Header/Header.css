@@ -10,6 +10,7 @@
 .sp-online-user {
   display: inline-block;
   margin: 5px;
+  cursor: pointer;
 }
 .sp-online-user-username {
   font-size: 10px;

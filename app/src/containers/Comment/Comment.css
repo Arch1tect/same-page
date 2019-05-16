@@ -9,3 +9,7 @@
   border-left: 0;
   border-right: 0;
 }
+
+.sp-comment-message-avatar {
+  cursor: pointer;
+}

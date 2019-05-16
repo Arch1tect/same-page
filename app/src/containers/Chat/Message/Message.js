@@ -35,7 +35,13 @@ function ChatMessage(props) {
 
   let avatar = <Avatar size="small" icon="user" src={user.avatarSrc} />
   if (!user.self && props.withHoverCard) {
-    avatar = <AvatarWithHoverCard size="small" user={user} />
+    avatar = (
+      <AvatarWithHoverCard
+        className="sp-chat-message-avatar"
+        size="small"
+        user={user}
+      />
+    )
   }
 
   if (user.self) {
