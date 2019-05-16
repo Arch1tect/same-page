@@ -17,7 +17,7 @@ function CommentBody(props) {
     )
   })
   if (!comments.length) {
-    comments = <center>No comments yet</center>
+    comments = <center>没有评论</center>
   }
 
   return <div>{comments}</div>

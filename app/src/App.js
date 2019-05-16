@@ -50,11 +50,12 @@ class App extends React.Component {
         return response
       },
       error => {
+        let errorMessage = "出错了"
         // set account to null when we receive 401
         if (error.response && error.response.status === 401) {
           this.setAccount(null)
+          errorMessage = "请重新登录"
         }
-        let errorMessage = "出错了"
         if (
           error.response &&
           error.response.data &&

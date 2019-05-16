@@ -1,7 +1,7 @@
 import React from "react"
-import { Form, Icon, Input, Button } from "antd"
+import { Form, Icon, Input, Button, message } from "antd"
 
-import { login } from "services/account"
+import { login, register } from "services/account"
 import storageManager from "utils/storage"
 import AccountContext from "context/account-context"
 
@@ -9,26 +9,52 @@ class NormalLoginForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      loading: false
+      loading: false,
+      // registration code may be moved into
+      // dedicated file in the future
+      registering: false
     }
   }
 
   componentDidMount() {
     storageManager.get("login", values => {
       if (values) {
+        console.debug("found login in storage")
         this.props.form.setFieldsValue({
           userId: values.userId,
           password: values.password
         })
-        console.log(this.context)
         if (this.context.autoLogin) {
-          this.context.stopAutoLogin()
           this.loginUser(values)
+          console.debug("auto login")
         }
-        console.debug("found login in storage")
       } else {
-        console.debug("no login found in storage")
+        console.debug("no login found in storage, register now")
+        const password = Math.random()
+          .toString(36)
+          .slice(-8)
+        this.setState({ registering: true })
+        register(password)
+          .then(resp => {
+            this.setState({ registering: false })
+            const account = resp.data
+            this.props.setAccount(account)
+            storageManager.set("login", {
+              userId: account.numId,
+              password: password
+            })
+            message.success("注册成功!")
+          })
+          .catch(err => {
+            this.setState({ registering: false })
+            // TODO: put specific error message in each .catch
+            // Only use global axios interceptor when backend
+            // return prepared error message
+            // message.error("注册失败，请刷新重试")
+          })
+          .then(() => {})
       }
+      this.context.stopAutoLogin()
     })
   }
 
@@ -65,6 +91,13 @@ class NormalLoginForm extends React.Component {
   }
 
   render() {
+    if (this.state.registering) {
+      return (
+        <div className="sp-special-tab">
+          <center style={{ marginTop: "50%" }}>注册中...</center>
+        </div>
+      )
+    }
     const { getFieldDecorator } = this.props.form
     return (
       <div className="sp-special-tab">
