@@ -148,7 +148,7 @@ function Inbox(props) {
     return b.time - a.time
   })
 
-  const rows = conversationsArray.map(c => {
+  let rows = conversationsArray.map(c => {
     const user = c.user
     return (
       <div
@@ -173,6 +173,9 @@ function Inbox(props) {
       </div>
     )
   })
+  if (conversationsArray.length === 0) {
+    rows = <center style={{ margin: 20 }}>没有消息</center>
+  }
 
   if (!account) {
     return (
