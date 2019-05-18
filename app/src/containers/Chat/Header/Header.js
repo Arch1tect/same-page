@@ -88,10 +88,10 @@ function ChatHeader(props) {
                 console.log(e.target.value)
               }}
             >
-              <Tooltip title={getUrl()}>
+              <Tooltip placement="bottom" title={getUrl()}>
                 <Radio.Button value="page">网页</Radio.Button>
               </Tooltip>
-              <Tooltip title={getDomain()}>
+              <Tooltip placement="bottom" title={getDomain()}>
                 <Radio.Button value="site">网站</Radio.Button>
               </Tooltip>
             </Radio.Group>
