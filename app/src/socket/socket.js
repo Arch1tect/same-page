@@ -9,6 +9,12 @@ const _config = {
   account: null,
   pageOrSite: "site"
 }
+function _sendDanmu(message) {
+  const danmuMsg = {
+    msg: message
+  }
+  window.parent.postMessage(danmuMsg, "*")
+}
 const socketManager = {
   sendMessage: msg => {
     _socket.emit("new message", msg)
@@ -46,7 +52,7 @@ const socketManager = {
       if (data.hasAvatar) {
         data.avatarSrc = urls.cloudFront + data.userId + ".jpg"
       }
-
+      _sendDanmu(data)
       if (socketHandler.onLiveMsg) {
         socketHandler.onLiveMsg(data)
       } else {
