@@ -92,8 +92,8 @@ function Tab(props) {
           </TabPane>
           <TabPane
             tab={
-              <Tooltip title="最小化" placement="bottom">
-                <Icon type="vertical-align-bottom" />
+              <Tooltip title="隐藏聊天盒" placement="bottom">
+                <Icon type="close" />
               </Tooltip>
             }
             key="minimize"
