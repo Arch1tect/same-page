@@ -69,7 +69,6 @@ class App extends React.Component {
     )
     console.log("get account from storage, register account change listener")
     storageManager.get("account", account => {
-      this.setState({ loadingFromStorage: false })
       if (account) {
         console.debug("found account in storage")
         console.debug(account)
@@ -78,6 +77,7 @@ class App extends React.Component {
         this.setState({ autoLogin: true })
         console.debug("no account found in storage")
       }
+      this.setState({ loadingFromStorage: false })
     })
     storageManager.addEventListener("account", account => {
       this.setState({ account: account })

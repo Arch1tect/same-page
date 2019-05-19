@@ -1,7 +1,7 @@
 /*global chrome*/
 const storage = {
   get: (key, callback) => {
-    if (chrome.storage) {
+    if (chrome && chrome.storage) {
       chrome.storage.local.get(key, item => {
         if (key in item) {
           callback(item[key])
@@ -18,7 +18,7 @@ const storage = {
     }
   },
   set: (key, value) => {
-    if (chrome.storage) {
+    if (chrome && chrome.storage) {
       var item = {}
       item[key] = value
       chrome.storage.local.set(item)
@@ -36,7 +36,13 @@ const storage = {
     }
   },
   addEventListener: (key, callback) => {
-    if (chrome.storage) {
+    if (chrome && chrome.storage) {
+      chrome.storage.onChanged.addListener((changes, area) => {
+        if (key in changes) {
+          console.debug(changes[key])
+          callback(changes[key]["newValue"])
+        }
+      })
     } else {
       window.addEventListener("storage", storageEvent => {
         // key;          // name of the property set, changed etc.

@@ -1,3 +1,5 @@
+/*global chrome*/
+
 import "./Body.css"
 
 import React from "react"
@@ -7,9 +9,11 @@ function MessageBody(props) {
   let content = data.content
   let className = "sp-message-body " + data.type
   if (data.type === "sticker") {
-    // TODO: if extension, load from chrome://
-
-    const imgSrc = process.env.PUBLIC_URL + content
+    // TODO: maybe centralize this code for getting image path
+    let imgSrc = process.env.PUBLIC_URL + content
+    if (chrome.extension) {
+      imgSrc = chrome.extension.getURL("build/" + content)
+    }
     content = <img alt={imgSrc} src={imgSrc} />
   }
   return <div className={className}>{content}</div>
