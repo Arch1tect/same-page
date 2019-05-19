@@ -4,7 +4,8 @@ import { socketHandler } from "socket/socket"
 import AccountContext from "context/account-context"
 const chatBodyStyle = {
   height: "calc(100% - 107px)",
-  overflow: "auto",
+  overflowY: "auto",
+  overflowX: "hidden",
   width: "100%",
   position: "fixed",
   background: "#f6f9fc",

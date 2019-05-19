@@ -10,7 +10,7 @@ function MessageBody(props) {
   let className = "sp-message-body " + data.type
   if (data.type === "sticker") {
     // TODO: maybe centralize this code for getting image path
-    let imgSrc = process.env.PUBLIC_URL + content
+    let imgSrc = content
     if (chrome.extension) {
       imgSrc = chrome.extension.getURL("build/" + content)
     }
