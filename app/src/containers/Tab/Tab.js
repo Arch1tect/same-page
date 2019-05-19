@@ -39,6 +39,10 @@ function Tab(props) {
       <div className="card-container">
         <Tabs
           onChange={val => {
+            if (val == "minimize") {
+              window.parent.postMessage("minimize", "*")
+              return
+            }
             changeTab(val)
             selectOtherUser(null)
           }}
@@ -85,6 +89,16 @@ function Tab(props) {
             key="account"
           >
             <Account />
+          </TabPane>
+          <TabPane
+            tab={
+              <Tooltip title="最小化" placement="bottom">
+                <Icon type="vertical-align-bottom" />
+              </Tooltip>
+            }
+            key="minimize"
+          >
+            <span>shoud not see this!</span>
           </TabPane>
         </Tabs>
       </div>
