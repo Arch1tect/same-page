@@ -199,6 +199,18 @@ function Inbox(props) {
       {!selectedConversation && (
         <div>
           <center className="sp-tab-header">
+            {loading && (
+              <Icon
+                style={{
+                  margin: 3,
+                  position: "absolute",
+                  left: 10,
+                  border: "none",
+                  fontSize: "large"
+                }}
+                type="loading"
+              />
+            )}
             <Radio.Group
               size="small"
               defaultValue={showNotifications}
@@ -212,19 +224,6 @@ function Inbox(props) {
             </Radio.Group>
           </center>
           <div className="sp-tab-body" style={{ paddingBottom: 70 }}>
-            {loading && (
-              <center>
-                <Icon
-                  style={{
-                    marginTop: 10,
-                    border: "none",
-                    fontSize: "large"
-                  }}
-                  type="loading"
-                />
-              </center>
-            )}
-
             {!showNotifications && rows}
             {showNotifications && (
               <center style={{ margin: 20 }}>没有消息</center>

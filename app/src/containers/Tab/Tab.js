@@ -49,6 +49,16 @@ function Tab(props) {
           activeKey={activeTab}
           type="card"
         >
+          {/* <TabPane
+            tab={
+              <Tooltip title="发现" placement="bottom">
+                <Icon type="home" />
+              </Tooltip>
+            }
+            key="home"
+          >
+            hi
+          </TabPane> */}
           <TabPane
             tab={
               <Tooltip title="实时聊天" placement="bottom">

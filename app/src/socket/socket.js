@@ -7,7 +7,11 @@ let _socket = null
 
 const _config = {
   account: null,
-  pageOrSite: "site"
+  // pageOrSite: "site" //page, site, lobby
+  // TODO: default roomId should be kept in one place
+  // right now Header.js also need to specify default
+  // chosen radio button is site
+  roomId: getDomain()
 }
 function _sendDanmu(message) {
   const danmuMsg = {
@@ -94,7 +98,8 @@ const socketManager = {
       _socket.emit("login", {
         username: _config.account.name,
         userId: _config.account.id,
-        roomId: _config.pageOrSite === "page" ? getUrl() : getDomain(),
+        // roomId: _config.pageOrSite === "page" ? getUrl() : getDomain(),
+        roomId: _config.roomId,
         url: getUrl(), // added field in v2.6.0
         version: "4.0.0",
         lang: "en", // TODO
@@ -103,10 +108,11 @@ const socketManager = {
       })
     })
   },
-  togglePageSite: pageOrSite => {
+  togglePageSite: roomId => {
     // TODO: don't really have to reconnect
     // just tell socket server to change room
-    _config.pageOrSite = pageOrSite
+    // _config.pageOrSite = pageOrSite
+    _config.roomId = roomId
     _socket.disconnect()
     setTimeout(() => {
       _socket.connect()

@@ -61,16 +61,15 @@ function ChatHeader(props) {
   if (accountContext.account) {
     content = (
       <div>
-        <Row justify="center">
-          <Col style={{ textAlign: "left" }} span={8}>
-            {/* <Button
+        {/* <Row justify="center"> */}
+        {/* <Col style={{ textAlign: "left" }} span={8}> */}
+        {/* <Button
               style={{ border: "none" }}
               size="small"
               icon="notification"
             /> */}
-          </Col>
-          <Col span={8}>
-            {/* <Switch
+        {/* </Col> */}
+        {/* <Switch
         className="sp-toggle-online"
         checkedChildren="在线"
         unCheckedChildren="离线"
@@ -78,40 +77,42 @@ function ChatHeader(props) {
         onChange={toggleOnline}
       /> */}
 
-            <Radio.Group
-              className="sp-toggle-page-site-chat"
-              size="small"
-              defaultValue="site"
-              buttonStyle="solid"
-              onChange={e => {
-                socketManager.togglePageSite(e.target.value)
-                console.log(e.target.value)
-              }}
-            >
-              <Tooltip placement="bottom" title={getUrl()}>
-                <Radio.Button value="page">网页</Radio.Button>
-              </Tooltip>
-              <Tooltip placement="bottom" title={getDomain()}>
-                <Radio.Button value="site">网站</Radio.Button>
-              </Tooltip>
-            </Radio.Group>
-          </Col>
-          <Col style={{ textAlign: "right" }} span={8}>
-            <Button
-              style={{ border: "none" }}
-              onClick={() => toggleUsers(!showUsers)}
-              size="small"
-              icon="team"
-            >
-              <span style={{ marginLeft: 5 }}>{users.length}</span>
-            </Button>
-          </Col>
-        </Row>
+        <Radio.Group
+          className="sp-toggle-page-site-chat"
+          size="small"
+          defaultValue={getDomain()}
+          buttonStyle="solid"
+          onChange={e => {
+            socketManager.togglePageSite(e.target.value)
+            console.log(e.target.value)
+          }}
+        >
+          <Tooltip placement="bottom" title="anywhere">
+            <Radio.Button value="lobby">大厅</Radio.Button>
+          </Tooltip>
+          <Tooltip placement="bottom" title={getDomain()}>
+            <Radio.Button value={getDomain()}>网站</Radio.Button>
+          </Tooltip>
+          <Tooltip placement="bottom" title={getUrl()}>
+            <Radio.Button value={getUrl()}>网页</Radio.Button>
+          </Tooltip>
+        </Radio.Group>
+        {/* <Col style={{ textAlign: "right" }} span={8}> */}
+        <Button
+          style={{ border: "none", position: "absolute", right: 0 }}
+          onClick={() => toggleUsers(!showUsers)}
+          size="small"
+          icon="team"
+        >
+          <span style={{ marginLeft: 5 }}>{users.length}</span>
+        </Button>
+        {/* </Col> */}
+        {/* </Row> */}
         {showUsers && <Users users={users} />}
       </div>
     )
   }
-  return <div className="sp-tab-header">{content}</div>
+  return <center className="sp-tab-header">{content}</center>
 }
 
 export default ChatHeader

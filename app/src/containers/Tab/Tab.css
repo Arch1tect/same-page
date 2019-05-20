@@ -48,6 +48,11 @@ body ::-webkit-scrollbar-thumb:window-inactive {
   vertical-align: 0;
 }
 
+.ant-tabs-tab-arrow-show {
+  color: white;
+  margin-top: -2px;
+}
+
 .ant-avatar > img {
   object-fit: cover;
 }
