@@ -1,8 +1,7 @@
-/*global chrome*/
 const storage = {
   get: (key, callback) => {
-    if (chrome && chrome.storage) {
-      chrome.storage.local.get(key, item => {
+    if (window.chrome && window.chrome.storage) {
+      window.chrome.storage.local.get(key, item => {
         if (key in item) {
           callback(item[key])
         } else {
@@ -18,10 +17,10 @@ const storage = {
     }
   },
   set: (key, value) => {
-    if (chrome && chrome.storage) {
+    if (window.chrome && window.chrome.storage) {
       var item = {}
       item[key] = value
-      chrome.storage.local.set(item)
+      window.chrome.storage.local.set(item)
     } else {
       const stringValue = JSON.stringify(value)
       localStorage.setItem(key, stringValue)
@@ -36,8 +35,8 @@ const storage = {
     }
   },
   addEventListener: (key, callback) => {
-    if (chrome && chrome.storage) {
-      chrome.storage.onChanged.addListener((changes, area) => {
+    if (window.chrome && window.chrome.storage) {
+      window.chrome.storage.onChanged.addListener((changes, area) => {
         if (key in changes) {
           console.debug(changes[key])
           callback(changes[key]["newValue"])
