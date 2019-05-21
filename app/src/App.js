@@ -125,7 +125,7 @@ class App extends React.Component {
         </center>
       )
     }
-    let tab = "chat"
+    let tab = "home"
     if (!this.state.account) {
       tab = "account"
     }

@@ -9,6 +9,7 @@ import Comment from "containers/Comment"
 import Account from "containers/Account"
 import OtherProfile from "containers/OtherProfile"
 import Inbox from "containers/Inbox"
+import Home from "containers/Home"
 
 import TabContext from "context/tab-context"
 
@@ -49,7 +50,7 @@ function Tab(props) {
           activeKey={activeTab}
           type="card"
         >
-          {/* <TabPane
+          <TabPane
             tab={
               <Tooltip title="发现" placement="bottom">
                 <Icon type="home" />
@@ -57,8 +58,8 @@ function Tab(props) {
             }
             key="home"
           >
-            hi
-          </TabPane> */}
+            <Home />
+          </TabPane>
           <TabPane
             tab={
               <Tooltip title="实时聊天" placement="bottom">
