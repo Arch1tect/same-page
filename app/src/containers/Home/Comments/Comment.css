@@ -1,0 +1,14 @@
+.sp-comment-url {
+}
+.sp-home-comment {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  /* border-top: 1px solid lightgray; */
+}
+.sp-home-comment .sp-comment-message {
+  vertical-align: -webkit-baseline-middle;
+  margin-left: 10px;
+}

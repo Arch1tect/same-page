@@ -25,10 +25,10 @@ function Home(props) {
       onChange={key => {}}
     >
       <Panel header="热门聊天室" key="hot-chatrooms">
-        <p>{text}</p>
+        {/* <p>{text}</p> */}
       </Panel>
       <Panel header="热门Youtube视频" key="hot-videos">
-        <p>{text}</p>
+        {/* <p>{text}</p> */}
       </Panel>
       <Panel header="最新留言" key="latest-comments">
         <Comments />
