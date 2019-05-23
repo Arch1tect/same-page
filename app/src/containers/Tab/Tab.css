@@ -114,3 +114,7 @@ body ::-webkit-scrollbar-thumb:window-inactive {
   padding: 5px;
   height: 35px;
 }
+
+.sp-pointer-cursor {
+  cursor: pointer;
+}

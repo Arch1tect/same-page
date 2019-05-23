@@ -6,6 +6,10 @@ export const getUser = userId => {
   return axios.get(`${urls.dbAPI}/api/v1/user/${userId}`)
 }
 
+export const getLatestUsers = () => {
+  return axios.get(`${urls.dbAPI}/api/v1/latest_users`)
+}
+
 export const updateUser = payload => {
   const formData = new FormData()
   formData.append("name", payload.name)

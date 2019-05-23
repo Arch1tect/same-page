@@ -1,12 +1,14 @@
 import "./Comment.css"
 
 import React, { useState, useEffect } from "react"
-import moment from "moment"
+import { Icon } from "antd"
+// import moment from "moment"
 
 import AvatarWithHoverCard from "containers/OtherProfile/AvatarWithHoverCard"
 import { getLatestComments } from "services/comment"
 
 function Comments(props) {
+  const [loading, setLoading] = useState(true)
   const [comments, setComments] = useState([])
   useEffect(() => {
     getLatestComments()
@@ -14,8 +16,16 @@ function Comments(props) {
         setComments(resp.data)
       })
       .catch()
-      .then()
-  })
+      .then(() => {
+        setLoading(false)
+      })
+  }, [])
+  if (loading)
+    return (
+      <center>
+        <Icon type="loading" />
+      </center>
+    )
   return comments.map(comment => (
     <div className="sp-home-comment" key={comment.id}>
       <a className="sp-comment-url" target="_blank" href={comment.url}>
@@ -23,7 +33,8 @@ function Comments(props) {
       </a>
       <div className="sp-comment-body">
         <AvatarWithHoverCard
-          className="sp-comment-message-avatar"
+          className="sp-pointer-cursor"
+          size="small"
           user={comment.user}
         />
         <span className="sp-comment-message">{comment.content}</span>
