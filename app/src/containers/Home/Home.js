@@ -2,6 +2,7 @@ import React, { useState } from "react"
 
 import { Collapse } from "antd"
 
+import Danmus from "./Danmus"
 import Comments from "./Comments"
 import Users from "./Users"
 
@@ -28,11 +29,12 @@ function Home(props) {
       <Panel header="热门聊天室" key="hot-chatrooms">
         {/* <p>{text}</p> */}
       </Panel>
-      <Panel header="热门视频弹幕" key="hot-danmus">
-        {/* <p>{text}</p> */}
-      </Panel>
-      <Panel header="最新留言" key="latest-comments">
+
+      <Panel header="最新网页留言" key="latest-comments">
         <Comments />
+      </Panel>
+      <Panel header="最新视频弹幕" key="hot-danmus">
+        <Danmus />
       </Panel>
       <Panel header="新用户" key="new-users">
         <Users />
