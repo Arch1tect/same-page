@@ -40,7 +40,7 @@ const socketManager = {
     } else {
       console.debug("create socket and connect!")
     }
-    _socket = io("https://api.yiyechat.com", { path: "/socket.io" })
+    _socket = io(urls.socketAPI, { path: "/socket.io" })
 
     _socket.on("new message", data => {
       console.debug(data)

@@ -5,35 +5,26 @@ import { Collapse } from "antd"
 import Danmus from "./Danmus"
 import Comments from "./Comments"
 import Users from "./Users"
+import Rooms from "./Rooms"
 
 const Panel = Collapse.Panel
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  Known for its loyalty and faithfulness,
-  Known for its loyalty and faithfulness,
-  Known for its loyalty and faithfulness,
-  Known for its loyalty and faithfulness,
-  Known for its loyalty and faithfulness,
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`
+
 function Home(props) {
   return (
     <Collapse
       bordered={false}
       className="sp-special-tab"
-      defaultActiveKey={["hot-chatrooms", "hot-danmus"]}
+      defaultActiveKey={["hot-chatrooms"]}
       onChange={key => {}}
     >
       <Panel header="热门聊天室" key="hot-chatrooms">
-        {/* <p>{text}</p> */}
+        <Rooms />
       </Panel>
 
       <Panel header="最新网页留言" key="latest-comments">
         <Comments />
       </Panel>
-      <Panel header="最新视频弹幕" key="hot-danmus">
+      <Panel header="最新视频弹幕" key="latest-danmus">
         <Danmus />
       </Panel>
       <Panel header="新用户" key="new-users">

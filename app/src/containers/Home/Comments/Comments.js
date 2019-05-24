@@ -15,7 +15,7 @@ function Comments(props) {
       .then(resp => {
         setComments(resp.data)
       })
-      .catch()
+      .catch(err => {})
       .then(() => {
         setLoading(false)
       })

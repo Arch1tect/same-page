@@ -15,7 +15,7 @@ function Users(props) {
       .then(resp => {
         setUsers(resp.data)
       })
-      .catch()
+      .catch(err => {})
       .then(() => {
         setLoading(false)
       })

@@ -12,7 +12,7 @@ function Danmus(props) {
       .then(resp => {
         setDanmus(resp.data)
       })
-      .catch()
+      .catch(err => {})
       .then(() => {
         setLoading(false)
       })
