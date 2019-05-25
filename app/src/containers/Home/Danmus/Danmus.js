@@ -26,7 +26,12 @@ function Danmus(props) {
 
   return danmus.map(danmu => (
     <div className="sp-home-comment" key={danmu.id}>
-      <a className="sp-comment-url" target="_blank" href={danmu.url}>
+      <a
+        className="sp-comment-url"
+        target="_blank"
+        rel="noopener noreferrer"
+        href={danmu.url}
+      >
         {danmu.url}
       </a>
       <div className="sp-comment-body">

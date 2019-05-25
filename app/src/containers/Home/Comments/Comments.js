@@ -28,7 +28,12 @@ function Comments(props) {
     )
   return comments.map(comment => (
     <div className="sp-home-comment" key={comment.id}>
-      <a className="sp-comment-url" target="_blank" href={comment.url}>
+      <a
+        className="sp-comment-url"
+        target="_blank"
+        rel="noopener noreferrer"
+        href={comment.url}
+      >
         {comment.url}
       </a>
       <div className="sp-comment-body">

@@ -13,14 +13,14 @@ import { getUrl, getDomain } from "utils/url"
 
 function ChatHeader(props) {
   const [showUsers, toggleUsers] = useState(false)
+  // which room socket is in, the source of truth isn't
+  // in the UI, it's in the socket module, UI subscribe
+  // to change of socket module
+  const [room, setRoom] = useState(getDomain())
   const [users, setUsers] = useState([])
   const accountContext = useContext(AccountContext)
   const tabContext = useContext(TabContext)
 
-  // TODO: need to change back to class component
-  // if need access to users state
-  // like Body.js
-  // no, not really
   useEffect(() => {
     console.log("register user join/left handlers")
     socketHandler.onUserJoin = data => {
@@ -28,6 +28,9 @@ function ChatHeader(props) {
     }
     socketHandler.onUserLeft = data => {
       setUsers(data.onlineUsers)
+    }
+    socketHandler.onRoomChange = room => {
+      setRoom(room)
     }
     window.addEventListener(
       "message",
@@ -61,14 +64,6 @@ function ChatHeader(props) {
   if (accountContext.account) {
     content = (
       <div>
-        {/* <Row justify="center"> */}
-        {/* <Col style={{ textAlign: "left" }} span={8}> */}
-        {/* <Button
-              style={{ border: "none" }}
-              size="small"
-              icon="notification"
-            /> */}
-        {/* </Col> */}
         {/* <Switch
         className="sp-toggle-online"
         checkedChildren="在线"
@@ -80,11 +75,12 @@ function ChatHeader(props) {
         <Radio.Group
           className="sp-toggle-page-site-chat"
           size="small"
-          defaultValue={getDomain()}
+          value={room}
           buttonStyle="solid"
           onChange={e => {
-            socketManager.togglePageSite(e.target.value)
-            console.log(e.target.value)
+            const val = e.target.value
+            // setRoom(val)
+            socketManager.togglePageSite(val)
           }}
         >
           <Tooltip placement="bottom" title="anywhere">
@@ -106,8 +102,6 @@ function ChatHeader(props) {
         >
           <span style={{ marginLeft: 5 }}>{users.length}</span>
         </Button>
-        {/* </Col> */}
-        {/* </Row> */}
         {showUsers && <Users users={users} />}
       </div>
     )

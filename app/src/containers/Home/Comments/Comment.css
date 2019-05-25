@@ -1,4 +1,6 @@
 .sp-comment-url {
+  color: #1890ff;
+  cursor: pointer;
 }
 .sp-home-comment {
   white-space: nowrap;

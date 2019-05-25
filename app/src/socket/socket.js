@@ -7,7 +7,7 @@ let _socket = null
 
 const _config = {
   account: null,
-  // pageOrSite: "site" //page, site, lobby
+  // roomId: page url/site domain/lobby
   // TODO: default roomId should be kept in one place
   // right now Header.js also need to specify default
   // chosen radio button is site
@@ -109,10 +109,17 @@ const socketManager = {
     })
   },
   togglePageSite: roomId => {
+    // TODO: rename this to changeRoom
+
     // TODO: don't really have to reconnect
     // just tell socket server to change room
     // _config.pageOrSite = pageOrSite
     _config.roomId = roomId
+    if (socketHandler.onRoomChange) {
+      socketHandler.onRoomChange(roomId)
+    } else {
+      console.warn("onRoomChange not defined")
+    }
     _socket.disconnect()
     setTimeout(() => {
       _socket.connect()
