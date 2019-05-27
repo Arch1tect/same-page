@@ -1,5 +1,11 @@
+let _url = window.location.search.substring(1)
+
+export const setUrl = url => {
+  _url = url
+}
+
 export const getUrl = () => {
-  return window.location.search.substring(1)
+  return _url
 }
 
 export const getDomain = () => {

@@ -2,7 +2,7 @@ import * as io from "socket.io-client"
 
 import urls from "config/urls"
 import { getUrl, getDomain } from "utils/url"
-
+import { getPageTitle } from "utils/pageTitle"
 let _socket = null
 
 const _config = {
@@ -22,6 +22,9 @@ function _sendDanmu(message) {
 const socketManager = {
   sendMessage: msg => {
     _socket.emit("new message", msg)
+  },
+  updatePageInfo: data => {
+    _socket.emit("page update", data)
   },
   // connect should be called when user is logged in
   // after user data is properly set
@@ -65,6 +68,7 @@ const socketManager = {
     })
     _socket.on("user joined", data => {
       console.debug("user joined")
+      console.log(data)
       if (socketHandler.onUserJoin) {
         socketHandler.onUserJoin(data)
       } else {
@@ -98,13 +102,12 @@ const socketManager = {
       _socket.emit("login", {
         username: _config.account.name,
         userId: _config.account.id,
-        // roomId: _config.pageOrSite === "page" ? getUrl() : getDomain(),
         roomId: _config.roomId,
         url: getUrl(), // added field in v2.6.0
-        version: "4.0.0",
+        version: "4.0.0", // TODO: get from config
         lang: "en", // TODO
-        pageTitle: ""
-        // token: chatboxConfig.token TODO
+        pageTitle: getPageTitle(),
+        token: _config.account.token
       })
     })
   },

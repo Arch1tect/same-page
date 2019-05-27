@@ -1,3 +1,6 @@
+import axios from "axios"
+import moment from "moment"
+
 import React from "react"
 import { Icon, message } from "antd"
 
@@ -5,8 +8,9 @@ import Tab from "containers/Tab"
 import AccountContext from "context/account-context"
 import socketManager, { socketHandler } from "socket/socket"
 import storageManager from "utils/storage"
-import axios from "axios"
-import moment from "moment"
+import { setUrl, getUrl } from "utils/url"
+import { setPageTitle, getPageTitle } from "utils/pageTitle"
+
 require("moment/locale/zh-cn") //moment.js bug, has to manually include
 
 class App extends React.Component {
@@ -44,6 +48,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    // TODO: this componentDidMount is registering a
+    // couple different things, maybe move them to dedicated module
+
+    // General settings for ajax calls
     axios.interceptors.response.use(
       response => {
         // Do something with response data
@@ -88,6 +96,24 @@ class App extends React.Component {
     socketHandler.onDisconnected = () => {
       message.warn("连接已断开", 2)
     }
+    window.addEventListener(
+      "message",
+      e => {
+        if (e && e.data && e.data.locationUpdate) {
+          const newUrl = e.data.url
+          const newTitle = e.data.title
+          if (getUrl() !== newUrl || getPageTitle() !== newTitle) {
+            setUrl(newUrl)
+            setPageTitle(newTitle)
+            socketManager.updatePageInfo({
+              url: newUrl,
+              title: newTitle
+            })
+          }
+        }
+      },
+      false
+    )
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {

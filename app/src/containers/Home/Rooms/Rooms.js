@@ -27,10 +27,10 @@ function Rooms(props) {
       </center>
     )
   return rooms.map(room => {
-    let url = room
-    if (url === "lobby") {
+    let roomId = room.roomId
+    if (roomId === "lobby") {
       return (
-        <div className="sp-home-comment" key={room}>
+        <div className="sp-home-comment" key={roomId}>
           <div
             className="sp-comment-url"
             onClick={() => {
@@ -38,21 +38,21 @@ function Rooms(props) {
               socketManager.togglePageSite("lobby")
             }}
           >
-            聊天大厅
+            聊天大厅 ({room.userCount})
           </div>
         </div>
       )
     }
 
     return (
-      <div className="sp-home-comment" key={room}>
+      <div className="sp-home-comment" key={roomId}>
         <a
           className="sp-comment-url"
           rel="noopener noreferrer"
           target="_blank"
-          href={url}
+          href={room.url}
         >
-          {room}
+          {room.title} ({room.userCount})
         </a>
       </div>
     )

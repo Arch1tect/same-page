@@ -21,8 +21,15 @@ function Users(props) {
   const tabContext = useContext(TabContext)
 
   const users = (props.users || []).map(user => {
-    if (user.hasAvatar) {
-      user.avatarSrc = urls.cloudFront + user.userId + ".jpg"
+    // shim code to support new and old clients
+    // to be remvoed
+    if (user.user && user.user.numId) {
+      // must be on new client
+      user.avatarSrc = user.user.avatarSrc
+    } else {
+      if (user.hasAvatar) {
+        user.avatarSrc = urls.cloudFront + user.userId + ".jpg"
+      }
     }
     return (
       <div
