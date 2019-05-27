@@ -13,6 +13,27 @@ import { setPageTitle, getPageTitle } from "utils/pageTitle"
 
 require("moment/locale/zh-cn") //moment.js bug, has to manually include
 
+// Extra logic to check if there's login credentials of
+// pre v4.0, if so, use them. This logic should only be ran
+// once and to be deleted once everyone is on 4.0
+console.debug("Run migration code")
+storageManager.get("chatbox_config", oldConfig => {
+  if (oldConfig && oldConfig.id && oldConfig.password && !oldConfig.migrated) {
+    console.debug("Found old version login")
+
+    storageManager.set("login", {
+      userId: oldConfig.id,
+      password: oldConfig.password
+    })
+    oldConfig.migrated = true
+    storageManager.set("chatbox_config", oldConfig)
+  } else {
+    console.debug("NO old version login found")
+  }
+})
+
+// End of extra logic
+
 class App extends React.Component {
   constructor(props) {
     super(props)
