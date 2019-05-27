@@ -67,8 +67,8 @@ const socketManager = {
       }
     })
     _socket.on("user joined", data => {
-      console.debug("user joined")
-      console.log(data)
+      // console.debug("user joined")
+      // console.log(data)
       if (socketHandler.onUserJoin) {
         socketHandler.onUserJoin(data)
       } else {
@@ -76,7 +76,7 @@ const socketManager = {
       }
     })
     _socket.on("user left", data => {
-      console.debug("user left")
+      // console.debug("user left")
       if (socketHandler.onUserLeft) {
         socketHandler.onUserLeft(data)
       } else {
@@ -104,7 +104,7 @@ const socketManager = {
         userId: _config.account.id,
         roomId: _config.roomId,
         url: getUrl(), // added field in v2.6.0
-        version: "4.0.0", // TODO: get from config
+        version: "4.0.1", // TODO: get from config
         lang: "en", // TODO
         pageTitle: getPageTitle(),
         token: _config.account.token
