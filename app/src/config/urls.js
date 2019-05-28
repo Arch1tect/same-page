@@ -4,8 +4,8 @@ const urls = {
   cloudFront: "https://dnsofx4sf31ab.cloudfront.net/",
   debugMsgSrc: "http://localhost:9009",
 
-  socketAPI: "https://api.yiyechat.com", // ec2
-  // socketAPI: "https://chat.yiyechat.com", // beanstalk
+  // socketAPI: "https://api.yiyechat.com", // ec2
+  socketAPI: "https://chat.yiyechat.com", // beanstalk
   // socketAPI: "http://localhost:8081",
 
   dbAPI: "https://api-v2.yiyechat.com"
