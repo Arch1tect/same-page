@@ -22,7 +22,7 @@
   "scripts": {
     "start-ssl": "export HTTPS=true&&PORT=3000 react-scripts start",
     "start": "PORT=3000 react-scripts start",
-    "build": "react-scripts build && rm -r ~/project/chatbox/chatbox-webpack/chrome-extension/build/; cp -r build ~/project/chatbox/chatbox-webpack/chrome-extension/build; rm -r ~/project/chatbox/same-page-web/app/public/chatbox/; cp -r build ~/project/chatbox/same-page-web/app/public/chatbox",
+    "build": "react-scripts build &&  rm -r ~/project/chatbox/danmu-react-inject/public/chatbox/; cp -r build ~/project/chatbox/danmu-react-inject/public/chatbox",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
