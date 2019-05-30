@@ -5,11 +5,11 @@ const urls = {
   debugMsgSrc: "http://localhost:9009",
 
   // socketAPI: "https://api.yiyechat.com", // ec2
-  // socketAPI: "https://chat.yiyechat.com", // beanstalk
-  socketAPI: "http://localhost:8081",
+  socketAPI: "https://chat.yiyechat.com", // beanstalk
+  // socketAPI: "http://localhost:8081",
 
-  // dbAPI: "https://api-v2.yiyechat.com"
-  dbAPI: "http://localhost:5000"
+  dbAPI: "https://api-v2.yiyechat.com"
+  // dbAPI: "http://localhost:5000"
 }
 
 export default urls
