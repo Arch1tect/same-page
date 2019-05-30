@@ -117,6 +117,12 @@ class App extends React.Component {
     socketHandler.onDisconnected = () => {
       message.warn("连接已断开", 2)
     }
+    socketHandler.onAlert = data => {
+      if (data.errorCode === 401) {
+        message.error("请重新登录", 2)
+        this.setAccount(null)
+      }
+    }
     window.addEventListener(
       "message",
       e => {

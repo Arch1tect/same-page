@@ -24,7 +24,10 @@ const socketManager = {
     _socket.emit("new message", msg)
   },
   updatePageInfo: data => {
-    _socket.emit("page update", data)
+    if (_socket && _socket.connected) _socket.emit("page update", data)
+    else {
+      console.error("socket not connected")
+    }
   },
   // connect should be called when user is logged in
   // after user data is properly set
@@ -71,6 +74,13 @@ const socketManager = {
       // console.log(data)
       if (socketHandler.onUserJoin) {
         socketHandler.onUserJoin(data)
+      } else {
+        console.warn("onUserJoin not defined")
+      }
+    })
+    _socket.on("alert", data => {
+      if (socketHandler.onAlert) {
+        socketHandler.onAlert(data)
       } else {
         console.warn("onUserJoin not defined")
       }
