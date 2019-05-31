@@ -42,7 +42,7 @@ function Tab(props) {
           onChange={val => {
             // minimize actually means hide
             // but there will be a small icon to unhide
-            if (val == "minimize") {
+            if (val === "minimize") {
               window.parent.postMessage("minimize", "*")
               return
             }

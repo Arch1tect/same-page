@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Form, Input, Select, Button, message } from "antd"
+import { Form, Input, Button, message } from "antd"
 
 import AvatarUploader from "./AvatarUploader"
 import { updateUser } from "services/user"

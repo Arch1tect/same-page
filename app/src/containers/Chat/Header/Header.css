@@ -6,6 +6,14 @@
   z-index: 0;
   position: relative;
 }
+.ant-tooltip-inner {
+  /* this is for tooltip of page/site toggle
+  sometimes the url is tooo long
+  TODO: This general css is dangerous!
+  */
+  max-height: 200px;
+  overflow: hidden;
+}
 
 .sp-online-user {
   display: inline-block;

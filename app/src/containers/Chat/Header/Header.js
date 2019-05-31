@@ -2,7 +2,6 @@ import "./Header.css"
 
 import React, { useState, useEffect, useContext } from "react"
 import { Radio, Button, Tooltip } from "antd"
-import { Row, Col } from "antd"
 
 import socketManager, { socketHandler } from "socket/socket"
 import Users from "./Users"
