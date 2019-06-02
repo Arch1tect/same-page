@@ -34,6 +34,8 @@ storageManager.get("chatbox_config", oldConfig => {
 
 // End of extra logic
 
+const DEFAULT_TAB = "chat"
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -178,7 +180,7 @@ class App extends React.Component {
         </center>
       )
     }
-    let tab = "home"
+    let tab = DEFAULT_TAB
     if (!this.state.account) {
       tab = "account"
     }

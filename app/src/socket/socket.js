@@ -114,7 +114,7 @@ const socketManager = {
         userId: _config.account.id,
         roomId: _config.roomId,
         url: getUrl(), // added field in v2.6.0
-        version: "4.0.5", // TODO: get from config
+        version: "4.0.6", // TODO: get from config
         lang: "en", // TODO
         pageTitle: getPageTitle(),
         token: _config.account.token
