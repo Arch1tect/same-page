@@ -70,8 +70,8 @@ const socketManager = {
       }
     })
     _socket.on("user joined", data => {
-      // console.debug("user joined")
-      // console.log(data)
+      console.debug("user joined")
+      console.log(data)
       if (socketHandler.onUserJoin) {
         socketHandler.onUserJoin(data)
       } else {
@@ -86,7 +86,8 @@ const socketManager = {
       }
     })
     _socket.on("user left", data => {
-      // console.debug("user left")
+      console.debug("user left")
+      console.debug(data)
       if (socketHandler.onUserLeft) {
         socketHandler.onUserLeft(data)
       } else {

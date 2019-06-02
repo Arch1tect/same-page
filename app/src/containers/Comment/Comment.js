@@ -31,6 +31,7 @@ class CommentTab extends React.Component {
     super(props)
     this.state = {
       loading: false,
+      hasMore: true,
       submitting: false,
       comments: [],
       input: "",
@@ -117,7 +118,7 @@ class CommentTab extends React.Component {
     })
   }
   orderBy = val => {
-    this.setState({ comments: [] })
+    this.setState({ comments: [], hasMore: true })
     this.offset = 0
     this.order = val
     this.loadComments()
@@ -140,7 +141,10 @@ class CommentTab extends React.Component {
         res.data.forEach(comment => {
           comment.time = moment.utc(comment.created).fromNow()
         })
-        this.setState({ comments: this.state.comments.concat(res.data) })
+        this.setState({
+          comments: this.state.comments.concat(res.data),
+          hasMore: res.data.length == LIMIT
+        })
       })
       .catch(err => {
         console.error(err)
@@ -203,20 +207,28 @@ class CommentTab extends React.Component {
         <Header orderBy={this.orderBy} />
         <div ref={this.bodyRef} style={commentBodyStyle}>
           {this.state.loading && this.state.comments.length === 0 && (
+            // when no comments loaded, show loading icon
+            // if there are comments loaded, loading icon is
+            // shown in load more button
             <center>
               <Icon type="loading" />
             </center>
           )}
-          {(!this.state.loading || this.state.comments.length > 0) && (
-            <Body
-              data={this.state.comments}
-              vote={this.vote}
-              reply={this.reply}
-            />
-          )}
-          {this.state.comments.length > 0 && (
+
+          <Body
+            data={this.state.comments}
+            vote={this.vote}
+            reply={this.reply}
+          />
+
+          {this.state.comments.length >= LIMIT && this.state.hasMore && (
             <center style={{ marginTop: 20 }}>
-              {/* TODO: only if there is more */}
+              {/* 
+              If comments length < LIMIT, for sure there
+              isn't any more comment, TODO: backend should be 
+              able to return if there's more to load.
+              For now, just set a noMore flag when backend
+              return empty */}
               <Button
                 loading={this.state.loading}
                 type="primary"

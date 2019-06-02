@@ -10,6 +10,7 @@ import socketManager, { socketHandler } from "socket/socket"
 import storageManager from "utils/storage"
 import { setUrl, getUrl } from "utils/url"
 import { setPageTitle, getPageTitle } from "utils/pageTitle"
+import { useLocalAPI, useLocalSocket } from "config"
 
 require("moment/locale/zh-cn") //moment.js bug, has to manually include
 
@@ -120,7 +121,7 @@ class App extends React.Component {
       message.warn("连接已断开", 2)
     }
     socketHandler.onAlert = data => {
-      if (data.errorCode === 401) {
+      if (useLocalAPI === useLocalSocket && data.errorCode === 401) {
         message.error("请重新登录", 2)
         this.setAccount(null)
       }
