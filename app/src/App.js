@@ -103,7 +103,7 @@ class App extends React.Component {
     storageManager.get("account", account => {
       if (account) {
         console.debug("found account in storage")
-        console.debug(account)
+        // console.debug(account)
         this.setState({ account: account })
       } else {
         this.setState({ autoLogin: true })
@@ -165,7 +165,7 @@ class App extends React.Component {
   }
 
   setAccount = account => {
-    console.debug("set account")
+    // console.debug("set account")
     storageManager.set("account", account)
   }
 

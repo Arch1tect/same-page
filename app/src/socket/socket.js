@@ -55,8 +55,8 @@ const socketManager = {
     })
     _socket.on("users in room", data => {
       // all users in the room
-      console.debug("usersInRoom")
-      console.log(data)
+      // console.debug("usersInRoom")
+      // console.log(data)
       if (socketHandler.usersInRoom) {
         socketHandler.usersInRoom(data.users)
       } else {
@@ -65,8 +65,8 @@ const socketManager = {
     })
     _socket.on("new user", data => {
       // single new user joined the room
-      console.debug("new user")
-      console.log(data)
+      // console.debug("new user")
+      // console.log(data)
       if (socketHandler.onUserJoin) {
         socketHandler.onUserJoin(data.user)
       } else {
@@ -74,8 +74,8 @@ const socketManager = {
       }
     })
     _socket.on("user gone", data => {
-      console.debug("user gone")
-      console.debug(data)
+      // console.debug("user gone")
+      // console.debug(data)
       if (socketHandler.onUserLeft) {
         socketHandler.onUserLeft(data.user)
       } else {
