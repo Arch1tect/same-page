@@ -7,7 +7,7 @@ import socketManager, { socketHandler } from "socket/socket"
 import Users from "./Users"
 import AccountContext from "context/account-context"
 import TabContext from "context/tab-context"
-import urls from "config/urls"
+import { addUserToCache } from "services/user"
 import { getUrl, getDomain } from "utils/url"
 
 function ChatHeader(props) {
@@ -16,30 +16,37 @@ function ChatHeader(props) {
   // in the UI, it's in the socket module, UI subscribe
   // to change of socket module
   const [room, setRoom] = useState(getDomain())
+  // It's tricky that
   const [users, setUsers] = useState([])
   const accountContext = useContext(AccountContext)
   const tabContext = useContext(TabContext)
 
   useEffect(() => {
     console.log("register user join/left handlers")
-    socketHandler.onUserJoin = data => {
-      setUsers(data.onlineUsers)
+    socketHandler.onUserJoin = user => {
+      addUserToCache(user)
+      setUsers(users => {
+        return [...users, user]
+      })
     }
-    socketHandler.onUserLeft = data => {
-      setUsers(data.onlineUsers)
+    socketHandler.usersInRoom = users => {
+      users.forEach(user => {
+        addUserToCache(user)
+      })
+      setUsers(users)
+    }
+    socketHandler.onUserLeft = user => {
+      setUsers(users => {
+        return users.filter(u => {
+          return u.id.toString() !== user.id.toString()
+        })
+      })
     }
     socketHandler.onRoomChange = room => {
       setRoom(room)
+      setUsers([])
     }
-    window.addEventListener(
-      "message",
-      e => {
-        if (e.origin === urls.debugMsgSrc) {
-          setUsers(e.data)
-        }
-      },
-      false
-    )
+
     return () => {
       socketHandler.onUserJoin = null
       socketHandler.onUserLeft = null
@@ -78,7 +85,6 @@ function ChatHeader(props) {
           buttonStyle="solid"
           onChange={e => {
             const val = e.target.value
-            // setRoom(val)
             socketManager.togglePageSite(val)
           }}
         >

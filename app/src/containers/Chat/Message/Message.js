@@ -7,8 +7,7 @@ import { Avatar } from "antd"
 /*
 This is used by chat messages and direct messages
 props includes:
-  avatarSrc
-  username
+  user: object
   content
   type: text/sticker
   self
@@ -22,19 +21,14 @@ const userNameStyle = {
 
 function ChatMessage(props) {
   const data = props.data
+  const user = data.user
+  const showUser = props.showUser // avatar and name
+  const timeDisplay = props.timeDisplay
 
-  const user = {
-    id: data.userId,
-    name: data.name,
-    self: data.self,
-    avatarSrc: data.avatarSrc
-  }
-
-  let messageHeader = null
-  let textAlign = "left"
+  let userInfo = ""
 
   let avatar = <Avatar size="small" icon="user" src={user.avatarSrc} />
-  if (!user.self && props.withHoverCard) {
+  if (!data.self && props.withHoverCard) {
     avatar = (
       <AvatarWithHoverCard
         className="sp-chat-message-avatar"
@@ -43,33 +37,38 @@ function ChatMessage(props) {
       />
     )
   }
-
-  if (user.self) {
-    textAlign = "right"
-    messageHeader = (
-      <div style={{ marginTop: 10 }}>
-        <span style={userNameStyle}>{user.name}</span>
-        {avatar}
-      </div>
-    )
-  } else {
-    messageHeader = (
-      <div style={{ marginTop: 10 }}>
-        {avatar}
-        <span style={userNameStyle}>{user.name}</span>
-      </div>
+  let messageTime = ""
+  if (timeDisplay) {
+    messageTime = (
+      <center style={{ marginTop: 30, color: "gray", fontSize: "smaller" }}>
+        {timeDisplay}
+      </center>
     )
   }
-  if (props.mergeAbove) {
-    messageHeader = <span />
+  if (showUser) {
+    if (data.self) {
+      userInfo = (
+        <div style={{ marginTop: 10 }}>
+          <span style={userNameStyle}>{user.name}</span>
+          {avatar}
+        </div>
+      )
+    } else {
+      userInfo = (
+        <div style={{ marginTop: 10 }}>
+          {avatar}
+          <span style={userNameStyle}>{user.name}</span>
+        </div>
+      )
+    }
   }
-
   return (
     <div
-      className={user.self ? "self" : "other"}
-      style={{ textAlign: textAlign }}
+      className={data.self ? "self" : "other"}
+      style={{ textAlign: data.self ? "right" : "left" }}
     >
-      {messageHeader}
+      {messageTime}
+      {userInfo}
       <MessageBody data={data} />
     </div>
   )

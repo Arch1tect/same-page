@@ -13,12 +13,7 @@ const _config = {
   // chosen radio button is site
   roomId: getDomain()
 }
-function _sendDanmu(message) {
-  const danmuMsg = {
-    msg: message
-  }
-  window.parent.postMessage(danmuMsg, "*")
-}
+
 const socketManager = {
   sendMessage: msg => {
     _socket.emit("new message", msg)
@@ -49,47 +44,40 @@ const socketManager = {
     _socket = io(urls.socketAPI, { path: "/socket.io" })
 
     _socket.on("new message", data => {
-      console.debug(data)
-      // TODO: move following data massaging work to backend
-      data.self = data.sender.toString() === _config.account.id.toString()
-      data.type = "text"
-      if (data.message.startsWith("stickers/")) {
-        data.type = "sticker"
-      }
-      data.content = data.message
-      data.userId = data.sender
-      data.name = data.username
-      if (data.hasAvatar) {
-        data.avatarSrc = urls.cloudFront + data.userId + ".jpg"
-      }
-      _sendDanmu(data)
+      // console.debug(data)
+      data.self = data.userId.toString() === _config.account.id.toString()
+
       if (socketHandler.onLiveMsg) {
         socketHandler.onLiveMsg(data)
       } else {
         console.warn("onLiveMsg not defined")
       }
     })
-    _socket.on("user joined", data => {
-      console.debug("user joined")
+    _socket.on("users in room", data => {
+      // all users in the room
+      console.debug("usersInRoom")
+      console.log(data)
+      if (socketHandler.usersInRoom) {
+        socketHandler.usersInRoom(data.users)
+      } else {
+        console.warn("usersInRoom not defined")
+      }
+    })
+    _socket.on("new user", data => {
+      // single new user joined the room
+      console.debug("new user")
       console.log(data)
       if (socketHandler.onUserJoin) {
-        socketHandler.onUserJoin(data)
+        socketHandler.onUserJoin(data.user)
       } else {
         console.warn("onUserJoin not defined")
       }
     })
-    _socket.on("alert", data => {
-      if (socketHandler.onAlert) {
-        socketHandler.onAlert(data)
-      } else {
-        console.warn("onUserJoin not defined")
-      }
-    })
-    _socket.on("user left", data => {
-      console.debug("user left")
+    _socket.on("user gone", data => {
+      console.debug("user gone")
       console.debug(data)
       if (socketHandler.onUserLeft) {
-        socketHandler.onUserLeft(data)
+        socketHandler.onUserLeft(data.user)
       } else {
         console.warn("onUserLeft not defined")
       }
@@ -120,6 +108,13 @@ const socketManager = {
         pageTitle: getPageTitle(),
         token: _config.account.token
       })
+    })
+    _socket.on("alert", data => {
+      if (socketHandler.onAlert) {
+        socketHandler.onAlert(data)
+      } else {
+        console.warn("onAlert not defined")
+      }
     })
   },
   togglePageSite: roomId => {

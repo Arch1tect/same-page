@@ -2,8 +2,6 @@ import React, { useContext } from "react"
 import { Avatar } from "antd"
 import TabContext from "context/tab-context"
 
-import urls from "config/urls"
-
 const usersStyle = {
   background: "white",
   position: "fixed",
@@ -21,30 +19,20 @@ function Users(props) {
   const tabContext = useContext(TabContext)
 
   const users = (props.users || []).map(user => {
-    // shim code to support new and old clients
-    // to be remvoed
-    if (user.user && user.user.numId) {
-      // must be on new client
-      user.avatarSrc = user.user.avatarSrc
-    } else {
-      if (user.hasAvatar) {
-        user.avatarSrc = urls.cloudFront + user.userId + ".jpg"
-      }
-    }
     return (
       <div
         className="sp-online-user"
         onClick={() => tabContext.selectOtherUser(user)}
-        key={user.userId}
+        key={user.id}
       >
         <Avatar
-          title={user.username}
+          title={user.name}
           size={45}
           shape="square"
           icon="user"
           src={user.avatarSrc}
         />
-        <div className="sp-online-user-username">{user.username}</div>
+        <div className="sp-online-user-username">{user.name}</div>
       </div>
     )
   })

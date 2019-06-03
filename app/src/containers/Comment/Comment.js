@@ -143,7 +143,7 @@ class CommentTab extends React.Component {
         })
         this.setState({
           comments: this.state.comments.concat(res.data),
-          hasMore: res.data.length == LIMIT
+          hasMore: res.data.length === LIMIT
         })
       })
       .catch(err => {

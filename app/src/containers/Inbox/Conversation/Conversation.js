@@ -2,6 +2,7 @@ import "./Conversation.css"
 
 import React, { useContext, useState, useRef, useEffect } from "react"
 import { Button } from "antd"
+import moment from "moment"
 
 import Message from "containers/Chat/Message"
 import { postMessage } from "services/message"
@@ -32,20 +33,47 @@ function Conversation(props) {
 
   let lastMsg = null
   const body = messages.map(msg => {
-    msg.text = msg.content
+    msg.time = moment.utc(msg.created)
+
     if (msg.self) {
-      msg.name = account.name
-      msg.avatarSrc = account.avatarSrc
+      msg.user = account
       msg.userId = account.id
     } else {
-      msg.name = other.name
-      msg.avatarSrc = other.avatarSrc
+      msg.user = other
       msg.userId = other.id
     }
-    let mergeAbove = false
-    if (lastMsg && lastMsg.userId === msg.userId) mergeAbove = true
+    // If same user is talking, no need to show user's avatar again
+    let showUser = true
+    // If it's been more than 5 mins since last msg
+    let showTimestamp = false
+    let timeDisplay = null
+
+    if (lastMsg) {
+      if (lastMsg.userId.toString() === msg.userId.toString()) showUser = false
+      if (msg.time.diff(lastMsg.time) > 5 * 60 * 1000) {
+        showTimestamp = true
+        showUser = true
+      }
+    } else {
+      showTimestamp = true
+      showUser = true
+    }
+
+    if (showTimestamp) {
+      if (moment().diff(msg.time) > 24 * 60 * 60 * 1000)
+        timeDisplay = msg.time.local().format("MMMDo A HH:mm")
+      else timeDisplay = msg.time.local().format("A HH:mm")
+    }
+
     lastMsg = msg
-    return <Message key={msg.id} data={msg} mergeAbove={mergeAbove} />
+    return (
+      <Message
+        key={msg.id}
+        data={msg}
+        showUser={showUser}
+        timeDisplay={timeDisplay}
+      />
+    )
   })
   useEffect(() => {
     const bodyDiv = bodyRef.current
