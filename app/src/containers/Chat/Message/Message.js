@@ -40,7 +40,14 @@ function ChatMessage(props) {
   let messageTime = ""
   if (timeDisplay) {
     messageTime = (
-      <center style={{ marginTop: 30, color: "gray", fontSize: "smaller" }}>
+      <center
+        style={{
+          marginTop: 30,
+          marginBottom: -10,
+          color: "gray",
+          fontSize: "smaller"
+        }}
+      >
         {timeDisplay}
       </center>
     )
@@ -48,14 +55,14 @@ function ChatMessage(props) {
   if (showUser) {
     if (data.self) {
       userInfo = (
-        <div style={{ marginTop: 10 }}>
+        <div style={{ marginTop: 20 }}>
           <span style={userNameStyle}>{user.name}</span>
           {avatar}
         </div>
       )
     } else {
       userInfo = (
-        <div style={{ marginTop: 10 }}>
+        <div style={{ marginTop: 20 }}>
           {avatar}
           <span style={userNameStyle}>{user.name}</span>
         </div>
