@@ -33,6 +33,7 @@ class ChatBody extends React.Component {
       // message event doesn't contain user data
       // but we should have it in cache when knowing
       // who are in the chatroom
+      data.self = data.userId.toString() === this.context.account.id.toString()
       const user = getUserFromCache(data.userId)
       data.user = user
       window.parent.postMessage({ ...data, danmu: true }, "*")
@@ -43,6 +44,24 @@ class ChatBody extends React.Component {
       let timeout = 10
       if (data.type === "sticker") timeout = 500
       this.scrollToBottomIfNearBottom(timeout)
+    }
+    socketHandler.onRoomChange = roomId => {
+      this.setState({ messages: [] })
+    }
+    socketHandler.onRecentMessages = recentMessages => {
+      // Receive recent messages of the joined room,
+      // should receive right after joining room.
+      // Shoudn't display recent messages if there's
+      // any messages already being displayed, e.g. joined
+      // the room then went offline then back online
+      if (this.state.messages.length === 0) {
+        recentMessages.forEach(msg => {
+          msg.self =
+            msg.userId.toString() === this.context.account.id.toString()
+          msg.time = moment.utc(msg.timestamp)
+        })
+        this.setState({ messages: recentMessages })
+      }
     }
   }
   scrollToBottomIfNearBottom = timeout => {

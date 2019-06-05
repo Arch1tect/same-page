@@ -27,6 +27,8 @@ export const updateUser = payload => {
   const formData = new FormData()
   formData.append("name", payload.name)
   formData.append("about", payload.about)
-  formData.append("avatar", payload.avatar, "avatar")
+  if (payload.avatar) {
+    formData.append("avatar", payload.avatar, "avatar")
+  }
   return axios.post(urls.dbAPI + "/api/v1/user", formData)
 }

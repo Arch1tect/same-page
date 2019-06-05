@@ -44,13 +44,17 @@ const socketManager = {
     _socket = io(urls.socketAPI, { path: "/socket.io" })
 
     _socket.on("new message", data => {
-      // console.debug(data)
-      data.self = data.userId.toString() === _config.account.id.toString()
-
       if (socketHandler.onLiveMsg) {
         socketHandler.onLiveMsg(data)
       } else {
         console.warn("onLiveMsg not defined")
+      }
+    })
+    _socket.on("recent messages", data => {
+      if (socketHandler.onRecentMessages) {
+        socketHandler.onRecentMessages(data)
+      } else {
+        console.warn("onRecentMessages not defined")
       }
     })
     _socket.on("users in room", data => {
@@ -119,10 +123,6 @@ const socketManager = {
   },
   togglePageSite: roomId => {
     // TODO: rename this to changeRoom
-
-    // TODO: don't really have to reconnect
-    // just tell socket server to change room
-    // _config.pageOrSite = pageOrSite
     _config.roomId = roomId
     if (socketHandler.onRoomChange) {
       socketHandler.onRoomChange(roomId)

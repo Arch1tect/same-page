@@ -42,11 +42,6 @@ function ChatHeader(props) {
         })
       })
     }
-    socketHandler.onRoomChange = room => {
-      setRoom(room)
-      setUsers([])
-    }
-
     return () => {
       socketHandler.onUserJoin = null
       socketHandler.onUserLeft = null
@@ -84,8 +79,10 @@ function ChatHeader(props) {
           value={room}
           buttonStyle="solid"
           onChange={e => {
-            const val = e.target.value
-            socketManager.togglePageSite(val)
+            const roomId = e.target.value
+            socketManager.togglePageSite(roomId)
+            setRoom(roomId)
+            setUsers([])
           }}
         >
           <Tooltip placement="bottom" title="anywhere">
