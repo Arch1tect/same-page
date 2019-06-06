@@ -102,6 +102,10 @@ class EditProfileForm extends React.Component {
                 {
                   message: "用户名不能为空",
                   whitespace: true
+                },
+                {
+                  max: 12,
+                  message: "用户名最多12个字符"
                 }
               ],
               initialValue: account.name

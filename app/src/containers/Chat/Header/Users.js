@@ -27,7 +27,7 @@ function Users(props) {
       >
         <Avatar
           title={user.name}
-          size={45}
+          size={64}
           shape="square"
           icon="user"
           src={user.avatarSrc}

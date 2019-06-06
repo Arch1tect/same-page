@@ -22,8 +22,8 @@
 }
 .sp-online-user-username {
   font-size: 10px;
-  max-width: 45px;
-  /* text-overflow: ellipsis; */
+  max-width: 64px;
+  text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   text-align: center;

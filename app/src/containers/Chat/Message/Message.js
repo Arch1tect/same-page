@@ -1,3 +1,5 @@
+import "./Message.css"
+
 import React from "react"
 
 import MessageBody from "./Body"
@@ -12,12 +14,6 @@ props includes:
   type: text/sticker
   self
 */
-const userNameStyle = {
-  fontSize: "smaller",
-  verticalAlign: "middle",
-  marginLeft: 5,
-  marginRight: 5
-}
 
 function ChatMessage(props) {
   const data = props.data
@@ -27,12 +23,12 @@ function ChatMessage(props) {
 
   let userInfo = ""
 
-  let avatar = <Avatar size="small" icon="user" src={user.avatarSrc} />
+  let avatar = <Avatar size="large" icon="user" src={user.avatarSrc} />
   if (!data.self && props.withHoverCard) {
     avatar = (
       <AvatarWithHoverCard
         className="sp-chat-message-avatar"
-        size="small"
+        size="large"
         user={user}
       />
     )
@@ -56,7 +52,7 @@ function ChatMessage(props) {
     if (data.self) {
       userInfo = (
         <div style={{ marginTop: 20 }}>
-          <span style={userNameStyle}>{user.name}</span>
+          <span className="sp-message-username">{user.name}</span>
           {avatar}
         </div>
       )
@@ -64,7 +60,7 @@ function ChatMessage(props) {
       userInfo = (
         <div style={{ marginTop: 20 }}>
           {avatar}
-          <span style={userNameStyle}>{user.name}</span>
+          <span className="sp-message-username">{user.name}</span>
         </div>
       )
     }
