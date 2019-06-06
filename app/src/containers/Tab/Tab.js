@@ -16,7 +16,7 @@ import TabContext from "context/tab-context"
 const TabPane = Tabs.TabPane
 
 function Tab(props) {
-  console.log("render tab")
+  // console.log("render tab")
 
   const [activeTab, changeTab] = useState(props.tab)
   // view other's profile

@@ -49,6 +49,10 @@ function ChatHeader(props) {
     // No clean up because chat header is never unmounted after mounted
   }, [])
 
+  useEffect(() => {
+    window.parent.postMessage({ userCount: true, value: users.length }, "*")
+  }, [users])
+
   let content = (
     <center>
       <Button
