@@ -16,7 +16,7 @@ const chatBodyStyle = {
   padding: 10,
   paddingBottom: 50
 }
-const AUTO_SCROLL_TRESHOLD_DISTANCE = 200
+const AUTO_SCROLL_TRESHOLD_DISTANCE = 300
 
 class ChatBody extends React.Component {
   constructor(props) {
@@ -42,7 +42,7 @@ class ChatBody extends React.Component {
         messages: [...state.messages, data]
       }))
       let timeout = 10
-      if (data.type === "sticker") timeout = 500
+      if (data.type === "sticker" || data.type === "image") timeout = 500
       this.scrollToBottomIfNearBottom(timeout)
     }
     socketHandler.onRoomChange = roomId => {

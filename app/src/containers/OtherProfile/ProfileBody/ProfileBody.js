@@ -11,6 +11,8 @@ const aboutStyle = {
   display: "inline-block",
   minWidth: 200,
   maxWidth: 350,
+  marginLeft: 30,
+  marginRight: 30,
   borderBottom: "1px solid lightgray",
   textAlign: "left",
   overflow: "auto",
@@ -61,7 +63,7 @@ function ProfileBody(props) {
           <br />
           <center>
             <div style={aboutStyle}>{user.about}</div>
-            <div style={{ marginTop: 30 }}>
+            <div style={{ marginTop: 30, marginBottom: 30 }}>
               {following && (
                 <Button
                   icon="user-delete"

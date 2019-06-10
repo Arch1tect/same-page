@@ -7,12 +7,15 @@ function MessageBody(props) {
   let content = data.content
   let className = "sp-message-body " + data.type
   if (data.type === "sticker") {
-    // TODO: maybe centralize this code for getting image path
     let imgSrc = content
-    // if (window.chrome && window.chrome.extension) {
-    //   imgSrc = window.chrome.extension.getURL(content)
-    // }
     content = <img alt={imgSrc} src={imgSrc} />
+  }
+  if (data.type === "image") {
+    let imgSrc = content
+    content = <img className="sp-message-image" alt={imgSrc} src={imgSrc} />
+  }
+  if (data.type === "video") {
+    content = <div className="sp-message-media">视频</div>
   }
   return <div className={className}>{content}</div>
 }

@@ -76,7 +76,14 @@ function ChatHeader(props) {
         defaultChecked
         onChange={toggleOnline}
       /> */}
-
+        <Button
+          style={{ border: "none", position: "absolute", left: 5 }}
+          onClick={() => props.showMusic()}
+          size="small"
+          icon="unordered-list"
+        >
+          {/* <span style={{ marginLeft: 5 }}>{users.length}</span> */}
+        </Button>
         <Radio.Group
           className="sp-toggle-page-site-chat"
           size="small"

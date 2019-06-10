@@ -17,7 +17,8 @@
     "react-scripts": "2.1.8",
     "redux": "^4.0.1",
     "rsuite": "^3.8.2",
-    "socket.io-client": "^2.1.1"
+    "socket.io-client": "^2.1.1",
+    "video.js": "^7.5.4"
   },
   "scripts": {
     "start-ssl": "export HTTPS=true&&PORT=3000 react-scripts start",

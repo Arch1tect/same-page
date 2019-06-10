@@ -59,7 +59,7 @@ function ProfileMeta(props) {
     setLoading(true)
     getUser(user.id)
       .then(resp => {
-        console.debug(resp.data)
+        // console.debug(resp.data)
         const userData = resp.data
         setLoaded(true)
         setUser(userData)
@@ -70,7 +70,7 @@ function ProfileMeta(props) {
         console.error(err)
       })
       .then(() => {
-        console.log("done loading")
+        // console.log("done loading")
         setLoading(false)
       })
   }, [wait, loaded])
