@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import Message from "containers/Chat/Message"
 
 function Playlist() {
   const [playlist, setPlaylist] = useState([])
@@ -31,13 +32,21 @@ function Playlist() {
     window.player.playlist(playerPlaylist)
   }, [playlist])
 
-  return playlist.map(item => (
-    <div key={item.time.valueOf()}>
-      {item.content}
-      <br />
-      <br />
-      <br />
-    </div>
+  return playlist.map(msg => (
+    <Message
+      withHoverCard={true}
+      key={msg.time.valueOf()}
+      data={msg}
+      showUser={true}
+      // timeDisplay={timeDisplay}
+    />
+
+    // <div key={item.time.valueOf()}>
+    //   {item.content}
+    //   <br />
+    //   <br />
+    //   <br />
+    // </div>
   ))
 }
 
