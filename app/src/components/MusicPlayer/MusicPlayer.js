@@ -20,7 +20,7 @@ class VideoPlayer extends React.Component {
     //     sources: [
     //       {
     //         src:
-    //           "https://fpdl.vimeocdn.com/vimeo-prod-skyfire-std-us/01/1353/13/331768732/1305089800.mp4?token=1560152424-0x8a3cc50785c78e042769bc845da2258f037bd15c",
+    //           "https://fpdl.vimeocdn.com/vimeo-prod-skyfire-std-us/01/1353/13/331768732/1305089795.mp4?token=1560173628-0x541c23a7b9fb37ff4e630489d4a8cdf852c7737c",
     //         type: "video/mp4"
     //       }
     //     ]

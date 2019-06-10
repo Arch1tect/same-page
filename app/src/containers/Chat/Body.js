@@ -24,6 +24,13 @@ function ChatBody(props) {
   const accountContext = useContext(AccountContext)
 
   useEffect(() => {
+    window.setPlaylist(
+      messages.filter(msg => {
+        return msg.type === "audio" || msg.type === "video"
+      })
+    )
+  }, [messages])
+  useEffect(() => {
     socketHandler.onLiveMsg = data => {
       // message event doesn't contain user data
       // but we should have it in cache when knowing
