@@ -27,17 +27,21 @@ function Playlist(props) {
       return {
         sources: [
           {
-            src: item.mediaSrc,
+            src: item.mediaSrc
             // "https://gcs-vimeo.akamaized.net/exp=1560245928~acl=%2A%2F1179870085.mp4%2A~hmac=9c6c7fa89f7b161eef96222a13a78fd6ed477842b02e213bccd0d88ad7ff271c/vimeo-prod-skyfire-std-us/01/1432/12/307163785/1179870085.mp4",
-            type: "video/mp4"
+            // type: "video/mp4"
           }
         ]
       }
     })
-    console.log(playerPlaylist)
+    // console.log(playerPlaylist)
     window.player.playlist(playerPlaylist)
     props.setMediaNum(playerPlaylist.length)
   }, [playlist])
+
+  if (playlist.length === 0) {
+    return <center>当前聊天室没有多媒体资源</center>
+  }
 
   return playlist.map((msg, i) => {
     let timeDisplay = msg.time.local().format("A HH:mm")

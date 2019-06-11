@@ -25,7 +25,9 @@ function MusicTab(props) {
 
       <div className="sp-tab-body" style={{ background: "#404040" }}>
         <MusicPlayer />
-        <Playlist setMediaNum={props.setMediaNum} />
+        <div style={{ marginTop: 20, color: "lightgray" }}>
+          <Playlist setMediaNum={props.setMediaNum} />
+        </div>
       </div>
     </div>
   )
