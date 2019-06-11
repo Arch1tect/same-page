@@ -116,6 +116,7 @@ function ChatBody(props) {
         data={msg}
         showUser={showUser}
         timeDisplay={timeDisplay}
+        displayMusicTab={props.displayMusicTab}
       />
     )
     lastMsg = msg

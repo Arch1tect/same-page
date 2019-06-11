@@ -23,9 +23,9 @@ function MusicTab(props) {
 
       <center className="sp-tab-header" />
 
-      <div className="sp-tab-body">
+      <div className="sp-tab-body" style={{ background: "#404040" }}>
         <MusicPlayer />
-        <Playlist />
+        <Playlist setMediaNum={props.setMediaNum} />
       </div>
     </div>
   )

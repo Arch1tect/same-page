@@ -35,7 +35,10 @@ function AvatarWithHoverCard(props) {
           className={props.className}
           src={user.avatarSrc}
           size={props.size}
-          onClick={() => tabContext.selectOtherUser(user)}
+          onClick={e => {
+            e.stopPropagation()
+            tabContext.selectOtherUser(user)
+          }}
           onMouseEnter={e => {
             // console.log("mouse enter avatar")
             showCard(e.currentTarget)

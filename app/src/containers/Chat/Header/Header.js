@@ -82,7 +82,7 @@ function ChatHeader(props) {
           size="small"
           icon="unordered-list"
         >
-          {/* <span style={{ marginLeft: 5 }}>{users.length}</span> */}
+          <span style={{ marginLeft: 5 }}>{props.mediaNum}</span>
         </Button>
         <Radio.Group
           className="sp-toggle-page-site-chat"

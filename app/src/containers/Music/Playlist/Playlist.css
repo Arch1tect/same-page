@@ -1,0 +1,16 @@
+.sp-playlist-item {
+  padding: 10px;
+  color: lightgray;
+}
+.sp-playlist-item:hover {
+  background: rgb(97, 97, 97);
+  cursor: pointer;
+}
+.sp-playlist-item.selected {
+  color: white;
+  font-weight: bold;
+  /* background: rgb(240, 240, 240); */
+}
+.sp-playlist-item .ant-avatar {
+  margin-right: 10px;
+}

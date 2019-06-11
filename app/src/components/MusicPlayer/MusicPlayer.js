@@ -8,9 +8,17 @@ class VideoPlayer extends React.Component {
   componentDidMount() {
     // instantiate Video.js
     this.player = videojs(this.videoNode, this.props, function onPlayerReady() {
-      console.log("onPlayerReady", this)
+      // console.log("onPlayerReady", this)
     })
     this.player.playlist([])
+    this.player.playlist.autoadvance(0)
+    this.player.on("playlistitem", data => {
+      if (window.setMediaIndex) {
+        window.setMediaIndex(this.player.playlist.currentIndex())
+      } else {
+        console.error("setMediaIndex not defined yet")
+      }
+    })
     window.player = this.player
     // window.addToPlaylist = (item) => {
     //   this.player.playlist()
@@ -60,7 +68,7 @@ class VideoPlayer extends React.Component {
 
 function Player() {
   const videoJsOptions = {
-    autoplay: true,
+    // autoplay: true,
     controls: true,
     responsive: true,
     width: "100%"

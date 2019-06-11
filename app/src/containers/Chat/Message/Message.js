@@ -72,7 +72,7 @@ function ChatMessage(props) {
     >
       {messageTime}
       {userInfo}
-      <MessageBody data={data} />
+      <MessageBody displayMusicTab={props.displayMusicTab} data={data} />
     </div>
   )
 }

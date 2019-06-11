@@ -14,8 +14,17 @@ function MessageBody(props) {
     let imgSrc = content
     content = <img className="sp-message-image" alt={imgSrc} src={imgSrc} />
   }
-  if (data.type === "video") {
-    content = <div className="sp-message-media">视频</div>
+  if (data.type === "video" || data.type === "audio") {
+    content = (
+      <div
+        onClick={() => {
+          props.displayMusicTab()
+        }}
+        className="sp-message-media"
+      >
+        {content}
+      </div>
+    )
   }
   return <div className={className}>{content}</div>
 }

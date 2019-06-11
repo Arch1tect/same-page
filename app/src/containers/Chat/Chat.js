@@ -6,22 +6,29 @@ import Footer from "./Footer"
 import MusicTab from "containers/Music"
 
 function Chat(props) {
-  const [musicDisplay, setMusicDisplay] = useState("block")
+  const [mediaDisplay, setMediaDisplay] = useState("block")
+  const [mediaNum, setMediaNum] = useState(0)
   return (
     <div>
-      <span style={{ display: musicDisplay }}>
+      <span style={{ display: mediaDisplay }}>
         <MusicTab
           back={() => {
-            setMusicDisplay("none")
+            setMediaDisplay("none")
           }}
+          setMediaNum={setMediaNum}
         />
       </span>
       <Header
+        mediaNum={mediaNum}
         showMusic={() => {
-          setMusicDisplay("block")
+          setMediaDisplay("block")
         }}
       />
-      <Body />
+      <Body
+        displayMusicTab={() => {
+          setMediaDisplay("block")
+        }}
+      />
       <Footer />
     </div>
   )
