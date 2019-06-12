@@ -40,7 +40,7 @@ function Playlist(props) {
   }, [playlist])
 
   if (playlist.length === 0) {
-    return <center>当前聊天室没有多媒体资源</center>
+    return <center style={{ fontSize: 10 }}>当前聊天室没有多媒体资源</center>
   }
 
   return playlist.map((msg, i) => {
