@@ -1,3 +1,5 @@
+import "./Room.css"
+
 import React, { useState, useEffect, useContext } from "react"
 import { Icon } from "antd"
 
@@ -28,33 +30,24 @@ function Rooms(props) {
     )
   return rooms.map(room => {
     let roomId = room.roomId
-    if (roomId === "lobby") {
-      return (
-        <div className="sp-home-comment" key={roomId}>
-          <div
-            className="sp-comment-url"
-            onClick={() => {
-              tabContext.changeTab("chat")
-              socketManager.togglePageSite("lobby")
-            }}
-          >
-            聊天大厅 ({room.userCount})
-          </div>
-        </div>
-      )
-    }
-
     return (
-      <div className="sp-home-comment" key={roomId}>
-        <a
-          className="sp-comment-url"
-          rel="noopener noreferrer"
-          target="_blank"
-          href={room.url}
-        >
-          {room.title} ({room.userCount})
-        </a>
-      </div>
+      <center
+        className="sp-home-chatroom"
+        key={roomId}
+        onClick={() => {
+          if (roomId === "lobby") {
+            tabContext.changeTab("chat")
+            socketManager.togglePageSite("lobby")
+            return
+          }
+          window.open(room.url)
+        }}
+      >
+        <span className="sp-chatroom-metadata">
+          {room.title}
+          <br /> <span style={{ fontSize: "smaller" }}>{room.userCount}人</span>
+        </span>
+      </center>
     )
   })
 }

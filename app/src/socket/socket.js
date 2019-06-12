@@ -124,10 +124,13 @@ const socketManager = {
   togglePageSite: roomId => {
     // TODO: rename this to changeRoom
     _config.roomId = roomId
-    if (socketHandler.onRoomChange) {
-      socketHandler.onRoomChange(roomId)
+
+    if (socketHandler.onRoomChangeCallbacks) {
+      socketHandler.onRoomChangeCallbacks.forEach(f => {
+        f(roomId)
+      })
     } else {
-      console.warn("onRoomChange not defined")
+      console.warn("onRoomChangeCallbacks empty")
     }
     _socket.disconnect()
     setTimeout(() => {
@@ -147,5 +150,7 @@ const socketManager = {
     }
   }
 }
-export const socketHandler = {}
+export const socketHandler = {
+  onRoomChangeCallbacks: []
+}
 export default socketManager

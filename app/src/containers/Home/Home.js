@@ -1,3 +1,4 @@
+import "./Home.css"
 import React from "react"
 
 import { Collapse } from "antd"
@@ -18,7 +19,9 @@ function Home(props) {
       onChange={key => {}}
     >
       <Panel header="热门聊天室" key="hot-chatrooms">
-        <Rooms />
+        <div className="sp-hot-chatrooms-wrapper">
+          <Rooms />
+        </div>
       </Panel>
 
       <Panel header="最新网页留言" key="latest-comments">

@@ -144,7 +144,7 @@ function Conversation(props) {
       </div>
 
       <div className="sp-chat-bottom">
-        <InputWithPicker sending={sending} send={send} />
+        <InputWithPicker autoFocus={true} sending={sending} send={send} />
       </div>
     </div>
   )

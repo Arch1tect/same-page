@@ -50,9 +50,9 @@ function ChatBody(props) {
       // TODO: use onload event rather than hard code time
       scrollToBottomIfNearBottom(timeout)
     }
-    socketHandler.onRoomChange = roomId => {
+    socketHandler.onRoomChangeCallbacks.push(roomId => {
       setMessages([])
-    }
+    })
     socketHandler.onRecentMessages = recentMessages => {
       // Receive recent messages of the joined room,
       // should receive right after joining room.

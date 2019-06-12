@@ -14,11 +14,12 @@ function InputWithPicker(props) {
   const [willShowEmoji, setWillShowEmoji] = useState(false)
 
   const sending = props.sending
+  const autoFocus = props.autoFocus || false
   useEffect(() => {
-    if (!sending) {
+    if (autoFocus) {
       inputRef.current.focus()
     }
-  }, [sending])
+  }, [sending, autoFocus])
 
   useEffect(() => {
     setShowEmoji(willShowEmoji)

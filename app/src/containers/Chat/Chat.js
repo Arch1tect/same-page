@@ -6,7 +6,7 @@ import Footer from "./Footer"
 import MusicTab from "containers/Music"
 
 function Chat(props) {
-  const [mediaDisplay, setMediaDisplay] = useState("block")
+  const [mediaDisplay, setMediaDisplay] = useState("none")
   const [mediaNum, setMediaNum] = useState(0)
   return (
     <div>
