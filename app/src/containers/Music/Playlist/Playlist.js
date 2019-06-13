@@ -27,9 +27,9 @@ function Playlist(props) {
       return {
         sources: [
           {
-            src: item.mediaSrc
+            src: item.mediaSrc,
             // "https://gcs-vimeo.akamaized.net/exp=1560245928~acl=%2A%2F1179870085.mp4%2A~hmac=9c6c7fa89f7b161eef96222a13a78fd6ed477842b02e213bccd0d88ad7ff271c/vimeo-prod-skyfire-std-us/01/1432/12/307163785/1179870085.mp4",
-            // type: "video/mp4"
+            type: item.mediaType
           }
         ]
       }

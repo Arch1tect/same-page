@@ -3,6 +3,7 @@ import "./MusicPlayer.css"
 import React from "react"
 import videojs from "video.js"
 import "videojs-playlist"
+import "videojs-youtube"
 
 class VideoPlayer extends React.Component {
   componentDidMount() {
@@ -27,9 +28,11 @@ class VideoPlayer extends React.Component {
     //   {
     //     sources: [
     //       {
-    //         src:
-    //           "https://fpdl.vimeocdn.com/vimeo-prod-skyfire-std-us/01/1353/13/331768732/1305089795.mp4?token=1560173628-0x541c23a7b9fb37ff4e630489d4a8cdf852c7737c",
-    //         type: "video/mp4"
+    //         src: "https://www.youtube.com/watch?v=QO25QnboJG0",
+    //         // src: "https://vimeo.com/335874600"
+    //         // "https://gcs-vimeo.akamaized.net/exp=1560427305~acl=%2A%2F1217035680.mp4%2A~hmac=c27049517173d0849ad0ca0330188556c0b48e3f7c4db9e15a7777396c01bd99/vimeo-prod-skyfire-std-us/01/3027/12/315137080/1217035680.mp4"
+    //         // type: "video/mp4"
+    //         type: "video/youtube"
     //       }
     //     ]
     //   },
@@ -69,6 +72,7 @@ class VideoPlayer extends React.Component {
 function Player() {
   const videoJsOptions = {
     // autoplay: true,
+    dataSetup: { techOrder: ["youtube"] },
     controls: true,
     responsive: true,
     width: "100%"
