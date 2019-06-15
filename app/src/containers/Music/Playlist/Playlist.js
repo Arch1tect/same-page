@@ -7,37 +7,53 @@ import AvatarWithHoverCard from "containers/OtherProfile/AvatarWithHoverCard"
 function Playlist(props) {
   const [playlist, setPlaylist] = useState([])
   const [index, setIndex] = useState()
+
   useEffect(() => {
-    window.addToPlaylist = item => {
-      // not used
-      setPlaylist(prevPlaylist => {
-        const newPlaylist = [...prevPlaylist, item]
-        setPlaylist(newPlaylist)
+    window.playNextMedia = () => {
+      setIndex(curIndex => {
+        if (playlist.length === 0) {
+          return curIndex
+        }
+        let newIndex = curIndex
+        if (props.loopMode === "loopAll") {
+          newIndex = (curIndex + 1) % playlist.length
+        }
+        window.playMessage(playlist[newIndex])
+        return newIndex
       })
     }
+    return () => {
+      window.playNext = null
+    }
+  }, [playlist, props.loopMode])
+
+  useEffect(() => {
     window.setPlaylist = items => {
       // console.log(items)
       setPlaylist(items)
+      props.setMediaNum(items.length)
     }
-    window.setMediaIndex = setIndex
-  }, [])
-
-  useEffect(() => {
-    const playerPlaylist = playlist.map(item => {
-      return {
-        sources: [
-          {
-            src: item.mediaSrc,
-            // "https://gcs-vimeo.akamaized.net/exp=1560245928~acl=%2A%2F1179870085.mp4%2A~hmac=9c6c7fa89f7b161eef96222a13a78fd6ed477842b02e213bccd0d88ad7ff271c/vimeo-prod-skyfire-std-us/01/1432/12/307163785/1179870085.mp4",
-            type: item.mediaType
-          }
-        ]
-      }
+    window.playMessage = msg => {
+      setIndex(msg.mediaIndex)
+      window.player.src({ type: msg.mediaType, src: msg.mediaSrc })
+      window.player.play()
+    }
+    window.player.on("ended", data => {
+      console.debug("play ended")
+      window.playNextMedia()
     })
-    // console.log(playerPlaylist)
-    window.player.playlist(playerPlaylist)
-    props.setMediaNum(playerPlaylist.length)
-  }, [playlist])
+    window.player.on("error", data => {
+      console.error("play error, play next")
+      console.error(data)
+      window.playNextMedia()
+    })
+
+    return () => {
+      window.setPlaylist = null
+      window.playMessage = null
+      window.play.on("ended", () => {})
+    }
+  }, [])
 
   if (playlist.length === 0) {
     return <center style={{ fontSize: 10 }}>当前聊天室没有多媒体资源</center>
@@ -55,15 +71,16 @@ function Playlist(props) {
     return (
       <div
         onClick={() => {
-          window.player.playlist.currentItem(i)
-          window.player.play()
+          // window.player.playlist.currentItem(i)
+          // setIndex(i)
+          window.playMessage(msg)
         }}
         className={className}
         key={msg.time.valueOf()}
       >
         <AvatarWithHoverCard
           className="sp-chat-message-avatar"
-          // size="large"
+          size="small"
           user={msg.user}
         />
         <span>发送于{timeDisplay}</span>

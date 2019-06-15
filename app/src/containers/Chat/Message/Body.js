@@ -18,6 +18,7 @@ function MessageBody(props) {
     content = (
       <div
         onClick={() => {
+          window.playMessage(data)
           props.displayMusicTab()
         }}
         className="sp-message-media"

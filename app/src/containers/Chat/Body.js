@@ -18,17 +18,25 @@ const chatBodyStyle = {
 }
 const AUTO_SCROLL_TRESHOLD_DISTANCE = 300
 
+function isMedia(msg) {
+  return msg.type === "audio" || msg.type === "video"
+}
+
 function ChatBody(props) {
   const [messages, setMessages] = useState(props.data || [])
   const bodyRef = useRef(null)
   const accountContext = useContext(AccountContext)
 
   useEffect(() => {
-    window.setPlaylist(
-      messages.filter(msg => {
-        return msg.type === "audio" || msg.type === "video"
-      })
-    )
+    let mediaIndex = 0
+    messages.forEach(msg => {
+      if (isMedia(msg)) {
+        msg.mediaIndex = mediaIndex
+        mediaIndex++
+      }
+    })
+
+    window.setPlaylist(messages.filter(isMedia))
   }, [messages])
   useEffect(() => {
     socketHandler.onLiveMsg = data => {
