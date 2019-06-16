@@ -86,7 +86,7 @@ function Playlist(props) {
           size="small"
           user={msg.user}
         />
-        <span>发送于{timeDisplay}</span>
+        <span title={"发送于" + timeDisplay}>{msg.content}</span>
       </div>
     )
   })

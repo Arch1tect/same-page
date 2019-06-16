@@ -121,9 +121,17 @@ class App extends React.Component {
       message.warn("连接已断开", 2)
     }
     socketHandler.onAlert = data => {
+      console.error(data)
+
       if (useLocalAPI === useLocalSocket && data.errorCode === 401) {
         message.error("请重新登录", 2)
         this.setAccount(null)
+      }
+      if (data.errorCode === 400) {
+        message.error("禁止使用", 2)
+      }
+      if (data.errorCode === 426) {
+        message.error("请升级该扩展", 2)
       }
     }
     window.addEventListener(
