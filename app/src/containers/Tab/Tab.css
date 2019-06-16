@@ -72,6 +72,19 @@ body ::-webkit-scrollbar-thumb:window-inactive {
 .ant-divider-horizontal.ant-divider-with-text::after {
   border-top: 1px solid lightgray;
 }
+.sp-modal * {
+  animation-duration: 0s !important;
+}
+.sp-modal .ant-modal-content {
+  /* used by help modal in player tab */
+  position: fixed;
+  height: 75%;
+  /* width: 80%; */
+  top: 10% !important;
+  left: 10%;
+  right: 10%;
+}
+
 .sp-special-tab {
   /* covers entire tab except top bar */
   background: white;
