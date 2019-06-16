@@ -43,9 +43,12 @@ function Playlist(props) {
       window.playNextMedia()
     })
     window.player.on("error", data => {
-      console.error("play error, play next")
+      // this can cause infinite loop
+      // TODO: better way to handle this so we can still
+      // continue next song?
+      // console.error("play error, play next")
       console.error(data)
-      window.playNextMedia()
+      // window.playNextMedia()
     })
 
     return () => {
