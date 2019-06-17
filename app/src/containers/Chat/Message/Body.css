@@ -27,6 +27,7 @@
 img.sp-message-image {
   max-width: 80%;
   max-height: 350px;
+  cursor: pointer;
 }
 .sp-chat-message-avatar {
   cursor: pointer;

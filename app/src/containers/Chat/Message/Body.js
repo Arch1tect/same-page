@@ -12,7 +12,17 @@ function MessageBody(props) {
   }
   if (data.type === "image") {
     let imgSrc = content
-    content = <img className="sp-message-image" alt={imgSrc} src={imgSrc} />
+    content = (
+      <img
+        onClick={() => {
+          console.debug("click on image")
+          window.parent.postMessage({ imgSrc: imgSrc }, "*")
+        }}
+        className="sp-message-image"
+        alt={imgSrc}
+        src={imgSrc}
+      />
+    )
   }
   if (data.type === "video" || data.type === "audio") {
     content = (

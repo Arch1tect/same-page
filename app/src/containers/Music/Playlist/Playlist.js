@@ -7,7 +7,8 @@ import AvatarWithHoverCard from "containers/OtherProfile/AvatarWithHoverCard"
 function Playlist(props) {
   const [playlist, setPlaylist] = useState([])
   const [index, setIndex] = useState()
-
+  const setMediaNum = props.setMediaNum
+  const loopMode = props.loopMode
   useEffect(() => {
     window.playNextMedia = () => {
       setIndex(curIndex => {
@@ -15,7 +16,7 @@ function Playlist(props) {
           return curIndex
         }
         let newIndex = curIndex
-        if (props.loopMode === "loopAll") {
+        if (loopMode === "loopAll") {
           newIndex = (curIndex + 1) % playlist.length
         }
         window.playMessage(playlist[newIndex])
@@ -25,13 +26,13 @@ function Playlist(props) {
     return () => {
       window.playNext = null
     }
-  }, [playlist, props.loopMode])
+  }, [playlist, loopMode])
 
   useEffect(() => {
     window.setPlaylist = items => {
       // console.log(items)
       setPlaylist(items)
-      props.setMediaNum(items.length)
+      setMediaNum(items.length)
     }
     window.playMessage = msg => {
       setIndex(msg.mediaIndex)
@@ -56,7 +57,7 @@ function Playlist(props) {
       window.playMessage = null
       window.play.on("ended", () => {})
     }
-  }, [])
+  }, [setMediaNum])
 
   if (playlist.length === 0) {
     return <center style={{ fontSize: 10 }}>当前聊天室没有多媒体资源</center>

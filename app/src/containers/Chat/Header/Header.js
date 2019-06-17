@@ -42,16 +42,18 @@ function ChatHeader(props) {
         })
       })
     }
-    socketHandler.onRoomChangeCallbacks.push(roomId => {
+    socketHandler.onRoomChangeCallbacks["clear_room_users"] = roomId => {
       setRoom(roomId)
       console.log(roomId)
       setUsers([])
-    })
+    }
     return () => {
+      // No clean up because chat header is never unmounted after mounted
+      console.error("[Headerjs] this cleanup should never run")
       socketHandler.onUserJoin = null
       socketHandler.onUserLeft = null
+      delete socketHandler.onRoomChangeCallbacks["clear_room_users"]
     }
-    // No clean up because chat header is never unmounted after mounted
   }, [])
 
   useEffect(() => {

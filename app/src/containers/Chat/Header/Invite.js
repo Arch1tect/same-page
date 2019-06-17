@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { Popover, Button } from "antd"
 
 function Users(props) {
-  const users = props.users || []
+  // const users = props.users || []
   const [visible, setVisibility] = useState(false)
 
   return (

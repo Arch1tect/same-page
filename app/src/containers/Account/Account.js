@@ -23,7 +23,7 @@ function Account(props) {
 
   const [loadingAccount, setLoadingAccount] = useState(false)
   useEffect(() => {
-    // load account for once if user is logged in and
+    // load account for once if user is logged in or user
     // switch to account tab, otherwise the account info
     // is only loaded when login which becomes stale easily
     if (account) {

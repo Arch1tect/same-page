@@ -26,25 +26,19 @@ function ChatBody(props) {
   const [messages, setMessages] = useState(props.data || [])
   const bodyRef = useRef(null)
   const accountContext = useContext(AccountContext)
+  const account = accountContext.account
 
   useEffect(() => {
-    let mediaIndex = 0
-    messages.forEach(msg => {
-      if (isMedia(msg)) {
-        msg.mediaIndex = mediaIndex
-        mediaIndex++
-      }
-    })
-
-    window.setPlaylist(messages.filter(isMedia))
-  }, [messages])
-  useEffect(() => {
+    if (!account) {
+      console.warn("[Body.js] no account, won't register socket events")
+      return
+    }
+    console.debug("[Body.js] register socket events")
     socketHandler.onLiveMsg = data => {
       // message event doesn't contain user data
       // but we should have it in cache when knowing
       // who are in the chatroom
-      data.self =
-        data.userId.toString() === accountContext.account.id.toString()
+      data.self = data.userId.toString() === account.id.toString()
       const user = getUserFromCache(data.userId)
       data.user = user
       window.parent.postMessage({ ...data, danmu: true }, "*")
@@ -58,9 +52,9 @@ function ChatBody(props) {
       // TODO: use onload event rather than hard code time
       scrollToBottomIfNearBottom(timeout)
     }
-    socketHandler.onRoomChangeCallbacks.push(roomId => {
+    socketHandler.onRoomChangeCallbacks["clear_chat_messages"] = roomId => {
       setMessages([])
-    })
+    }
     socketHandler.onRecentMessages = recentMessages => {
       // Receive recent messages of the joined room,
       // should receive right after joining room.
@@ -68,14 +62,30 @@ function ChatBody(props) {
       // any messages already being displayed, e.g. joined
       // the room then went offline then back online
       recentMessages.forEach(msg => {
-        msg.self =
-          msg.userId.toString() === accountContext.account.id.toString()
+        msg.self = msg.userId.toString() === account.id.toString()
         msg.time = moment.utc(msg.timestamp)
       })
       setMessages(recentMessages)
     }
-  }, [])
-
+    return () => {
+      socketHandler.onRecentMessages = null
+      socketHandler.onLiveMsg = null
+      delete socketHandler.onRoomChangeCallbacks["clear_chat_messages"]
+    }
+  }, [account])
+  useEffect(() => {
+    // Find media messages and pass to playlist
+    // TODO: better to use a playlist context
+    // rather than window.setPlaylist
+    let mediaIndex = 0
+    messages.forEach(msg => {
+      if (isMedia(msg)) {
+        msg.mediaIndex = mediaIndex
+        mediaIndex++
+      }
+    })
+    window.setPlaylist(messages.filter(isMedia))
+  }, [messages])
   const scrollToBottomIfNearBottom = timeout => {
     timeout = timeout || 100
     const bodyDiv = bodyRef.current
