@@ -2,9 +2,8 @@ import React, { useState, useEffect, useContext, useRef } from "react"
 import moment from "moment"
 
 import Message from "./Message"
-import { socketHandler } from "socket/socket"
+import socketManager from "socket/socket"
 import AccountContext from "context/account-context"
-import { getUserFromCache } from "services/user"
 
 const chatBodyStyle = {
   height: "calc(100% - 107px)",
@@ -34,14 +33,7 @@ function ChatBody(props) {
       return
     }
     console.debug("[Body.js] register socket events")
-    socketHandler.onLiveMsg = data => {
-      // message event doesn't contain user data
-      // but we should have it in cache when knowing
-      // who are in the chatroom
-      data.self = data.userId.toString() === account.id.toString()
-      const user = getUserFromCache(data.userId)
-      data.user = user
-      window.parent.postMessage({ ...data, danmu: true }, "*")
+    socketManager.addHandler("new message", "display_new_message", data => {
       data.time = moment()
       setMessages(prevMessages => {
         return [...prevMessages, data]
@@ -51,26 +43,32 @@ function ChatBody(props) {
       if (data.type === "image") timeout = 700
       // TODO: use onload event rather than hard code time
       scrollToBottomIfNearBottom(timeout)
-    }
-    socketHandler.onRoomChangeCallbacks["clear_chat_messages"] = roomId => {
-      setMessages([])
-    }
-    socketHandler.onRecentMessages = recentMessages => {
-      // Receive recent messages of the joined room,
-      // should receive right after joining room.
-      // Shoudn't display recent messages if there's
-      // any messages already being displayed, e.g. joined
-      // the room then went offline then back online
-      recentMessages.forEach(msg => {
-        msg.self = msg.userId.toString() === account.id.toString()
-        msg.time = moment.utc(msg.timestamp)
-      })
-      setMessages(recentMessages)
-    }
+    })
+    // TODO
+    // socketHandler.onRoomChangeCallbacks["clear_chat_messages"] = roomId => {
+    //   setMessages([])
+    // }
+    // TODO: get recent message from parent
+    socketManager.addHandler(
+      "recent messages",
+      "display_recent_messages",
+      recentMessages => {
+        // Receive recent messages of the joined room,
+        // should receive right after joining room.
+        // Shoudn't display recent messages if there's
+        // any messages already being displayed, e.g. joined
+        // the room then went offline then back online
+        recentMessages.forEach(msg => {
+          msg.self = msg.userId.toString() === account.id.toString()
+          msg.time = moment.utc(msg.timestamp)
+        })
+        setMessages(recentMessages)
+      }
+    )
     return () => {
-      socketHandler.onRecentMessages = null
-      socketHandler.onLiveMsg = null
-      delete socketHandler.onRoomChangeCallbacks["clear_chat_messages"]
+      socketManager.removeHandler("new message", "display_new_message")
+      socketManager.removeHandler("recent messages", "display_recent_messages")
+      // delete socketHandler.onRoomChangeCallbacks["clear_chat_messages"]
     }
   }, [account])
   useEffect(() => {

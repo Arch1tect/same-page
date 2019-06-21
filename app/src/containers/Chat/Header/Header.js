@@ -3,11 +3,10 @@ import "./Header.css"
 import React, { useState, useEffect, useContext } from "react"
 import { Radio, Button, Tooltip } from "antd"
 
-import socketManager, { socketHandler } from "socket/socket"
+import socketManager from "socket/socket"
 import Users from "./Users"
 import AccountContext from "context/account-context"
 import TabContext from "context/tab-context"
-import { addUserToCache } from "services/user"
 import { getUrl, getDomain } from "utils/url"
 
 function ChatHeader(props) {
@@ -23,42 +22,40 @@ function ChatHeader(props) {
 
   useEffect(() => {
     console.log("register user join/left handlers")
-    socketHandler.onUserJoin = user => {
-      addUserToCache(user)
+    socketManager.addHandler("new user", "add_user_to_room", user => {
       setUsers(users => {
         return [...users, user]
       })
-    }
-    socketHandler.usersInRoom = users => {
-      users.forEach(user => {
-        addUserToCache(user)
-      })
-      setUsers(users)
-    }
-    socketHandler.onUserLeft = user => {
+    })
+    socketManager.addHandler("user gone", "remove_user_from_room", user => {
       setUsers(users => {
         return users.filter(u => {
           return u.id.toString() !== user.id.toString()
         })
       })
-    }
-    socketHandler.onRoomChangeCallbacks["clear_room_users"] = roomId => {
-      setRoom(roomId)
-      console.log(roomId)
-      setUsers([])
-    }
+    })
+    socketManager.addHandler("users in room", "set_users_in_room", users => {
+      setUsers(users)
+    })
+
+    // Ask parent about users in room
+    window.parent.postMessage({ getUsersInRoom: true }, "*")
+
+    // socketHandler.onRoomChangeCallbacks["clear_room_users"] = roomId => {
+    //   setRoom(roomId)
+    //   console.log(roomId)
+    //   setUsers([])
+    // }
     return () => {
       // No clean up because chat header is never unmounted after mounted
       console.error("[Headerjs] this cleanup should never run")
-      socketHandler.onUserJoin = null
-      socketHandler.onUserLeft = null
-      delete socketHandler.onRoomChangeCallbacks["clear_room_users"]
+      socketManager.removeHandler("new user", "add_user_to_room")
+      socketManager.removeHandler("user gone", "remove_user_from_room")
+      socketManager.removeHandler("users in room", "set_users_in_room")
+
+      // delete socketHandler.onRoomChangeCallbacks["clear_room_users"]
     }
   }, [])
-
-  useEffect(() => {
-    window.parent.postMessage({ userCount: true, value: users.length }, "*")
-  }, [users])
 
   let content = (
     <center>

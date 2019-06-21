@@ -13,12 +13,12 @@
   word-wrap: break-word;
   white-space: pre-wrap;
   border: 1px solid #e0e0e0;
-  color: #525252;
+  color: black;
 }
 
 .self .sp-message-body.text {
   text-align: left;
-  background: greenyellow;
+  background: #bf0;
 }
 
 .sp-message-body img {

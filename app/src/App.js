@@ -6,7 +6,7 @@ import { Icon, message } from "antd"
 
 import Tab from "containers/Tab"
 import AccountContext from "context/account-context"
-import socketManager, { socketHandler } from "socket/socket"
+import socketManager from "socket/socket"
 import storageManager from "utils/storage"
 import { setUrl, getUrl } from "utils/url"
 import { setPageTitle, getPageTitle } from "utils/pageTitle"
@@ -114,15 +114,13 @@ class App extends React.Component {
     storageManager.addEventListener("account", account => {
       this.setState({ account: account })
     })
-    socketHandler.onConnected = () => {
+    socketManager.addHandler("login", "popup", () => {
       message.success("连接成功！", 2)
-    }
-    socketHandler.onDisconnected = () => {
+    })
+    socketManager.addHandler("disconnect", "popup", () => {
       message.warn("连接已断开", 2)
-    }
-    socketHandler.onAlert = data => {
-      console.error(data)
-
+    })
+    socketManager.addHandler("alert", "popup", data => {
       if (useLocalAPI === useLocalSocket && data.errorCode === 401) {
         message.error("请重新登录", 2)
         this.setAccount(null)
@@ -133,25 +131,26 @@ class App extends React.Component {
       if (data.errorCode === 426) {
         message.error("请升级该扩展", 2)
       }
-    }
-    window.addEventListener(
-      "message",
-      e => {
-        if (e && e.data && e.data.locationUpdate) {
-          const newUrl = e.data.url
-          const newTitle = e.data.title
-          if (getUrl() !== newUrl || getPageTitle() !== newTitle) {
-            setUrl(newUrl)
-            setPageTitle(newTitle)
-            socketManager.updatePageInfo({
-              url: newUrl,
-              title: newTitle
-            })
-          }
-        }
-      },
-      false
-    )
+    })
+
+    // window.addEventListener(
+    //   "message",
+    //   e => {
+    //     if (e && e.data && e.data.locationUpdate) {
+    //       const newUrl = e.data.url
+    //       const newTitle = e.data.title
+    //       if (getUrl() !== newUrl || getPageTitle() !== newTitle) {
+    //         setUrl(newUrl)
+    //         setPageTitle(newTitle)
+    //         socketManager.updatePageInfo({
+    //           url: newUrl,
+    //           title: newTitle
+    //         })
+    //       }
+    //     }
+    //   },
+    //   false
+    // )
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -162,12 +161,12 @@ class App extends React.Component {
     if (login) {
       console.debug("logged in")
       axios.defaults.headers.common["token"] = this.state.account.token
-      socketManager.connect(this.state.account, true)
+      // socketManager.connect(this.state.account, true)
     }
     if (logout) {
       console.debug("logged out")
       axios.defaults.headers.common["token"] = null
-      socketManager.disconnect()
+      // socketManager.disconnect()
       // TODO:  change tab?
     }
   }
