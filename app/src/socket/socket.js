@@ -15,6 +15,23 @@ const socketManager = {
       { type: "sp-socket", msg: msg, action: "send message" },
       "*"
     )
+  },
+  sendEvent: (eventName, data) => {
+    window.parent.postMessage(
+      {
+        type: "sp-socket",
+        data: data,
+        eventName: eventName,
+        action: "send event"
+      },
+      "*"
+    )
+  },
+  changeRoom: roomId => {
+    window.parent.postMessage(
+      { type: "sp-socket", roomId: roomId, action: "change room" },
+      "*"
+    )
   }
 }
 

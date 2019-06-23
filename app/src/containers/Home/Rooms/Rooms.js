@@ -37,7 +37,8 @@ function Rooms(props) {
         onClick={() => {
           if (roomId === "lobby") {
             tabContext.changeTab("chat")
-            socketManager.togglePageSite("lobby")
+            socketManager.changeRoom("lobby")
+            window.setRoom("lobby")
             return
           }
           window.open(room.url)

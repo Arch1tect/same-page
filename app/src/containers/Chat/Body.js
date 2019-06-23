@@ -44,20 +44,18 @@ function ChatBody(props) {
       // TODO: use onload event rather than hard code time
       scrollToBottomIfNearBottom(timeout)
     })
-    // TODO
-    // socketHandler.onRoomChangeCallbacks["clear_chat_messages"] = roomId => {
-    //   setMessages([])
-    // }
-    // TODO: get recent message from parent
+
     socketManager.addHandler(
       "recent messages",
       "display_recent_messages",
       recentMessages => {
         // Receive recent messages of the joined room,
-        // should receive right after joining room.
+        // should receive right after joining room or when iframe
+        // is mounted.
         // Shoudn't display recent messages if there's
         // any messages already being displayed, e.g. joined
         // the room then went offline then back online
+        // console.debug(recentMessages)
         recentMessages.forEach(msg => {
           msg.self = msg.userId.toString() === account.id.toString()
           msg.time = moment.utc(msg.timestamp)

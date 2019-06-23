@@ -8,32 +8,9 @@ import Tab from "containers/Tab"
 import AccountContext from "context/account-context"
 import socketManager from "socket/socket"
 import storageManager from "utils/storage"
-import { setUrl, getUrl } from "utils/url"
-import { setPageTitle, getPageTitle } from "utils/pageTitle"
-import { useLocalAPI, useLocalSocket } from "config"
+// import { setPageTitle, getPageTitle } from "utils/pageTitle"
 
 require("moment/locale/zh-cn") //moment.js bug, has to manually include
-
-// Extra logic to check if there's login credentials of
-// pre v4.0, if so, use them. This logic should only be ran
-// once and to be deleted once everyone is on 4.0
-console.debug("Run migration code")
-storageManager.get("chatbox_config", oldConfig => {
-  if (oldConfig && oldConfig.id && oldConfig.password && !oldConfig.migrated) {
-    console.debug("Found old version login")
-
-    storageManager.set("login", {
-      userId: oldConfig.id,
-      password: oldConfig.password
-    })
-    oldConfig.migrated = true
-    storageManager.set("chatbox_config", oldConfig)
-  } else {
-    console.debug("NO old version login found")
-  }
-})
-
-// End of extra logic
 
 const DEFAULT_TAB = "chat"
 
@@ -49,6 +26,8 @@ class App extends React.Component {
       // in storage, if so, mount the app and auto login
       // 3. If neither account nor credential data is in storage,
       // mount the app and auto register
+
+      // TODO: remove 1 and 2?
 
       // In short, do not mount until done loading account/credential
       // from storage
@@ -121,9 +100,8 @@ class App extends React.Component {
       message.warn("连接已断开", 2)
     })
     socketManager.addHandler("alert", "popup", data => {
-      if (useLocalAPI === useLocalSocket && data.errorCode === 401) {
+      if (data.errorCode === 401) {
         message.error("请重新登录", 2)
-        this.setAccount(null)
       }
       if (data.errorCode === 400) {
         message.error("禁止使用", 2)
@@ -161,12 +139,10 @@ class App extends React.Component {
     if (login) {
       console.debug("logged in")
       axios.defaults.headers.common["token"] = this.state.account.token
-      // socketManager.connect(this.state.account, true)
     }
     if (logout) {
       console.debug("logged out")
       axios.defaults.headers.common["token"] = null
-      // socketManager.disconnect()
       // TODO:  change tab?
     }
   }

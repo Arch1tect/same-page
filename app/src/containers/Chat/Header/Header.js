@@ -11,11 +11,8 @@ import { getUrl, getDomain } from "utils/url"
 
 function ChatHeader(props) {
   const [showUsers, toggleUsers] = useState(false)
-  // which room socket is in, the source of truth isn't
-  // in the UI, it's in the socket module, UI subscribe
-  // to change of socket module
+
   const [room, setRoom] = useState(getDomain())
-  // It's tricky that
   const [users, setUsers] = useState([])
   const accountContext = useContext(AccountContext)
   const tabContext = useContext(TabContext)
@@ -37,22 +34,14 @@ function ChatHeader(props) {
     socketManager.addHandler("users in room", "set_users_in_room", users => {
       setUsers(users)
     })
-
-    // Ask parent about users in room
-    window.parent.postMessage({ getUsersInRoom: true }, "*")
-
-    // socketHandler.onRoomChangeCallbacks["clear_room_users"] = roomId => {
-    //   setRoom(roomId)
-    //   console.log(roomId)
-    //   setUsers([])
-    // }
+    window.setRoom = setRoom
     return () => {
       // No clean up because chat header is never unmounted after mounted
       console.error("[Headerjs] this cleanup should never run")
       socketManager.removeHandler("new user", "add_user_to_room")
       socketManager.removeHandler("user gone", "remove_user_from_room")
       socketManager.removeHandler("users in room", "set_users_in_room")
-
+      window.setRoom = null
       // delete socketHandler.onRoomChangeCallbacks["clear_room_users"]
     }
   }, [])
@@ -95,7 +84,9 @@ function ChatHeader(props) {
           buttonStyle="solid"
           onChange={e => {
             const roomId = e.target.value
-            socketManager.togglePageSite(roomId)
+            socketManager.changeRoom(roomId)
+            setUsers([])
+            setRoom(roomId)
           }}
         >
           <Tooltip placement="bottom" title="anywhere">
