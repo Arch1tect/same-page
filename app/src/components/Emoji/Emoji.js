@@ -22,7 +22,8 @@ const i18n = {
     objects: "东西",
     symbols: "象征",
     flags: "旗子",
-    custom: "欢乐兔"
+    custom:
+      "<a href='https://www.weibo.com/u/1736856114' target='_blank'> 欢乐兔</a>"
   },
   categorieslabel: "Emoji categories", // Accessible title for the list of categories
   skintones: {
