@@ -16,6 +16,11 @@
   color: black;
 }
 
+.sp-message-body.emoji {
+  font-size: 30px;
+  color: black;
+}
+
 .self .sp-message-body.text {
   text-align: left;
   background: #bf0;

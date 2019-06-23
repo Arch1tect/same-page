@@ -20,7 +20,7 @@ const conversationBodyStyle = {
   paddingBottom: 50
 }
 
-const AUTO_SCROLL_TRESHOLD_DISTANCE = 150
+const AUTO_SCROLL_TRESHOLD_DISTANCE = 500
 
 function Conversation(props) {
   const account = useContext(AccountContext).account
