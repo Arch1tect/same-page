@@ -4,6 +4,7 @@ import React, { useContext, useState, useRef, useEffect } from "react"
 import { Button } from "antd"
 import moment from "moment"
 
+import socketManager from "socket"
 import Message from "containers/Chat/Message"
 import { postMessage } from "services/message"
 import AccountContext from "context/account-context"
@@ -109,6 +110,9 @@ function Conversation(props) {
       .then(resp => {
         props.mergeAndSaveNewConversations(resp.data)
         // TODO: maybe display message locally right away
+
+        // let socket server help ping user right away
+        socketManager.sendEvent("private message", { userId: other.id })
       })
       .catch(err => {
         console.error(err)

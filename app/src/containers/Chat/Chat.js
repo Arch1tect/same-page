@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react"
-
+import { message } from "antd"
 import Header from "./Header"
 import Body from "./Body"
 import Footer from "./Footer"
 import MusicTab from "containers/Music"
-import socketManager from "socket/socket"
+import socketManager from "socket"
+import storageManager from "utils/storage"
 
 function Chat(props) {
   const [mediaDisplay, setMediaDisplay] = useState("none")
@@ -13,6 +14,14 @@ function Chat(props) {
   useEffect(() => {
     // Ask parent about room info when mounted
     socketManager.sendEvent("get room info")
+
+    socketManager.addHandler("private message", "pm_notification", data => {
+      console.log(data)
+      const sender = data.user
+      const msg = `收到来自${sender.name}的私信`
+      message.info(msg)
+      storageManager.set("unread", true)
+    })
   }, [])
 
   return (

@@ -6,15 +6,20 @@ import moment from "moment"
 import Conversation from "./Conversation"
 import { getMessages } from "services/message"
 import AccountContext from "context/account-context"
+import TabContext from "context/tab-context"
 import storageManager from "utils/storage"
 
 function Inbox(props) {
   const user = props.user
   const setUser = props.setUser
   const account = useContext(AccountContext).account
+  const tabContext = useContext(TabContext)
+  const activeTab = tabContext.activeTab
   let storageKey = "inbox-"
   if (account) storageKey += account.id
   const prevAccountRef = useRef()
+  const activeTabRef = useRef()
+  const conversationsRef = useRef()
   const [conversations, setConversations] = useState({})
   const [showNotifications, setShowNotifications] = useState(false)
   // offset equals to the biggest message id
@@ -31,13 +36,13 @@ function Inbox(props) {
       setConversations({ ...conversations, [user.id]: selectedConversation })
     }
   }
-  function getMessagesFromServer(offset) {
+  function getMessagesFromServer(offset, noPopup) {
     // usually we can get offset directly from
     // conversations variable. But when user login,
     // we set conversation and immediately getMessagesFromServer
     // before conversation is updated and there isn't a callback
     // for useState atm
-    offset = offset || getOffset(conversations)
+    offset = offset || getOffset(conversationsRef.current)
     setLoading(true)
     getMessages(offset)
       .then(resp => {
@@ -53,12 +58,14 @@ function Inbox(props) {
           mergeAndSaveNewConversations(newConversations)
           hasNewMessage = true
         } else {
-          message.success("没有新私信", 2)
+          // message.info("没有新私信", 2)
           console.warn("[Inbox] received offset no bigger than local offset")
         }
-        if (hasNewMessage) {
+        if (hasNewMessage && !noPopup) {
           message.success("收到新私信!", 2)
         }
+        const unreadKey = "unread"
+        storageManager.set(unreadKey, false)
       })
       .catch(err => {
         console.error(err)
@@ -96,29 +103,13 @@ function Inbox(props) {
     })
     return offset
   }
-
   useEffect(() => {
-    // Listen for account change, 2 cases:
-    // 1. not logged in => logged in  (this may not be when
-    // the whole app logged in, since Inbox component is mounted
-    // later than the App component)
-    // 2. logged in => logged out
-
-    // There shouldn't be a case that's logged in as user A
-    // then suddenly changed to user B without going through
-    // a log out step
-
-    // When logged in
-    // 0. clear messages in memory (not in storage)
-    // 1. get messages from storage
-    // 2. get new messages from server using offset and save into storage
-
-    // When logged out, clear the memory
-
-    const login = account && !prevAccountRef.current
-    const logout = prevAccountRef.current && !account
-
-    if (login) {
+    // whenever switch to inbox tab or
+    // account updated, fetch mail
+    // TODO: account update shouldn't fetch mail
+    // only if account changed
+    if (activeTab === "inbox" && account) {
+      let storageKey = "inbox-" + account.id
       console.debug("[inbox] logged in, load from storage")
       storageManager.get(storageKey, conversations => {
         conversations = conversations || {}
@@ -126,25 +117,93 @@ function Inbox(props) {
         console.debug("[inbox] loaded from storage, fetch from server")
         getMessagesFromServer(getOffset(conversations))
       })
-      console.debug("register inbox storage listener")
-      // TODO: if same account login and logout and login again
-      // this listener is registered multiple times, should unregister
-      // when logout
-      storageManager.addEventListener(storageKey, conversations => {
-        console.debug("[inbox] storage updated")
-        setConversations(conversations)
-      })
     }
+    activeTabRef.current = activeTab
+  }, [activeTab, account])
 
-    if (logout) {
+  useEffect(() => {
+    if (account) {
+      if (!prevAccountRef.current) {
+        console.debug("register inbox storage listener")
+        // TODO: if same account login and logout and login again
+        // this listener is registered multiple times, should unregister
+        // when logout
+        storageManager.addEventListener(storageKey, conversations => {
+          console.debug("[inbox] storage updated")
+          setConversations(conversations)
+        })
+      }
+    } else {
       console.debug("[inbox] logged out")
       setUser(null)
       setConversations({})
-      // Clear memory
     }
-
     prevAccountRef.current = account
   }, [account])
+
+  useEffect(() => {
+    storageManager.addEventListener("unread", unread => {
+      if (unread) {
+        if (activeTabRef.current === "inbox") {
+          getMessagesFromServer(null, true)
+        }
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    conversationsRef.current = conversations
+  }, [conversations])
+
+  // useEffect(() => {
+  // Listen for account change, 2 cases:
+  // 1. not logged in => logged in  (this may not be when
+  // the whole app logged in, since Inbox component is mounted
+  // later than the App component)
+  // 2. logged in => logged out
+
+  // There shouldn't be a case that's logged in as user A
+  // then suddenly changed to user B without going through
+  // a log out step
+
+  // When logged in
+  // 0. clear messages in memory (not in storage)
+  // 1. get messages from storage
+  // 2. get new messages from server using offset and save into storage
+
+  // When logged out, clear the memory
+
+  // const login = account && !prevAccountRef.current
+  // const logout = prevAccountRef.current && !account
+
+  // if (login) {
+  // let storageKey = "inbox-" + account.id
+  // console.debug("[inbox] logged in, load from storage")
+  // storageManager.get(storageKey, conversations => {
+  //   conversations = conversations || {}
+  //   setConversations(conversations)
+  //   console.debug("[inbox] loaded from storage, fetch from server")
+  //   getMessagesFromServer(getOffset(conversations))
+  // })
+  // console.debug("register inbox storage listener")
+  // // TODO: if same account login and logout and login again
+  // // this listener is registered multiple times, should unregister
+  // // when logout
+  // storageManager.addEventListener(storageKey, conversations => {
+  //   console.debug("[inbox] storage updated")
+  //   setConversations(conversations)
+  // })
+  // }
+
+  //   if (logout) {
+  //     console.debug("[inbox] logged out")
+  //     setUser(null)
+  //     setConversations({})
+  //     // Clear memory
+  //   }
+
+  //   prevAccountRef.current = account
+  // }, [account])
 
   // Backend/storage returns dictionary data structure so
   // it's easy to insert new conversation

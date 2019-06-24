@@ -34,6 +34,7 @@ function Tab(props) {
       value={{
         selectOtherUser: selectOtherUser,
         changeTab: changeTab,
+        activeTab: activeTab,
         directMessage: directMessage
       }}
     >
