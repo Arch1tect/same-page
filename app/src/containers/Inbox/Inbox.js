@@ -1,6 +1,6 @@
 import "./Inbox.css"
 import React, { useEffect, useState, useContext, useRef } from "react"
-import { Avatar, Icon, Radio, Button } from "antd"
+import { Avatar, Icon, Radio, Button, message } from "antd"
 import moment from "moment"
 
 import Conversation from "./Conversation"
@@ -48,10 +48,16 @@ function Inbox(props) {
         // pull at the same time?
         // Have a simple offset check for now
         const newConversations = resp.data
+        let hasNewMessage = false
         if (getOffset(newConversations) > getOffset(conversations)) {
           mergeAndSaveNewConversations(newConversations)
+          hasNewMessage = true
         } else {
+          message.success("没有新私信", 2)
           console.warn("[Inbox] received offset no bigger than local offset")
+        }
+        if (hasNewMessage) {
+          message.success("收到新私信!", 2)
         }
       })
       .catch(err => {
