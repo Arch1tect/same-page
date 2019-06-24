@@ -1,6 +1,6 @@
 import "./Inbox.css"
 import React, { useEffect, useState, useContext, useRef } from "react"
-import { Avatar, Icon, Radio } from "antd"
+import { Avatar, Icon, Radio, Button } from "antd"
 import moment from "moment"
 
 import Conversation from "./Conversation"
@@ -32,11 +32,27 @@ function Inbox(props) {
     }
   }
   function getMessagesFromServer(offset) {
+    // usually we can get offset directly from
+    // conversations variable. But when user login,
+    // we set conversation and immediately getMessagesFromServer
+    // before conversation is updated and there isn't a callback
+    // for useState atm
+    offset = offset || getOffset(conversations)
     setLoading(true)
     getMessages(offset)
       .then(resp => {
         // Merge with existing data
-        mergeAndSaveNewConversations(resp.data)
+        // TODO: mergeAndSaveNewConversations doesn't dedup
+        // it trusts whatever server returns and there could be
+        // duplicate with data in localstorage when multiple tabs
+        // pull at the same time?
+        // Have a simple offset check for now
+        const newConversations = resp.data
+        if (getOffset(newConversations) > getOffset(conversations)) {
+          mergeAndSaveNewConversations(newConversations)
+        } else {
+          console.warn("[Inbox] received offset no bigger than local offset")
+        }
       })
       .catch(err => {
         console.error(err)
@@ -45,6 +61,7 @@ function Inbox(props) {
         setLoading(false)
       })
   }
+  window.getMessagesFromServer = getMessagesFromServer
   function mergeAndSaveNewConversations(newConversations) {
     // merge and save new conversations into storage
     storageManager.get(storageKey, conversations => {
@@ -75,13 +92,6 @@ function Inbox(props) {
   }
 
   useEffect(() => {
-    // console.debug("register inbox storage listener")
-    // storageManager.addEventListener("inbox", conversations => {
-    //   setConversations(conversations)
-    // })
-  }, [])
-
-  useEffect(() => {
     // Listen for account change, 2 cases:
     // 1. not logged in => logged in  (this may not be when
     // the whole app logged in, since Inbox component is mounted
@@ -99,26 +109,28 @@ function Inbox(props) {
 
     // When logged out, clear the memory
 
-    if (account) {
-      if (!prevAccountRef.current) {
-        // If logged in as a different account or first time login?
-        console.debug("[inbox] logged in, load from storage")
-        storageManager.get(storageKey, conversations => {
-          conversations = conversations || {}
-          setConversations(conversations)
-          console.debug("[inbox] loaded from storage, fetch from server")
-          getMessagesFromServer(getOffset(conversations))
-        })
-        console.debug("register inbox storage listener")
-        // TODO: if same account login and logout and login again
-        // this listener is registered multiple times, should unregister
-        // when logout
-        storageManager.addEventListener(storageKey, conversations => {
-          console.debug("[inbox] storage updated")
-          setConversations(conversations)
-        })
-      }
-    } else {
+    const login = account && !prevAccountRef.current
+    const logout = prevAccountRef.current && !account
+
+    if (login) {
+      console.debug("[inbox] logged in, load from storage")
+      storageManager.get(storageKey, conversations => {
+        conversations = conversations || {}
+        setConversations(conversations)
+        console.debug("[inbox] loaded from storage, fetch from server")
+        getMessagesFromServer(getOffset(conversations))
+      })
+      console.debug("register inbox storage listener")
+      // TODO: if same account login and logout and login again
+      // this listener is registered multiple times, should unregister
+      // when logout
+      storageManager.addEventListener(storageKey, conversations => {
+        console.debug("[inbox] storage updated")
+        setConversations(conversations)
+      })
+    }
+
+    if (logout) {
       console.debug("[inbox] logged out")
       setUser(null)
       setConversations({})
@@ -199,18 +211,24 @@ function Inbox(props) {
       {!selectedConversation && (
         <div>
           <center className="sp-tab-header">
-            {loading && (
-              <Icon
-                style={{
-                  margin: 3,
-                  position: "absolute",
-                  left: 10,
-                  border: "none",
-                  fontSize: "large"
-                }}
-                type="loading"
-              />
-            )}
+            <span
+              style={{
+                position: "absolute",
+                left: 20
+              }}
+            >
+              {loading && <Icon type="loading" />}
+              {!loading && (
+                <Button
+                  onClick={() => {
+                    getMessagesFromServer()
+                  }}
+                  style={{ border: "none", padding: 0 }}
+                  size="small"
+                  icon="reload"
+                />
+              )}
+            </span>
             <Radio.Group
               size="small"
               defaultValue={showNotifications}

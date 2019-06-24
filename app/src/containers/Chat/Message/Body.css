@@ -17,8 +17,10 @@
 }
 
 .sp-message-body.emoji {
-  font-size: 30px;
+  font-size: 25px;
   color: black;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .self .sp-message-body.text {

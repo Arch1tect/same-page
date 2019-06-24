@@ -64,9 +64,9 @@ function ChatBody(props) {
       }
     )
     return () => {
+      console.debug("[Body.js] unregister socket events")
       socketManager.removeHandler("new message", "display_new_message")
       socketManager.removeHandler("recent messages", "display_recent_messages")
-      // delete socketHandler.onRoomChangeCallbacks["clear_chat_messages"]
     }
   }, [account])
   useEffect(() => {
