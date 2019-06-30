@@ -54,8 +54,7 @@ function ProfileMeta(props) {
       .then(() => {})
   }
 
-  useEffect(() => {
-    if (wait || loaded) return
+  function refreshUserInfo() {
     setLoading(true)
     getUser(user.id)
       .then(resp => {
@@ -73,6 +72,10 @@ function ProfileMeta(props) {
         // console.log("done loading")
         setLoading(false)
       })
+  }
+  useEffect(() => {
+    if (wait || loaded) return
+    refreshUserInfo()
   }, [wait, loaded])
 
   const childrenWithProps = React.Children.map(props.children, child =>
@@ -84,7 +87,8 @@ function ProfileMeta(props) {
       followerCount: followerCount,
       following: following,
       followUser: toggleFollow,
-      directMessage: tabContext.directMessage
+      directMessage: tabContext.directMessage,
+      refreshUserInfo: refreshUserInfo
     })
   )
   return <span>{childrenWithProps}</span>

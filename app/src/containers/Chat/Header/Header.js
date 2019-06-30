@@ -21,6 +21,7 @@ function ChatHeader(props) {
     console.log("register user join/left handlers")
     socketManager.addHandler("new user", "add_user_to_room", user => {
       setUsers(users => {
+        // TODO: dedup
         return [...users, user]
       })
     })
@@ -34,6 +35,9 @@ function ChatHeader(props) {
     socketManager.addHandler("users in room", "set_users_in_room", users => {
       setUsers(users)
     })
+    socketManager.addHandler("disconnect", "clear_users_in_room", () => {
+      setUsers([])
+    })
     window.setRoom = setRoom
     return () => {
       // No clean up because chat header is never unmounted after mounted
@@ -41,8 +45,8 @@ function ChatHeader(props) {
       socketManager.removeHandler("new user", "add_user_to_room")
       socketManager.removeHandler("user gone", "remove_user_from_room")
       socketManager.removeHandler("users in room", "set_users_in_room")
+      socketManager.removeHandler("disconnect", "clear_users_in_room")
       window.setRoom = null
-      // delete socketHandler.onRoomChangeCallbacks["clear_room_users"]
     }
   }, [])
 

@@ -131,3 +131,7 @@ body ::-webkit-scrollbar-thumb:window-inactive {
 .sp-pointer-cursor {
   cursor: pointer;
 }
+
+.sp-new-message-dot.ant-badge {
+  font-size: unset;
+}

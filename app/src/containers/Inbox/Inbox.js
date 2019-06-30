@@ -95,6 +95,7 @@ function Inbox(props) {
   }
   function getOffset(conversations) {
     let offset = 0
+    conversations = conversations || {}
     Object.values(conversations).forEach(c => {
       if (c.messages.length) {
         c.lastMsg = c.messages[c.messages.length - 1]
@@ -115,7 +116,8 @@ function Inbox(props) {
         conversations = conversations || {}
         setConversations(conversations)
         console.debug("[inbox] loaded from storage, fetch from server")
-        getMessagesFromServer(getOffset(conversations))
+        const offset = getOffset(conversations)
+        getMessagesFromServer(offset)
       })
     }
     activeTabRef.current = activeTab

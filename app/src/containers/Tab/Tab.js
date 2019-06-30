@@ -1,8 +1,8 @@
 import "antd/dist/antd.css"
 import "./Tab.css"
 
-import React, { useState } from "react"
-import { Tabs, Icon, Tooltip } from "antd"
+import React, { useState, useEffect } from "react"
+import { Tabs, Icon, Tooltip, Badge } from "antd"
 
 import Chat from "containers/Chat"
 import Comment from "containers/Comment"
@@ -12,6 +12,7 @@ import Inbox from "containers/Inbox"
 import Home from "containers/Home"
 
 import TabContext from "context/tab-context"
+import storageManager from "utils/storage"
 
 const TabPane = Tabs.TabPane
 
@@ -21,6 +22,7 @@ function Tab(props) {
   const [activeTab, changeTab] = useState(props.tab)
   // view other's profile
   const [other, selectOtherUser] = useState()
+  const [unread, setUnread] = useState(false)
   // view direct message with other
   const [conversationUser, setCoversationUser] = useState()
   function directMessage(user) {
@@ -28,6 +30,17 @@ function Tab(props) {
     changeTab("inbox")
     setCoversationUser(user)
   }
+
+  useEffect(() => {
+    storageManager.addEventListener("unread", unread => {
+      setUnread(unread)
+    })
+    storageManager.get("unread", unread => {
+      if (unread) {
+        setUnread(true)
+      }
+    })
+  }, [])
 
   return (
     <TabContext.Provider
@@ -87,7 +100,9 @@ function Tab(props) {
           <TabPane
             tab={
               <Tooltip title="收件箱" placement="bottom">
-                <Icon type="mail" />
+                <Badge dot={unread} className="sp-new-message-dot">
+                  <Icon type="mail" />
+                </Badge>
               </Tooltip>
             }
             key="inbox"

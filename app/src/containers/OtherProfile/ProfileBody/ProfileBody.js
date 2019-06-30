@@ -1,6 +1,10 @@
-import React from "react"
-import { Button, Avatar, Icon, Row, Col } from "antd"
+import React, { useState, useContext } from "react"
+import { Button, Avatar, Icon, Row, Col, message } from "antd"
 
+import AccountContext from "context/account-context"
+
+import socketManager from "socket"
+import { blockUser, unblockUser } from "services/user"
 const avatarStyle = {
   margin: "auto",
   marginTop: 20,
@@ -33,7 +37,9 @@ function ProfileBody(props) {
     followerCount,
     followUser
   } = props
-
+  const [toggleBlocking, setToggleBlocking] = useState(false)
+  const accountContext = useContext(AccountContext)
+  const account = accountContext.account
   return (
     <div>
       <Avatar style={avatarStyle} size={128} src={user.avatarSrc} icon="user" />
@@ -50,7 +56,7 @@ function ProfileBody(props) {
           />
         )}
       </center>
-      {loaded && (
+      {loaded && !loading && (
         <span>
           <Row gutter={50} style={{ textAlign: "center" }}>
             <Col style={{ textAlign: "right" }} span={12}>
@@ -100,6 +106,53 @@ function ProfileBody(props) {
               >
                 私信
               </Button>
+              {account && account.isMod && (
+                <div style={{ marginTop: 20 }}>
+                  {!user.isBanned && (
+                    <Button
+                      type="danger"
+                      loading={toggleBlocking}
+                      onClick={() => {
+                        socketManager.sendEvent("kick user", {
+                          userId: user.id
+                        })
+                        setToggleBlocking(true)
+                        blockUser(user.id)
+                          .then(() => {
+                            message.success("封禁成功!")
+                            props.refreshUserInfo()
+                          })
+                          .catch(() => {})
+                          .then(() => {
+                            setToggleBlocking(false)
+                          })
+                      }}
+                    >
+                      封禁三天
+                    </Button>
+                  )}
+                  {user.isBanned && (
+                    <Button
+                      loading={toggleBlocking}
+                      // type="danger"
+                      onClick={() => {
+                        setToggleBlocking(true)
+                        unblockUser(user.id)
+                          .then(() => {
+                            message.success("解封成功!")
+                            props.refreshUserInfo()
+                          })
+                          .catch(() => {})
+                          .then(() => {
+                            setToggleBlocking(false)
+                          })
+                      }}
+                    >
+                      解封
+                    </Button>
+                  )}
+                </div>
+              )}
             </div>
           </center>
         </span>

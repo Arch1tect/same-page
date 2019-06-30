@@ -74,7 +74,14 @@ class App extends React.Component {
         ) {
           errorMessage = error.response.data.error
         }
+        if (error.response && error.response.status === 403) {
+          errorMessage = "禁止通行"
+        }
+        if (error.response && error.response.status === 409) {
+          errorMessage = "权限不足"
+        }
         message.error(errorMessage)
+        console.error(error)
         return Promise.reject(error)
       }
     )
@@ -103,8 +110,11 @@ class App extends React.Component {
       if (data.errorCode === 401) {
         message.error("请重新登录", 2)
       }
-      if (data.errorCode === 400) {
-        message.error("禁止使用", 2)
+      if (data.errorCode === 403) {
+        message.error("禁止通行", 2)
+      }
+      if (data.errorCode === 409) {
+        message.error("权限不足", 2)
       }
       if (data.errorCode === 426) {
         message.error("请升级该扩展", 2)

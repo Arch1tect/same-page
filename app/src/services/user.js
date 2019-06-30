@@ -19,3 +19,17 @@ export const updateUser = payload => {
   }
   return axios.post(urls.dbAPI + "/api/v1/user", formData)
 }
+
+export const blockUser = userId => {
+  const payload = {
+    userId: userId
+  }
+  return axios.post(urls.dbAPI + "/api/v1/block_user", payload)
+}
+
+export const unblockUser = userId => {
+  const payload = {
+    userId: userId
+  }
+  return axios.post(urls.dbAPI + "/api/v1/unblock_user", payload)
+}

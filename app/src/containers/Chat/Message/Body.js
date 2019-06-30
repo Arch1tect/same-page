@@ -1,6 +1,9 @@
 import "./Body.css"
 
 import React from "react"
+import { Popover, Button } from "antd"
+
+import socketManager from "socket"
 
 function MessageBody(props) {
   const data = props.data
@@ -35,6 +38,30 @@ function MessageBody(props) {
       >
         {content}
       </div>
+    )
+  }
+  const popoverContent = (
+    <Button
+      onClick={() => {
+        socketManager.sendEvent("delete message", { messageId: data.id })
+      }}
+      style={{ border: "none", color: "red" }}
+      icon="delete"
+    >
+      删除
+    </Button>
+  )
+  const popoverPlacement = data.self ? "left" : "right"
+  if (props.showMenu) {
+    return (
+      <Popover
+        overlayClassName="sp-message-menu"
+        placement={popoverPlacement}
+        content={popoverContent}
+        trigger="hover"
+      >
+        <div className={className}>{content}</div>
+      </Popover>
     )
   }
   return <div className={className}>{content}</div>

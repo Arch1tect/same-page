@@ -55,7 +55,7 @@ function Playlist(props) {
     return () => {
       window.setPlaylist = null
       window.playMessage = null
-      window.play.on("ended", () => {})
+      window.player.on("ended", () => {})
     }
   }, [setMediaNum])
 

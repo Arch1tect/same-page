@@ -52,3 +52,7 @@ img.sp-message-image {
   color: #525252;
   background: yellow;
 }
+
+.sp-message-menu .ant-popover-inner-content {
+  padding: 0;
+}

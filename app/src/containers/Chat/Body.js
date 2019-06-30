@@ -97,7 +97,6 @@ function ChatBody(props) {
 
   let res = []
   let lastMsg = null
-  let index = 0
 
   messages.forEach(msg => {
     // If same user is talking, no need to show user's avatar again
@@ -125,8 +124,9 @@ function ChatBody(props) {
 
     res.push(
       <Message
+        showMenu={account && (account.isMod || msg.self)}
         withHoverCard={true}
-        key={index++}
+        key={msg.id}
         data={msg}
         showUser={showUser}
         timeDisplay={timeDisplay}
