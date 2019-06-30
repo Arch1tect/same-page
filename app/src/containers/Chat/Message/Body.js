@@ -1,7 +1,7 @@
 import "./Body.css"
 
 import React from "react"
-import { Popover, Button } from "antd"
+import { Popover, Button, Icon } from "antd"
 
 import socketManager from "socket"
 
@@ -40,16 +40,24 @@ function MessageBody(props) {
       </div>
     )
   }
+  if (data.type === "invite") {
+    content = (
+      <div>
+        <a target="_blank" href={data.mediaSrc}>
+          <Icon style={{ marginRight: 5 }} type="link" />
+          {content}
+        </a>
+      </div>
+    )
+  }
   const popoverContent = (
     <Button
       onClick={() => {
         socketManager.sendEvent("delete message", { messageId: data.id })
       }}
-      style={{ border: "none", color: "red" }}
+      style={{ border: "none" }}
       icon="delete"
-    >
-      删除
-    </Button>
+    />
   )
   const popoverPlacement = data.self ? "left" : "right"
   if (props.showMenu) {

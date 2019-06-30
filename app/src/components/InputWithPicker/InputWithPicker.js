@@ -79,7 +79,7 @@ function InputWithPicker(props) {
         onKeyDown={handleKeyDown}
         value={input}
         addonBefore={emojiBtn}
-        // addonAfter={<Icon type="paper-clip" />}
+        addonAfter={props.addonAfter}
         onChange={handleChange}
         disabled={sending}
         placeholder={sending ? "发送中。。。" : "请输入。。。"}
