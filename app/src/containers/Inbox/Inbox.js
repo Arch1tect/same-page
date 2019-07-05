@@ -58,9 +58,7 @@ function Inbox(props) {
         if (newOffset > offset) {
           mergeAndSaveNewConversations(newConversations)
           hasNewMessage = true
-          storageManager.set("inbox-offset", newOffset)
         } else {
-          storageManager.set("inbox-offset", offset)
           // message.info("没有新私信", 2)
           console.warn("[Inbox] received offset no bigger than local offset")
         }
@@ -101,6 +99,8 @@ function Inbox(props) {
         ]
       })
       storageManager.set(storageKey, conversations)
+      const offset = getOffset(conversations)
+      storageManager.set("inbox-offset", offset)
     })
   }
   function getOffset(conversations) {
@@ -112,6 +112,8 @@ function Inbox(props) {
         offset = Math.max(offset, c.lastMsg.id)
       }
     })
+    // console.debug(offset)
+
     return offset
   }
   useEffect(() => {
