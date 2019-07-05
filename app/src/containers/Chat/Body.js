@@ -61,6 +61,8 @@ function ChatBody(props) {
           msg.time = moment.utc(msg.timestamp)
         })
         setMessages(recentMessages)
+        const timeout = 300
+        scrollToBottom(timeout)
       }
     )
     return () => {
@@ -82,17 +84,22 @@ function ChatBody(props) {
     })
     window.setPlaylist(messages.filter(isMedia))
   }, [messages])
+
   const scrollToBottomIfNearBottom = timeout => {
-    timeout = timeout || 100
     const bodyDiv = bodyRef.current
     if (
       bodyDiv.scrollHeight - bodyDiv.scrollTop - bodyDiv.offsetHeight <
       AUTO_SCROLL_TRESHOLD_DISTANCE
     ) {
-      setTimeout(() => {
-        bodyDiv.scrollTop = bodyDiv.scrollHeight
-      }, timeout)
+      scrollToBottom(timeout)
     }
+  }
+  const scrollToBottom = timeout => {
+    timeout = timeout || 100
+    const bodyDiv = bodyRef.current
+    setTimeout(() => {
+      bodyDiv.scrollTop = bodyDiv.scrollHeight
+    }, timeout)
   }
 
   let res = []
