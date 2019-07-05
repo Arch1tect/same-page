@@ -14,3 +14,13 @@
   border-left: none;
   border-right: none;
 }
+
+.sp-input-with-picker .ant-input-group-addon {
+  /* font-size: 20px; */
+  padding: 0px;
+}
+.sp-input-with-picker .ant-input-group-addon button {
+  /* padding: 5px; */
+  border: none;
+  background: none;
+}

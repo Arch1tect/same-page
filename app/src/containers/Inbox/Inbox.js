@@ -15,8 +15,8 @@ function Inbox(props) {
   const account = useContext(AccountContext).account
   const tabContext = useContext(TabContext)
   const activeTab = tabContext.activeTab
-  let storageKey = "inbox-"
-  if (account) storageKey += account.id
+  let storageKey = "inbox"
+  // if (account) storageKey += account.id
   const prevAccountRef = useRef()
   const activeTabRef = useRef()
   const conversationsRef = useRef()
@@ -54,14 +54,20 @@ function Inbox(props) {
         // Have a simple offset check for now
         const newConversations = resp.data
         let hasNewMessage = false
-        if (getOffset(newConversations) > getOffset(conversations)) {
+        const newOffset = getOffset(newConversations)
+        if (newOffset > offset) {
           mergeAndSaveNewConversations(newConversations)
           hasNewMessage = true
+          storageManager.set("inbox-offset", newOffset)
         } else {
+          storageManager.set("inbox-offset", offset)
           // message.info("没有新私信", 2)
           console.warn("[Inbox] received offset no bigger than local offset")
         }
-        if (hasNewMessage && !noPopup) {
+
+        if (hasNewMessage && offset && !noPopup) {
+          // `&& offset` because don't want to show popup
+          // when user login after logout (messages are deleted)
           message.success("收到新私信!", 2)
         }
         const unreadKey = "unread"
@@ -89,6 +95,10 @@ function Inbox(props) {
         } else {
           conversations[userId] = newConversations[userId]
         }
+        // Ensure unique messages
+        conversations[userId].messages = [
+          ...new Set(conversations[userId].messages)
+        ]
       })
       storageManager.set(storageKey, conversations)
     })
@@ -110,7 +120,6 @@ function Inbox(props) {
     // TODO: account update shouldn't fetch mail
     // only if account changed
     if (activeTab === "inbox" && account) {
-      let storageKey = "inbox-" + account.id
       console.debug("[inbox] logged in, load from storage")
       storageManager.get(storageKey, conversations => {
         conversations = conversations || {}

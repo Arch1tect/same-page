@@ -80,6 +80,9 @@ class App extends React.Component {
         if (error.response && error.response.status === 409) {
           errorMessage = "权限不足"
         }
+        if (error.response && error.response.status === 413) {
+          errorMessage = "文件太大"
+        }
         message.error(errorMessage)
         console.error(error)
         return Promise.reject(error)
@@ -153,6 +156,10 @@ class App extends React.Component {
     if (logout) {
       console.debug("logged out")
       axios.defaults.headers.common["token"] = null
+      // clear storage
+      storageManager.set("unread", false)
+      storageManager.set("inbox", null)
+      storageManager.set("inbox-offset", 0)
       // TODO:  change tab?
     }
   }

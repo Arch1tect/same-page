@@ -1,7 +1,7 @@
 import "./Footer.css"
 
 import React, { useContext } from "react"
-import { message, Icon, Popconfirm } from "antd"
+import { message, Button, Popconfirm } from "antd"
 
 import InputWithPicker from "components/InputWithPicker"
 import AccountContext from "context/account-context"
@@ -54,7 +54,7 @@ function Footer(props) {
             cancelText="取消操作"
             placement="topRight"
           >
-            <Icon type="environment" />
+            <Button icon="environment" />
           </Popconfirm>
         }
       />

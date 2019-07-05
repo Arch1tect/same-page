@@ -43,7 +43,7 @@ function MessageBody(props) {
   if (data.type === "invite") {
     content = (
       <div>
-        <a target="_blank" href={data.mediaSrc}>
+        <a target="_blank" rel="noopener noreferrer" href={data.mediaSrc}>
           <Icon style={{ marginRight: 5 }} type="link" />
           {content}
         </a>

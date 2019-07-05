@@ -41,7 +41,7 @@ window.addEventListener(
     if (e && e.data && e.data.type === "sp-socket") {
       const eventName = e.data.name
       const data = e.data.data
-      console.debug(eventName)
+      // console.debug(eventName)
       if (eventName in _socketEventHanders) {
         const handlers = _socketEventHanders[eventName] || {}
         Object.values(handlers).forEach(handler => {

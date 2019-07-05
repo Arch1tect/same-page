@@ -1,12 +1,16 @@
 import "./InputWithPicker.css"
 
 import React, { useState, useRef, useEffect } from "react"
-import { Icon, Input } from "antd"
-
+import { Button, Input, Icon, Upload } from "antd"
+import urls from "config/urls"
 import Emoji from "../Emoji"
+import axios from "axios"
+
+const uploadUrl = `${urls.dbAPI}/api/v1/chat_upload`
 
 function InputWithPicker(props) {
   const [input, setInput] = useState("")
+  const [uploading, setUploading] = useState(false)
   const inputRef = useRef()
   // show emoji is one step slower than will show emoji
   // so that we can show a loading icon
@@ -15,6 +19,39 @@ function InputWithPicker(props) {
 
   const sending = props.sending
   const autoFocus = props.autoFocus || false
+
+  const uploadProps = {
+    name: "file",
+    action: uploadUrl,
+    customRequest: options => {
+      const data = new FormData()
+      data.append("file", options.file)
+      setUploading(true)
+      axios
+        .post(options.action, data)
+        .then(resp => {
+          props.send(resp.data.url)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+        .then(() => {
+          setUploading(false)
+        })
+    },
+    showUploadList: false,
+    onChange(info) {
+      // if (info.file.status !== "uploading") {
+      //   console.log(info.file, info.fileList)
+      // }
+      // if (info.file.status === "done") {
+      //   message.success(`${info.file.name} file uploaded successfully`)
+      // } else if (info.file.status === "error") {
+      //   message.error(`${info.file.name} file upload failed.`)
+      // }
+    }
+  }
+
   useEffect(() => {
     if (autoFocus) {
       inputRef.current.focus()
@@ -49,16 +86,21 @@ function InputWithPicker(props) {
     setInput(e.target.value)
   }
 
-  const emojiBtn = (
-    <Icon
-      className="emojiOpener"
-      onClick={e => {
-        setWillShowEmoji(prevState => {
-          setWillShowEmoji(!prevState)
-        })
-      }}
-      type="smile"
-    />
+  const addonBefore = (
+    <span>
+      <Button
+        className="emojiOpener"
+        onClick={e => {
+          setWillShowEmoji(prevState => {
+            setWillShowEmoji(!prevState)
+          })
+        }}
+        icon="smile"
+      />
+      <Upload {...uploadProps} disabled={uploading}>
+        <Button icon="upload" loading={uploading} />
+      </Upload>
+    </span>
   )
 
   return (
@@ -78,7 +120,7 @@ function InputWithPicker(props) {
         size="large"
         onKeyDown={handleKeyDown}
         value={input}
-        addonBefore={emojiBtn}
+        addonBefore={addonBefore}
         addonAfter={props.addonAfter}
         onChange={handleChange}
         disabled={sending}

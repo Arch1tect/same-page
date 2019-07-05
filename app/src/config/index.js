@@ -1,1 +1,1 @@
-export const useLocalAPI = false
+export const useLocalAPI = true

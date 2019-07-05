@@ -23,6 +23,7 @@ const storage = {
       window.chrome.storage.local.set(item)
     } else {
       const stringValue = JSON.stringify(value)
+
       localStorage.setItem(key, stringValue)
       // localstorage event isn't triggered on same tab
       // manually create an event and dispatch it
@@ -32,6 +33,21 @@ const storage = {
       storageEvent.key = key
       storageEvent.newValue = stringValue
       window.dispatchEvent(storageEvent)
+    }
+    // chatbox and content script are never same origin,
+    // therefore storage are different, manually post message
+    // to update content script's storage
+    if (window.parent) {
+      window.parent.postMessage(
+        {
+          action: "updateStorage",
+          key: key,
+          value: value
+        },
+        "*"
+      )
+    } else {
+      console.error("no parent means no socket")
     }
   },
   addEventListener: (key, callback) => {

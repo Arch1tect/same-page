@@ -84,8 +84,6 @@ function Profile(props) {
             修改资料
           </Button>
         </div>
-        <br />
-        <br />
         <Button onClick={props.showResetPassword} style={{ margin: 10 }}>
           更改密码
         </Button>
