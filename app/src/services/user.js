@@ -33,3 +33,10 @@ export const unblockUser = userId => {
   }
   return axios.post(urls.dbAPI + "/api/v1/unblock_user", payload)
 }
+
+export const thankUser = userId => {
+  const payload = {
+    userId: userId
+  }
+  return axios.post(urls.dbAPI + "/api/v1/thank_user", payload)
+}

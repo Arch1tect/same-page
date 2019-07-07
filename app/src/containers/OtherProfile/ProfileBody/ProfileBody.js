@@ -4,7 +4,7 @@ import { Button, Avatar, Icon, Row, Col, message } from "antd"
 import AccountContext from "context/account-context"
 
 import socketManager from "socket"
-import { blockUser, unblockUser } from "services/user"
+import { blockUser, unblockUser, thankUser } from "services/user"
 const avatarStyle = {
   margin: "auto",
   marginTop: 20,
@@ -37,9 +37,11 @@ function ProfileBody(props) {
     followerCount,
     followUser
   } = props
+  const [thanking, setThanking] = useState(false)
   const [toggleBlocking, setToggleBlocking] = useState(false)
   const accountContext = useContext(AccountContext)
   const account = accountContext.account
+  const self = account && account.id.toString() === user.id.toString()
   return (
     <div>
       <Avatar style={avatarStyle} size={128} src={user.avatarSrc} icon="user" />
@@ -70,6 +72,33 @@ function ProfileBody(props) {
           <center>
             <div style={aboutStyle}>{user.about}</div>
             <div style={{ marginTop: 30, marginBottom: 30 }}>
+              {!self && (
+                <Button
+                  loading={thanking}
+                  onClick={() => {
+                    setThanking(true)
+                    thankUser(user.id)
+                      .then(resp => {
+                        message.success("感谢成功!")
+                        console.log(account)
+                        const newAccountData = { ...account }
+                        newAccountData.credit = resp.data.credit
+                        console.log(newAccountData)
+                        accountContext.setAccount(newAccountData)
+                      })
+                      .catch(err => {})
+                      .then(() => {
+                        setThanking(false)
+                      })
+                  }}
+                  title="每小时可以感谢一次，自己和对方同时增加积分"
+                  icon="like"
+                  style={{ margin: 10 }}
+                  size="large"
+                >
+                  感谢
+                </Button>
+              )}
               {following && (
                 <Button
                   icon="user-delete"

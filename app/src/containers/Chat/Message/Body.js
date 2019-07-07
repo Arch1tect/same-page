@@ -41,11 +41,22 @@ function MessageBody(props) {
     )
   }
   if (data.type === "invite") {
+    const invitationData = data.metadata
+    const purposeStr = invitationData.purpose === "chat" ? "聊天邀请" : "求助"
+    const iconType =
+      invitationData.purpose === "chat" ? "message" : "question-circle"
     content = (
-      <div>
-        <a target="_blank" rel="noopener noreferrer" href={data.mediaSrc}>
-          <Icon style={{ marginRight: 5 }} type="link" />
-          {content}
+      <div
+        title="点击打开邀请者所在网页"
+        className={"sp-invitation-" + invitationData.purpose}
+      >
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href={invitationData.pageUrl}
+        >
+          <Icon theme="filled" style={{ marginRight: 5 }} type={iconType} />
+          {purposeStr} {invitationData.pageTitle}
         </a>
       </div>
     )

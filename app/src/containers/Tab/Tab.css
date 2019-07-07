@@ -135,3 +135,7 @@ body ::-webkit-scrollbar-thumb:window-inactive {
 .sp-new-message-dot.ant-badge {
   font-size: unset;
 }
+
+.ant-modal {
+  top: 10%;
+}

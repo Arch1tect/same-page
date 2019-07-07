@@ -44,7 +44,7 @@ function MusicTab(props) {
           icon="question"
         />
         <Modal
-          title="播放器使用指南"
+          title="播放器使用指南(Beta)"
           visible={showHelp}
           onCancel={() => {
             setShowHelp(false)
@@ -75,7 +75,7 @@ function MusicTab(props) {
           </ul>
 
           <br />
-          <h3>分享网站链接(开发中)</h3>
+          <h3>分享网站链接</h3>
           <p>
             直接输入含有视频或音频的网页地址，比如
             <br />

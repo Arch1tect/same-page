@@ -83,6 +83,10 @@ class App extends React.Component {
         if (error.response && error.response.status === 413) {
           errorMessage = "文件太大"
         }
+        if (error.response && error.response.status === 429) {
+          errorMessage = "操作频繁，请稍后再试"
+        }
+
         message.error(errorMessage)
         console.error(error)
         return Promise.reject(error)
@@ -112,15 +116,20 @@ class App extends React.Component {
     socketManager.addHandler("alert", "popup", data => {
       if (data.errorCode === 401) {
         message.error("请重新登录", 2)
-      }
-      if (data.errorCode === 403) {
+      } else if (data.errorCode === 402) {
+        message.error("积分不足", 2)
+      } else if (data.errorCode === 403) {
         message.error("禁止通行", 2)
-      }
-      if (data.errorCode === 409) {
+      } else if (data.errorCode === 404) {
+        message.error("找不到", 2)
+      } else if (data.errorCode === 409) {
         message.error("权限不足", 2)
-      }
-      if (data.errorCode === 426) {
+      } else if (data.errorCode === 426) {
         message.error("请升级该扩展", 2)
+      } else if (data.errorCode === 429) {
+        message.error("请慢一点", 2)
+      } else {
+        message.error("未知错误: " + data.errorCode, 3)
       }
     })
 

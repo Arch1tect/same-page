@@ -17,6 +17,10 @@
   text-align: left;
 }
 
+.sp-message-body.invite {
+  text-align: left;
+}
+
 .sp-message-body.emoji {
   font-size: 25px;
   color: black;
@@ -56,4 +60,11 @@ img.sp-message-image {
 
 .sp-message-menu .ant-popover-inner-content {
   padding: 0;
+}
+
+.sp-message-body .sp-invitation-chat a {
+  color: lightcoral;
+}
+.sp-message-body .sp-invitation-help a {
+  color: rgb(59, 160, 255);
 }

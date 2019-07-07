@@ -44,7 +44,15 @@ function ChatBody(props) {
       // TODO: use onload event rather than hard code time
       scrollToBottomIfNearBottom(timeout)
     })
-
+    socketManager.addHandler("invitation", "display_new_invitation", data => {
+      data.time = moment()
+      data.self = data.userId.toString() === account.id.toString()
+      setMessages(prevMessages => {
+        return [...prevMessages, data]
+      })
+      let timeout = 10
+      scrollToBottomIfNearBottom(timeout)
+    })
     socketManager.addHandler(
       "recent messages",
       "display_recent_messages",
@@ -68,6 +76,7 @@ function ChatBody(props) {
     return () => {
       console.debug("[Body.js] unregister socket events")
       socketManager.removeHandler("new message", "display_new_message")
+      socketManager.removeHandler("invitation", "display_new_invitation")
       socketManager.removeHandler("recent messages", "display_recent_messages")
     }
   }, [account])
