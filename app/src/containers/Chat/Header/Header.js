@@ -12,7 +12,8 @@ import { getUrl, getDomain } from "utils/url"
 function ChatHeader(props) {
   const [showUsers, toggleUsers] = useState(false)
 
-  const [room, setRoom] = useState(getDomain())
+  // const [room, setRoom] = useState(getDomain())
+  const [room, setRoom] = useState("lobby")
   const [users, setUsers] = useState([])
   const accountContext = useContext(AccountContext)
   const tabContext = useContext(TabContext)
@@ -96,9 +97,9 @@ function ChatHeader(props) {
           <Tooltip placement="bottom" title="anywhere">
             <Radio.Button value="lobby">大厅</Radio.Button>
           </Tooltip>
-          <Tooltip placement="bottom" title={getDomain()}>
+          {/* <Tooltip placement="bottom" title={getDomain()}>
             <Radio.Button value={getDomain()}>网站</Radio.Button>
-          </Tooltip>
+          </Tooltip> */}
           <Tooltip placement="bottom" title={getUrl()}>
             <Radio.Button value={getUrl()}>网页</Radio.Button>
           </Tooltip>

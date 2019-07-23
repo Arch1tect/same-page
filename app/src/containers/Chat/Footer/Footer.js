@@ -93,9 +93,10 @@ function Footer(props) {
                   <Radio style={{ display: "block" }} value="follower">
                     关注者
                   </Radio>
-                  <Radio style={{ display: "block" }} value="all">
+
+                  {/* <Radio style={{ display: "block" }} value="all">
                     全站用户（需20积分）
-                  </Radio>
+                  </Radio> */}
                 </Radio.Group>
               </div>
             </Modal>

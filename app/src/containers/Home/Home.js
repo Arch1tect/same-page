@@ -15,14 +15,15 @@ function Home(props) {
     <Collapse
       bordered={false}
       className="sp-special-tab"
-      defaultActiveKey={["hot-chatrooms"]}
+      // defaultActiveKey={["hot-chatrooms"]}
+      defaultActiveKey={["latest-comments"]}
       onChange={key => {}}
     >
-      <Panel header="热门聊天室" key="hot-chatrooms">
+      {/* <Panel header="热门聊天室" key="hot-chatrooms">
         <div className="sp-hot-chatrooms-wrapper">
           <Rooms />
         </div>
-      </Panel>
+      </Panel> */}
 
       <Panel header="最新网页留言" key="latest-comments">
         <Comments />

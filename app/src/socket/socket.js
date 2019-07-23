@@ -1,5 +1,16 @@
 const _socketEventHanders = {}
 
+const _sendEvent = (eventName, data) => {
+  window.parent.postMessage(
+    {
+      type: "sp-socket",
+      data: data,
+      eventName: eventName,
+      action: "send event"
+    },
+    "*"
+  )
+}
 const socketManager = {
   addHandler: (eventName, callbackName, callback) => {
     const handlers = _socketEventHanders[eventName] || {}
@@ -16,22 +27,17 @@ const socketManager = {
       "*"
     )
   },
-  sendEvent: (eventName, data) => {
-    window.parent.postMessage(
-      {
-        type: "sp-socket",
-        data: data,
-        eventName: eventName,
-        action: "send event"
-      },
-      "*"
-    )
-  },
+  sendEvent: _sendEvent,
+  // changeRoom: roomId => {
+  //   window.parent.postMessage(
+  //     { type: "sp-socket", roomId: roomId, action: "change room" },
+  //     "*"
+  //   )
+  // },
   changeRoom: roomId => {
-    window.parent.postMessage(
-      { type: "sp-socket", roomId: roomId, action: "change room" },
-      "*"
-    )
+    _sendEvent("change room", {
+      roomId: roomId
+    })
   }
 }
 
