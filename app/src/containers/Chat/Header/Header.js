@@ -69,6 +69,10 @@ function ChatHeader(props) {
     </center>
   )
   if (accountContext.account) {
+    let userNum = users.length
+    if (userNum >= 50) {
+      userNum = "50+"
+    }
     content = (
       <div>
         {/* <Switch
@@ -115,10 +119,7 @@ function ChatHeader(props) {
           size="small"
           icon="team"
         >
-          <span style={{ marginLeft: 5 }}>
-            {users.length}
-            {users.length > 50 && "+"}
-          </span>
+          <span style={{ marginLeft: 5 }}>{userNum}</span>
         </Button>
         {showUsers && <Users users={users} />}
       </div>
