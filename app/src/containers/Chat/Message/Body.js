@@ -83,7 +83,21 @@ function MessageBody(props) {
       </Popover>
     )
   }
-  return <div className={className}>{content}</div>
+  let extra = null
+  console.log(data)
+  if (window.room !== data.roomId) {
+    extra = (
+      <p style={{ color: "gray", fontSize: "smaller", margin: 2 }}>
+        来自网页聊天室
+      </p>
+    )
+  }
+  return (
+    <div>
+      <div className={className}>{content}</div>
+      {extra}
+    </div>
+  )
 }
 
 export default MessageBody

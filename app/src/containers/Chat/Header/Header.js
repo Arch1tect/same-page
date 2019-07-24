@@ -19,6 +19,10 @@ function ChatHeader(props) {
   const tabContext = useContext(TabContext)
 
   useEffect(() => {
+    window.room = room
+  }, [room])
+
+  useEffect(() => {
     console.log("register user join/left handlers")
     socketManager.addHandler("new user", "add_user_to_room", user => {
       setUsers(users => {
@@ -111,7 +115,10 @@ function ChatHeader(props) {
           size="small"
           icon="team"
         >
-          <span style={{ marginLeft: 5 }}>{users.length}</span>
+          <span style={{ marginLeft: 5 }}>
+            {users.length}
+            {users.length > 50 && "+"}
+          </span>
         </Button>
         {showUsers && <Users users={users} />}
       </div>
