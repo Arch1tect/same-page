@@ -19,7 +19,7 @@ function ChatHeader(props) {
   const tabContext = useContext(TabContext)
 
   useEffect(() => {
-    window.room = room
+    window.roomId = room
   }, [room])
 
   useEffect(() => {

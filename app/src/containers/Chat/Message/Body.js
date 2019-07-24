@@ -85,7 +85,7 @@ function MessageBody(props) {
   }
   let extra = null
   console.log(data)
-  if (window.room !== data.roomId) {
+  if (window.roomId !== data.roomId) {
     extra = (
       <p style={{ color: "gray", fontSize: "smaller", margin: 2 }}>
         来自网页聊天室
