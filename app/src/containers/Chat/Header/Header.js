@@ -115,7 +115,7 @@ function ChatHeader(props) {
     let helpTitle = ""
     let helpContent = ""
     if (mode === "room") {
-      helpTitle = "房间：" + room.name
+      helpTitle = room.name
       helpContent = (
         <div>
           <h4>介绍</h4>
