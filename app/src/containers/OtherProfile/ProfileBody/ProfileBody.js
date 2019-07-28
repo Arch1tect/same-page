@@ -79,7 +79,7 @@ function ProfileBody(props) {
                     setThanking(true)
                     thankUser(user.id)
                       .then(resp => {
-                        message.success("感谢成功!")
+                        message.success("点赞成功!")
                         console.log(account)
                         const newAccountData = { ...account }
                         newAccountData.credit = resp.data.credit
@@ -91,12 +91,12 @@ function ProfileBody(props) {
                         setThanking(false)
                       })
                   }}
-                  title="每小时可以感谢一次，自己和对方同时增加积分"
+                  title="每小时可以点一次赞，自己和对方同时增加积分"
                   icon="like"
                   style={{ margin: 10 }}
                   size="large"
                 >
-                  感谢
+                  赞
                 </Button>
               )}
               {following && (

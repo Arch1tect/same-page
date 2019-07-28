@@ -1,7 +1,7 @@
 import "./Footer.css"
 
 import React, { useContext, useState } from "react"
-import { message, Button, Modal, Radio } from "antd"
+import { message, Button, Modal, Radio, Tooltip } from "antd"
 
 import InputWithPicker from "components/InputWithPicker"
 import AccountContext from "context/account-context"
@@ -44,7 +44,7 @@ function Footer(props) {
         addonAfter={
           <span>
             <Modal
-              title="邀请大家来你所在的网页?"
+              title="邀请大家来你所在的网页"
               visible={showInvitationModal}
               onOk={() => {
                 const payload = {
@@ -67,6 +67,9 @@ function Footer(props) {
               okText="确认"
               cancelText="取消"
             >
+              <p style={{ color: "gray" }}>
+                邀请到其他用户后便可以一同切换到网页聊天
+              </p>
               <b style={{ marginRight: 10 }}>邀请目的</b>
               <Radio.Group
                 onChange={e => {
@@ -90,22 +93,23 @@ function Footer(props) {
                   <Radio style={{ display: "block" }} value="room">
                     当前房间的用户
                   </Radio>
-                  <Radio style={{ display: "block" }} value="follower">
+                  <Radio disabled style={{ display: "block" }} value="follower">
                     关注者
                   </Radio>
-
-                  {/* <Radio style={{ display: "block" }} value="all">
+                  <Radio disabled style={{ display: "block" }} value="all">
                     全站用户（需20积分）
-                  </Radio> */}
+                  </Radio>
                 </Radio.Group>
               </div>
             </Modal>
-            <Button
-              onClick={() => {
-                setShowInvitationModal(true)
-              }}
-              icon="environment"
-            />
+            <Tooltip title="分享当前网页" placement="left">
+              <Button
+                onClick={() => {
+                  setShowInvitationModal(true)
+                }}
+                icon="share-alt"
+              />
+            </Tooltip>
           </span>
         }
       />

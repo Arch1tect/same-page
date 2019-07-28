@@ -6,6 +6,8 @@ import { Icon, message } from "antd"
 
 import Tab from "containers/Tab"
 import AccountContext from "context/account-context"
+import ChatContext from "context/chat-context"
+
 import socketManager from "socket/socket"
 import storageManager from "utils/storage"
 // import { setPageTitle, getPageTitle } from "utils/pageTitle"
@@ -13,6 +15,12 @@ import storageManager from "utils/storage"
 require("moment/locale/zh-cn") //moment.js bug, has to manually include
 
 const DEFAULT_TAB = "chat"
+const DEFAULT_MODE = "room"
+const DEFAULT_ROOM = {
+  name: "大厅",
+  id: "5",
+  about: "默认加入的房间"
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -36,7 +44,10 @@ class App extends React.Component {
       loadingFromStorage: true,
       // Only if there is no account data in storage on page load
       // autoLogin only once per page load
-      autoLogin: false
+      autoLogin: false,
+      mode: DEFAULT_MODE,
+      room: DEFAULT_ROOM,
+      realRoom: DEFAULT_ROOM
     }
     const locale = window.navigator.userLanguage || window.navigator.language
     if (locale.indexOf("zh") > -1) {
@@ -86,13 +97,31 @@ class App extends React.Component {
         if (error.response && error.response.status === 429) {
           errorMessage = "操作频繁，请稍后再试"
         }
+        if (error.response && error.response.status === 402) {
+          errorMessage = "积分不足"
+        }
 
         message.error(errorMessage)
         console.error(error)
         return Promise.reject(error)
       }
     )
-    console.log("get account from storage, register account change listener")
+    storageManager.get("mode", mode => {
+      if (mode) {
+        this.setState({ mode: mode })
+      }
+
+      storageManager.get("realRoom", realRoom => {
+        if (realRoom) {
+          this.setState({ realRoom: realRoom })
+          if (mode === "room") {
+            this.setState({ room: realRoom })
+          }
+        }
+      })
+    })
+
+    // console.log("get account from storage, register account change listener")
     storageManager.get("account", account => {
       if (account) {
         console.debug("found account in storage")
@@ -203,7 +232,27 @@ class App extends React.Component {
           stopAutoLogin: this.stopAutoLogin
         }}
       >
-        <Tab tab={tab} />
+        <ChatContext.Provider
+          value={{
+            mode: this.state.mode,
+            setMode: mode => {
+              // console.log("setting mode")
+
+              this.setState({ mode: mode })
+            },
+            room: this.state.room,
+            setRoom: room => {
+              // console.log("setting room")
+              this.setState({ room: room })
+            },
+            realRoom: this.state.realRoom,
+            setRealRoom: realRoom => {
+              this.setState({ realRoom: realRoom })
+            }
+          }}
+        >
+          <Tab tab={tab} />
+        </ChatContext.Provider>
       </AccountContext.Provider>
     )
   }

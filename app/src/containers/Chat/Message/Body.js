@@ -84,14 +84,14 @@ function MessageBody(props) {
     )
   }
   let extra = null
-  console.log(data)
-  if (window.roomId !== data.roomId) {
-    extra = (
-      <p style={{ color: "gray", fontSize: "smaller", margin: 2 }}>
-        来自网页聊天室
-      </p>
-    )
-  }
+  // console.log(data)
+  // if (window.roomId !== data.roomId) {
+  //   extra = (
+  //     <p style={{ color: "gray", fontSize: "smaller", margin: 2 }}>
+  //       来自网页聊天室
+  //     </p>
+  //   )
+  // }
   return (
     <div>
       <div className={className}>{content}</div>

@@ -68,6 +68,9 @@ body ::-webkit-scrollbar-thumb:window-inactive {
   resize: none;
   color: #525252;
 }
+textarea.ant-input {
+  line-height: 1.5;
+}
 .ant-divider-horizontal.ant-divider-with-text::before,
 .ant-divider-horizontal.ant-divider-with-text::after {
   border-top: 1px solid lightgray;

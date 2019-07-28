@@ -89,7 +89,7 @@ function Tab(props) {
           </TabPane>
           <TabPane
             tab={
-              <Tooltip title="留言板" placement="bottom">
+              <Tooltip title="网页留言" placement="bottom">
                 <Icon type="form" />
               </Tooltip>
             }

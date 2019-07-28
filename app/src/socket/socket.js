@@ -34,9 +34,11 @@ const socketManager = {
   //     "*"
   //   )
   // },
-  changeRoom: roomId => {
+  changeRoom: (roomId, mode) => {
+    console.log("change room to " + roomId)
     _sendEvent("change room", {
-      roomId: roomId
+      roomId: roomId,
+      mode: mode
     })
   }
 }

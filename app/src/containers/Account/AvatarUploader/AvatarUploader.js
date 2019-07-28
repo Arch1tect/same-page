@@ -10,7 +10,7 @@ class App extends React.Component {
   }
 
   onDrop(picture) {
-    console.log(picture)
+    // console.log(picture)
     this.setState({
       pictures: picture
     })

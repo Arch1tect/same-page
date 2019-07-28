@@ -143,6 +143,7 @@ function Inbox(props) {
         // when logout
         storageManager.addEventListener(storageKey, conversations => {
           console.debug("[inbox] storage updated")
+          conversations = conversations || {}
           setConversations(conversations)
         })
       }

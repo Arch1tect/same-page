@@ -16,8 +16,8 @@ class EditProfileForm extends React.Component {
     e.preventDefault()
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values)
-        console.log(avatarFile)
+        // console.log("Received values of form: ", values)
+        // console.log(avatarFile)
         values.avatar = avatarFile
         this.setState({ submitting: true })
 
@@ -106,6 +106,10 @@ class EditProfileForm extends React.Component {
                 {
                   max: 12,
                   message: "用户名最多12个字符"
+                },
+                {
+                  min: 1,
+                  message: "用户名最少一个字符"
                 }
               ],
               initialValue: account.name
@@ -128,7 +132,7 @@ class EditProfileForm extends React.Component {
           <Form.Item label={<span>个人简介</span>}>
             {getFieldDecorator("about", {
               initialValue: account.about
-            })(<Input />)}
+            })(<Input.TextArea />)}
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>
             <Button

@@ -1,54 +1,52 @@
 import "./Room.css"
 
-import React, { useState, useEffect, useContext } from "react"
-import { Icon } from "antd"
+import React, { useContext } from "react"
+import { Icon, Tooltip } from "antd"
 
 import TabContext from "context/tab-context"
-import { getPopularRooms } from "services/room"
-import socketManager from "socket/socket"
+import ChatContext from "context/chat-context"
+import storageManager from "utils/storage"
 
 function Rooms(props) {
-  const [loading, setLoading] = useState(true)
-  const [rooms, setRooms] = useState([])
   const tabContext = useContext(TabContext)
+  const chatContext = useContext(ChatContext)
 
-  useEffect(() => {
-    getPopularRooms()
-      .then(resp => {
-        setRooms(resp.data)
-      })
-      .catch(err => {})
-      .then(() => {
-        setLoading(false)
-      })
-  }, [])
-  if (loading)
+  if (props.loading)
     return (
       <center>
         <Icon type="loading" />
       </center>
     )
-  return rooms.map(room => {
-    let roomId = room.roomId
+  return props.rooms.map(room => {
+    let roomId = room.id
     return (
-      <center
-        className="sp-home-chatroom"
+      <Tooltip
         key={roomId}
-        onClick={() => {
-          if (roomId === "lobby") {
-            tabContext.changeTab("chat")
-            socketManager.changeRoom("lobby")
-            window.setRoom("lobby")
-            return
-          }
-          window.open(room.url)
-        }}
+        overlayStyle={{ maxWidth: 100 }}
+        title={room.about}
+        placement="bottom"
       >
-        <span className="sp-chatroom-metadata">
-          {room.title}
-          <br /> <span style={{ fontSize: "smaller" }}>{room.userCount}人</span>
-        </span>
-      </center>
+        <center
+          className="sp-home-chatroom"
+          onClick={() => {
+            // if (roomId === "lobby") {
+            tabContext.changeTab("chat")
+            chatContext.setMode("room")
+            chatContext.setRoom(room)
+            chatContext.setRealRoom(room)
+            storageManager.set("realRoom", room)
+            // return
+            // }
+            // window.open(room.url)
+          }}
+        >
+          <span className="sp-chatroom-metadata">
+            {room.name}
+            <br />{" "}
+            <span style={{ fontSize: "smaller" }}>{room.userCount}人</span>
+          </span>
+        </center>
+      </Tooltip>
     )
   })
 }
