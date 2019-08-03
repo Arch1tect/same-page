@@ -15,11 +15,11 @@ import storageManager from "utils/storage"
 require("moment/locale/zh-cn") //moment.js bug, has to manually include
 
 const DEFAULT_TAB = "chat"
-const DEFAULT_MODE = "room"
-const DEFAULT_ROOM = {
+
+const DEFAULT_REAL_ROOM = {
   name: "大厅",
   id: "5",
-  about: "默认加入的房间"
+  about: "this is lobby"
 }
 
 class App extends React.Component {
@@ -45,9 +45,9 @@ class App extends React.Component {
       // Only if there is no account data in storage on page load
       // autoLogin only once per page load
       autoLogin: false,
-      mode: DEFAULT_MODE,
-      room: DEFAULT_ROOM,
-      realRoom: DEFAULT_ROOM
+      mode: null,
+      room: null,
+      realRoom: DEFAULT_REAL_ROOM
     }
     const locale = window.navigator.userLanguage || window.navigator.language
     if (locale.indexOf("zh") > -1) {
@@ -106,20 +106,17 @@ class App extends React.Component {
         return Promise.reject(error)
       }
     )
-    storageManager.get("mode", mode => {
-      if (mode) {
-        this.setState({ mode: mode })
-      }
+    // storageManager.get("mode", mode => {
+    //   if (mode) {
+    //     this.setState({ mode: mode })
+    //   }
 
-      storageManager.get("realRoom", realRoom => {
-        if (realRoom) {
-          this.setState({ realRoom: realRoom })
-          if (mode === "room") {
-            this.setState({ room: realRoom })
-          }
-        }
-      })
+    storageManager.get("realRoom", realRoom => {
+      if (realRoom) {
+        this.setState({ realRoom: realRoom })
+      }
     })
+    // })
 
     // console.log("get account from storage, register account change listener")
     storageManager.get("account", account => {
@@ -237,7 +234,6 @@ class App extends React.Component {
             mode: this.state.mode,
             setMode: mode => {
               // console.log("setting mode")
-
               this.setState({ mode: mode })
             },
             room: this.state.room,

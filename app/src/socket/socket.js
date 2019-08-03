@@ -35,11 +35,13 @@ const socketManager = {
   //   )
   // },
   changeRoom: (roomId, mode) => {
-    console.log("change room to " + roomId)
-    _sendEvent("change room", {
-      roomId: roomId,
-      mode: mode
-    })
+    if (roomId && mode) {
+      console.log("change room to " + roomId)
+      _sendEvent("change room", {
+        roomId: roomId,
+        mode: mode
+      })
+    }
   }
 }
 

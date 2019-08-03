@@ -20,13 +20,15 @@ function ChatHeader(props) {
   const tabContext = useContext(TabContext)
   const chatContext = useContext(ChatContext)
   const mode = chatContext.mode
-  const room = chatContext.room
+  const room = chatContext.room || {}
   // site and page also rooms, realRoom means
   // non site and page room id
   useEffect(() => {
-    setUsers([])
-    socketManager.changeRoom(room.id, mode)
-    console.log("room changed")
+    // setUsers([])
+    if (room && mode) {
+      socketManager.changeRoom(room.id, mode)
+    }
+    // console.log("room changed")
   }, [room, mode])
   useEffect(() => {
     if (mode === "site") {
@@ -77,10 +79,23 @@ function ChatHeader(props) {
       })
     })
     socketManager.addHandler("users in room", "set_users_in_room", users => {
+      // console.log(users)
       setUsers(users)
     })
     socketManager.addHandler("disconnect", "clear_users_in_room", () => {
       setUsers([])
+    })
+    socketManager.addHandler("room info", "set_mode_and_room", data => {
+      // useful when user join a popular site, but
+      // backend move user into certain room
+      // E.g. www.google.com -> lobby
+      // Note: should only update UI, do not trigger actual room change!
+      // console.log(data)
+      chatContext.setMode(data.mode)
+      if (data.mode === "room") {
+        chatContext.setRoom(data.room)
+        chatContext.setRealRoom(data.room)
+      }
     })
     // window.setMode = setMode
     return () => {
@@ -89,6 +104,7 @@ function ChatHeader(props) {
       socketManager.removeHandler("new user", "add_user_to_room")
       socketManager.removeHandler("user gone", "remove_user_from_room")
       socketManager.removeHandler("users in room", "set_users_in_room")
+      socketManager.removeHandler("room info", "set_mode_and_room")
       socketManager.removeHandler("disconnect", "clear_users_in_room")
       // window.setMode = null
     }

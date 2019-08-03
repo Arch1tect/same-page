@@ -32,7 +32,7 @@ function Home(props) {
   }, [])
   const title = (
     <span>
-      创建房间<span style={{ color: "gray" }}>（需30积分）</span>
+      创建房间<span style={{ color: "gray" }}>（需60积分）</span>
     </span>
   )
   return (

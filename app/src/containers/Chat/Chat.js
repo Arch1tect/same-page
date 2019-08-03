@@ -15,6 +15,9 @@ function Chat(props) {
     // Ask parent about room info when mounted
     socketManager.sendEvent("get room info")
 
+    socketManager.addHandler("login success", "query_room_info", users => {
+      socketManager.sendEvent("get room info")
+    })
     socketManager.addHandler("private message", "pm_notification", data => {
       // console.log(data)
       const sender = data.user
@@ -31,6 +34,7 @@ function Chat(props) {
       }
     )
     return () => {
+      socketManager.removeHandler("login success", "query_room_info")
       socketManager.removeHandler("private message", "pm_notification")
       socketManager.removeHandler(
         "invitation sent",

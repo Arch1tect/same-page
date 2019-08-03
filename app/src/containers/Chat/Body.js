@@ -32,7 +32,7 @@ function ChatBody(props) {
       console.warn("[Body.js] no account, won't register socket events")
       return
     }
-    console.debug("[Body.js] register socket events")
+    // console.debug("[Body.js] register socket events")
     socketManager.addHandler("new message", "display_new_message", data => {
       data.time = moment()
       setMessages(prevMessages => {
